@@ -10,13 +10,17 @@
  * * Additional sensor classes: Info and Data
  * * Info type has additional string private member and encapsulating methods
  * * Data type has additional byte array private member and encapulating methods
+ * * Config file for server
+ * * Move major functionality to plugins
  */
 
 package sysstatsvr;
 
 import commonSensor.SensorWrapper;
+import commonSensor.misc;
 
 import java.io.IOException;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -126,7 +130,10 @@ public class Main {
         }
         catch(IOException e) {
             System.out.println("Could not start server thread. Exiting");
-            e.printStackTrace();
+
+			if(misc.DEBUG)
+				e.printStackTrace();
+			
             return;
         }
 
