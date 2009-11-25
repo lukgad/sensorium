@@ -19,6 +19,9 @@ import java.io.IOException;
  */
 public class misc {
 
+	public static final short BUFFERSIZE = 4096;
+	public static final boolean DEBUG = true;
+
     // Useful, miscellaneous functions.
     // Pretty self-explanatory
 
