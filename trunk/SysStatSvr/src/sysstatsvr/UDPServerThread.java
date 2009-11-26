@@ -95,8 +95,6 @@ public class UDPServerThread extends Thread {
 
 				socket.send(packet);
 				
-				if(misc.DEBUG)
-					System.out.println("response sent");
             } while(!Thread.interrupted());
         } catch(IOException e) {
 			if(misc.DEBUG)
