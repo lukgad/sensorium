@@ -21,10 +21,23 @@ public class ConfigFile {
 
 	List<Plugin> plugins;
 
+	//Attempts to parse config file
+	//TODO: Error handling
 	public ConfigFile(BufferedReader inputStream) throws IOException {
 		try {
 			String currentLine;
 			Plugin currentPlugin = null;
+
+			/*Config file format will be:
+			 * plugin input [filename]
+			 * sensor id [id] type [type] label [label]
+			 * ...
+			 * end plugin
+			 * plugin server [filename]
+			 * [plugin specifies options]
+			 * end plugin
+			 * ...
+			 */
 
 			while((currentLine = inputStream.readLine()) != null) {
 
@@ -38,11 +51,9 @@ public class ConfigFile {
 						plugins.add(currentPlugin);
 						currentPlugin = null;
 					}
-					else if(currentPlugin.getType().equals("input") && currentWords[0].equals("sensor")) {
-						if(currentWords[1].equals("id") && currentWords[3].equals("type") && currentWords[5].equals("label")) {
-							currentPlugin.addSensor(new Sensor(currentWords[6], currentWords[4], Integer.getInteger(currentWords[2])));
-						}
-					}
+					else if(currentPlugin.getType().equals("input") && currentWords[0].equals("sensor") && currentWords[1].equals("id") &&
+							currentWords[3].equals("type") && currentWords[5].equals("label"))
+						currentPlugin.addSensor(new Sensor(currentWords[6], currentWords[4], Integer.getInteger(currentWords[2])));
 				}
 
 			}
