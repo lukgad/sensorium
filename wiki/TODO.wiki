@@ -1,0 +1,16 @@
+#summary TODO page. Including possible future developments
+
+= Introduction =
+
+TODO Page
+
+
+= Details =
+
+Aaron(tu) says (7:44 PM):
+*I could have a plugin that reads sensor information from another sensorium server
+Aaron(tu) says (7:45 PM):
+*so a "sensor" would look like this: host.source.name
+Aaron(tu) says (7:47 PM):
+*this would also eliminate the need for a separate client app
+*because a "sensor" could include other sensorium servers
