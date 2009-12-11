@@ -7,7 +7,7 @@ TODO Page
 
 = Details =
 
-* I could have a plugin that reads sensor information from another sensorium server
-* so a "sensor" would look like this: host.source.name
-* this would also eliminate the need for a separate client app
-* because a "sensor" could include other sensorium servers
+ * I could have a plugin that reads sensor information from another sensorium server
+ * so a "sensor" would look like this: host.source.name
+ * this would also eliminate the need for a separate client app
+ * because a "sensor" could include other sensorium servers
