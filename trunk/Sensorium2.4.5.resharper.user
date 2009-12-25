@@ -1,0 +1,286 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">True</setting>
+    </boolean>
+  </SettingsComponent>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="protected" priority="0" />
+      <Item value="using" priority="6" />
+      <Item value="System" priority="1" />
+      <Item value="t" priority="1" />
+      <Item value="Common" priority="3" />
+      <Item value="return" priority="28" />
+      <Item value="DataPlugin" priority="10" />
+      <Item value="abstract" priority="4" />
+      <Item value="public" priority="19" />
+      <Item value="private" priority="8" />
+      <Item value="_type" priority="0" />
+      <Item value="value" priority="0" />
+      <Item value="byte" priority="2" />
+      <Item value="SpeedFanWrapper" priority="15" />
+      <Item value="if" priority="24" />
+      <Item value="for" priority="3" />
+      <Item value="int" priority="8" />
+      <Item value="i" priority="37" />
+      <Item value="object" priority="0" />
+      <Item value="Console" priority="26" />
+      <Item value="try" priority="2" />
+      <Item value="catch" priority="2" />
+      <Item value="BadImageFormatException" priority="0" />
+      <Item value="this" priority="6" />
+      <Item value="f" priority="0" />
+      <Item value="null" priority="5" />
+      <Item value="throw" priority="5" />
+      <Item value="new" priority="17" />
+      <Item value="NotImplementedException" priority="1" />
+      <Item value="static" priority="8" />
+      <Item value="bool" priority="3" />
+      <Item value="NullReferenceException" priority="2" />
+      <Item value="ushort" priority="1" />
+      <Item value="sm" priority="4" />
+      <Item value="version" priority="3" />
+      <Item value="SetWin32ContextInIDispatchAttribute" priority="0" />
+      <Item value="id" priority="0" />
+      <Item value="numFans" priority="0" />
+      <Item value="numVolts" priority="0" />
+      <Item value="numTemps" priority="0" />
+      <Item value="flags" priority="0" />
+      <Item value="enum" priority="1" />
+      <Item value="PluginMode" priority="11" />
+      <Item value="virtual" priority="2" />
+      <Item value="void" priority="8" />
+      <Item value="Init" priority="2" />
+      <Item value="mode" priority="0" />
+      <Item value="string" priority="22" />
+      <Item value="Environment" priority="10" />
+      <Item value="pluginDirectory" priority="0" />
+      <Item value="Collection" priority="0" />
+      <Item value="List&lt;DataPlugin&gt;" priority="0" />
+      <Item value="Reflection" priority="0" />
+      <Item value="typeof" priority="2" />
+      <Item value="dataPlugins" priority="7" />
+      <Item value="switch" priority="0" />
+      <Item value="case" priority="0" />
+      <Item value="else" priority="13" />
+      <Item value="List" priority="9" />
+      <Item value="IPluginInterface" priority="6" />
+      <Item value="List&lt;IPluginInterface&gt;" priority="1" />
+      <Item value="genericPlugins" priority="1" />
+      <Item value="override" priority="3" />
+      <Item value="pluginDir" priority="1" />
+      <Item value="ArgHandler" priority="0" />
+      <Item value="foreach" priority="6" />
+      <Item value="args" priority="9" />
+      <Item value="Length" priority="1" />
+      <Item value="_pluginDir" priority="0" />
+      <Item value="ApplicationIdentity" priority="2" />
+      <Item value="HelpMessage" priority="2" />
+      <Item value="Sensor" priority="6" />
+      <Item value="Type" priority="1" />
+      <Item value="type" priority="0" />
+      <Item value="Name" priority="0" />
+      <Item value="name" priority="0" />
+      <Item value="SpeedFanSensor" priority="1" />
+      <Item value="_speedFanId" priority="3" />
+      <Item value="speedFanId" priority="0" />
+      <Item value="BitConverter" priority="4" />
+      <Item value="Source" priority="0" />
+      <Item value="source" priority="0" />
+      <Item value="_sensors" priority="0" />
+      <Item value="sensor" priority="3" />
+      <Item value="in" priority="6" />
+      <Item value="d" priority="4" />
+      <Item value="s" priority="4" />
+      <Item value="DataPlugins" priority="0" />
+      <Item value="_dataPlugins" priority="0" />
+      <Item value="is" priority="1" />
+      <Item value="CommPlugin" priority="2" />
+      <Item value="List&lt;CommPlugin&gt;" priority="0" />
+      <Item value="commPlugins" priority="1" />
+      <Item value="sourcePlugin" priority="0" />
+      <Item value="SourcePlugin" priority="0" />
+      <Item value="false" priority="2" />
+      <Item value="client" priority="0" />
+      <Item value="_client" priority="1" />
+      <Item value="true" priority="4" />
+      <Item value="_recursive" priority="1" />
+      <Item value="Plugins" priority="0" />
+      <Item value="allPlugins" priority="0" />
+      <Item value="e" priority="3" />
+      <Item value="settings" priority="2" />
+      <Item value="Dictionary" priority="1" />
+      <Item value="SettingsPlugin" priority="8" />
+      <Item value="settingsPlugins" priority="7" />
+      <Item value="List&lt;SettingsPlugin&gt;" priority="1" />
+      <Item value="Dictionary&lt;string,string&gt;" priority="0" />
+      <Item value="_settingsDir" priority="2" />
+      <Item value="settingsDir" priority="1" />
+      <Item value="enabledSettingsPlugin" priority="2" />
+      <Item value="InitPlugins" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Type">
+      <Item value="IsAbstract" priority="0" />
+      <Item value="IsInterface" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@SpeedFanPlugin.SpeedFanWrapper">
+      <Item value="getFan" priority="1" />
+      <Item value="getVersion" priority="1" />
+      <Item value="getNumFans" priority="0" />
+      <Item value="getNumTemps" priority="0" />
+      <Item value="getTemp" priority="0" />
+      <Item value="getNumVolts" priority="0" />
+      <Item value="getVolt" priority="0" />
+      <Item value="OpenSharedMemory" priority="2" />
+      <Item value="GetFan" priority="0" />
+      <Item value="GetTemp" priority="0" />
+      <Item value="GetVolt" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Console">
+      <Item value="WriteLine" priority="28" />
+      <Item value="WindowWidth" priority="0" />
+      <Item value="ReadKey" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Common.IPluginInterface">
+      <Item value="Init" priority="2" />
+      <Item value="GetType" priority="1" />
+      <Item value="Enabled" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.FileInfo">
+      <Item value="FullName" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SpeedFanPlugin.SpeedFanWrapper+SpeedFanSharedMem">
+      <Item value="version" priority="0" />
+      <Item value="numFans" priority="0" />
+      <Item value="numTemps" priority="0" />
+      <Item value="numVolts" priority="0" />
+      <Item value="temps" priority="0" />
+      <Item value="fans" priority="0" />
+      <Item value="volts" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Common.PluginMode">
+      <Item value="Server" priority="4" />
+      <Item value="Client" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Environment">
+      <Item value="OSVersion" priority="2" />
+      <Item value="CurrentDirectory" priority="1" />
+      <Item value="Exit" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.List`1">
+      <Item value="Add" priority="5" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.OperatingSystem">
+      <Item value="Clone" priority="0" />
+      <Item value="Platform" priority="2" />
+      <Item value="VersionString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.PlatformID">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.String">
+      <Item value="Length" priority="0" />
+      <Item value="Equals" priority="9" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.BitConverter">
+      <Item value="GetBytes" priority="2" />
+      <Item value="ToInt32" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SpeedFanPlugin.SpeedFanSensor">
+      <Item value="Type" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Common.Sensor">
+      <Item value="Data" priority="2" />
+      <Item value="Type" priority="2" />
+      <Item value="Name" priority="0" />
+      <Item value="Source" priority="0" />
+      <Item value="SourcePlugin" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Int32">
+      <Item value="ToString" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SpeedFanPlugin.SpeedFanPlugin">
+      <Item value="GetName" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Common.DataPlugin">
+      <Item value="GetName" priority="0" />
+      <Item value="Sensors" priority="0" />
+      <Item value="SensorToString" priority="0" />
+      <Item value="Init" priority="0" />
+      <Item value="Name" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Common.CommPlugin">
+      <Item value="Init" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.NullReferenceException">
+      <Item value="Message" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Common.SettingsPlugin">
+      <Item value="Init" priority="0" />
+      <Item value="GetSettings" priority="0" />
+      <Item value="Enabled" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.Dictionary`2">
+      <Item value="Add" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.BadImageFormatException">
+      <Item value="Message" priority="1" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="A51B2C7B-7FCE-467A-B2E1-BD39E5E35044/f:SpeedFanWrapper.cs" caret="0" fromTop="0" />
+      <File id="A51B2C7B-7FCE-467A-B2E1-BD39E5E35044/f:SpeedFanSensor.cs" caret="0" fromTop="0" />
+      <File id="A51B2C7B-7FCE-467A-B2E1-BD39E5E35044/f:SpeedFanPlugin.cs" caret="0" fromTop="0" />
+      <File id="d:&amp;/f:SettingsPlugin.cs/l:C!?Users?Aaron Maslen?Documents?Visual Studio 2008?Projects?Sensorium2?Common?SettingsPlugin.cs" caret="53" fromTop="2" />
+      <File id="408B38F0-6C6D-43DF-A549-AE0499A9021F/f:Sensor.cs" caret="133" fromTop="5" />
+      <File id="408B38F0-6C6D-43DF-A549-AE0499A9021F/f:IPluginInterface.cs" caret="0" fromTop="0" />
+      <File id="408B38F0-6C6D-43DF-A549-AE0499A9021F/f:DataPlugin.cs" caret="0" fromTop="0" />
+      <File id="408B38F0-6C6D-43DF-A549-AE0499A9021F/f:CommPlugin.cs" caret="213" fromTop="0" />
+      <File id="8251A822-589A-44C0-B19F-B8464448F0BD/f:Class1.cs" caret="510" fromTop="17" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="257" fromTop="0" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:PluginManager.cs" caret="416" fromTop="0" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="d:&amp;/f:SettingsPlugin.cs/l:C!?Users?Aaron Maslen?Documents?Visual Studio 2008?Projects?Sensorium2?Common?SettingsPlugin.cs" caret="236" fromTop="10" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="1826" fromTop="27" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="1790" fromTop="19" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="1533" fromTop="6" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="1860" fromTop="10" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="837" fromTop="12" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="837" fromTop="17" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="837" fromTop="22" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="837" fromTop="8" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="837" fromTop="4" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="841" fromTop="30" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="668" fromTop="15" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="4658" fromTop="30" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="858" fromTop="20" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="382" fromTop="5" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="672" fromTop="16" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="672" fromTop="15" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="667" fromTop="18" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="2883" fromTop="27" />
+      <File id="408B38F0-6C6D-43DF-A549-AE0499A9021F/f:DataPlugin.cs" caret="0" fromTop="0" />
+      <File id="408B38F0-6C6D-43DF-A549-AE0499A9021F/f:DataPlugin.cs" caret="434" fromTop="11" />
+      <File id="408B38F0-6C6D-43DF-A549-AE0499A9021F/f:CommPlugin.cs" caret="0" fromTop="0" />
+      <File id="8251A822-589A-44C0-B19F-B8464448F0BD/f:Class1.cs" caret="0" fromTop="0" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:PluginManager.cs" caret="1792" fromTop="19" />
+      <File id="d:&amp;/f:SettingsPlugin.cs/l:C!?Users?Aaron Maslen?Documents?Visual Studio 2008?Projects?Sensorium2?Common?SettingsPlugin.cs" caret="0" fromTop="0" />
+      <File id="8251A822-589A-44C0-B19F-B8464448F0BD/f:Class1.cs" caret="249" fromTop="11" />
+      <File id="8251A822-589A-44C0-B19F-B8464448F0BD/f:Class1.cs" caret="135" fromTop="5" />
+      <File id="8251A822-589A-44C0-B19F-B8464448F0BD/f:Class1.cs" caret="448" fromTop="19" />
+      <File id="8251A822-589A-44C0-B19F-B8464448F0BD/f:Class1.cs" caret="531" fromTop="19" />
+      <File id="4C4FFEA3-D1B3-4EC8-A0BF-59059A980315/f:Program.cs" caret="242" fromTop="9" />
+    </RecentEdits>
+  </RecentFiles>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+</Configuration>
