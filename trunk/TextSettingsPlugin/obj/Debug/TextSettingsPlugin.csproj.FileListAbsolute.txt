@@ -1,7 +1,0 @@
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\TextSettingsPlugin\bin\Debug\TextSettingsPlugin.dll
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\TextSettingsPlugin\bin\Debug\TextSettingsPlugin.pdb
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\TextSettingsPlugin\bin\Debug\Common.dll
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\TextSettingsPlugin\bin\Debug\Common.pdb
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\TextSettingsPlugin\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\TextSettingsPlugin\obj\Debug\TextSettingsPlugin.dll
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\TextSettingsPlugin\obj\Debug\TextSettingsPlugin.pdb

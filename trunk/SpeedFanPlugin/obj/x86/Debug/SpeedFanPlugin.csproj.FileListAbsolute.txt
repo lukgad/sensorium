@@ -1,7 +1,0 @@
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\SpeedFanPlugin\bin\x86\Debug\SpeedFanPlugin.dll
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\SpeedFanPlugin\bin\x86\Debug\SpeedFanPlugin.pdb
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\SpeedFanPlugin\bin\x86\Debug\Common.dll
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\SpeedFanPlugin\bin\x86\Debug\Common.pdb
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\SpeedFanPlugin\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\SpeedFanPlugin\obj\x86\Debug\SpeedFanPlugin.dll
-C:\Users\Aaron Maslen\Documents\Visual Studio 2008\Projects\Sensorium2\SpeedFanPlugin\obj\x86\Debug\SpeedFanPlugin.pdb
