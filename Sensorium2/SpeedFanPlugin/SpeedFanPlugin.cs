@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using Common;
+using Common.Plugins;
 
 namespace SpeedFanPlugin
 {
@@ -25,14 +26,17 @@ namespace SpeedFanPlugin
 		private const double VoltMult = .01;
 
 		public override void Init(Dictionary<string, string> settings, PluginMode mode){
-			if (settings.ContainsKey("Enabled") && settings["Enabled"].Equals("false"))
-				return;
+			foreach (string s in settings.Keys)
+				if(s.Equals("Enabled"))
+					Enabled = settings[s].ToLower().Equals("true");
 
 			if (mode == PluginMode.Client || Environment.OSVersion.Platform.ToString() != "Win32NT") {
-				//TODO: Client logic
-				return;
+				Enabled = false;
 			}
 
+			if(!Enabled)
+				return;
+            
 			try {
 				SpeedFanWrapper.OpenSharedMemory();
 			} catch (NullReferenceException e) { //TODO: Use dedicated exception here

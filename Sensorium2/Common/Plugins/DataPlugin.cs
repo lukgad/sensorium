@@ -14,13 +14,12 @@
 
 using System.Collections.Generic;
 
-namespace Common
+namespace Common.Plugins
 {
-
 	public abstract class DataPlugin : IPluginInterface
 	{
 		public List<Sensor> Sensors { get; protected set; } //TODO: This may be bad. Can other plugins add sensors?
-															//TODO: If so, I'll need a getter >_>
+		//TODO: If so, I'll need a getter >_>
 		protected DataPlugin() {
 			Sensors = new List<Sensor>();
 		}
