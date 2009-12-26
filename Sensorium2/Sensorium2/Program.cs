@@ -7,7 +7,7 @@ namespace Sensorium2
 	static class Program
 	{
 		private static string _pluginDir =  Environment.CurrentDirectory;
-		private static string _settingsDir = (_pluginDir + @"\settings");
+        private static string _settingsDir;
 
 		private static bool _client;
 		private static bool _recursive;
@@ -47,7 +47,7 @@ namespace Sensorium2
 			for (int i = 0; i < args.Length; i++) {
 				if (args[i].Equals("-p")) {
 					i++;
-					if (i < args.Length)
+					if (i < args.Length || args[i][0].Equals('-'))
 						_pluginDir = args[i];
 					else {
 						HelpMessage();
@@ -62,19 +62,20 @@ namespace Sensorium2
 
 				else if (args[i].Equals("-s")) {
 					i++;
-					if (i < args.Length)
+					if (i < args.Length || args[i][0].Equals('-'))
 						_settingsDir = args[i];
 					else {
 						HelpMessage();
 						Environment.Exit(1);
 					}
 				}
-				else if (args[i].Equals("-h"))
-				{
+				else if (args[i].Equals("-h")) {
 					HelpMessage();
 					Environment.Exit(0);
 				}
 			}
+			if (_settingsPlugins == null || _settingsPlugins.Equals(""))
+                _settingsDir = (_pluginDir + @"\settings");
 		}
 
 		static void HelpMessage()

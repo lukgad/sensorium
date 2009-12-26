@@ -6,6 +6,9 @@ namespace SpeedFanPlugin
 {
 	public class SpeedFanPlugin : DataPlugin
 	{
+		private const double FanMult = 1;
+		private const double TempMult = .01;
+		private const double VoltMult = .01;
 
 		public override void Init(Dictionary<string, string> settings, PluginMode mode){
 			if (mode == PluginMode.Client || Environment.OSVersion.Platform.ToString() != "Win32NT") {
@@ -35,17 +38,17 @@ namespace SpeedFanPlugin
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumFans(); i++) {
 				Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", "local", Name, i));
-				Console.WriteLine("Found Fan{0}: {1}", i, SpeedFanWrapper.GetFan(i));
+				Console.WriteLine("Found Fan{0}: {1}", i, SpeedFanWrapper.GetFan(i) * FanMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumTemps(); i++) {
 				Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", "local", Name, i));
-				Console.WriteLine("Found Temp{0}: {1}", i, ((float) SpeedFanWrapper.GetTemp(i))/100);
+				Console.WriteLine("Found Temp{0}: {1}", i, SpeedFanWrapper.GetTemp(i) * TempMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumVolts(); i++) {
 				Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", "local", Name, i));
-				Console.WriteLine("Found Voltage{0}: {1}", i, ((float) SpeedFanWrapper.GetVolt(i))/100);
+				Console.WriteLine("Found Voltage{0}: {1}", i, SpeedFanWrapper.GetVolt(i) * VoltMult);
 			}
 		}
 
@@ -68,11 +71,17 @@ namespace SpeedFanPlugin
 		}
 
 		public override string SensorToString(Sensor sensor) {
-			if (sensor.Type == "Temp" || sensor.Type == "Volt")
-				return ((float) BitConverter.ToInt32(sensor.Data, 0) / 100).ToString();
-			
-			return BitConverter.ToInt32(sensor.Data, 0).ToString();
+			if (!sensor.SourcePlugin.Equals("SpeedFan"))
+				throw new Exception("Invalid Sensor");
 
+			if(sensor.Type.Equals("Temp"))
+				return (BitConverter.ToInt32(sensor.Data, 0) * TempMult) + "°";
+			if (sensor.Type.Equals("Fan"))
+				return (BitConverter.ToInt32(sensor.Data, 0) * FanMult) + " rpm";
+			if (sensor.Type.Equals("Volt"))
+				return (BitConverter.ToInt32(sensor.Data, 0) * VoltMult) + " V";
+			
+			throw new Exception("Unknown Sensor Type");
 		}
 	}
 }
