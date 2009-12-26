@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*	Copyright (C) 2009-2010 Aaron Maslen
+ *	This program is free software: you can redistribute it and/or modify it 
+ *	under the terms of the GNU General Public License as published by 
+ *	the Free Software Foundation, either version 3 of the License, or 
+ *	(at your option) any later version. This program is distributed in the 
+ *	hope that it will be useful, but WITHOUT ANY WARRANTY; without 
+ *	even the implied warranty of MERCHANTABILITY or FITNESS FOR 
+ *	A PARTICULAR PURPOSE. See the GNU General Public License 
+ *	for more details. You should have received a copy of the GNU General 
+ *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
@@ -7,8 +19,7 @@ using System.Collections;
 
 namespace Sensorium2
 {
-	static class PluginManager
-	{
+	static class PluginManager {
 		/// <summary>
 		/// Gets all compatible plugins from a specified directory.
 		/// </summary>
@@ -38,8 +49,7 @@ namespace Sensorium2
 			}
 			
 			foreach (FileInfo f in dir.GetFiles("*.dll")) {
-				try
-				{
+				try {
 					Assembly pluginAssembly = Assembly.LoadFile(f.FullName);
 
 					//Get all the relevant classes in the library
@@ -48,8 +58,7 @@ namespace Sensorium2
 						    ((IList) t.GetInterfaces()).Contains(typeof (IPluginInterface)))
 							//Add an instance of the plugin to the list
 							plugins.Add((IPluginInterface) Activator.CreateInstance(t));
-				} catch (BadImageFormatException e)
-				{
+				} catch (BadImageFormatException e) {
 					Console.WriteLine(e.Message);
 					Console.WriteLine(f.FullName + " is not a valid .NET assembly");
 				}
