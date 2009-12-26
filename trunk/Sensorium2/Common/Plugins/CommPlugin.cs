@@ -12,21 +12,33 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Collections.Generic;
 
-namespace Common
+namespace Common.Plugins
 {
-	public enum PluginMode { Server, Client, Default }
-
-	public interface IPluginInterface
+	public abstract class CommPlugin : IPluginInterface
 	{
-		//string GetName();
-		string Name { get; }
-		//int GetVersion();
-		int Version { get; }
+		public List<Sensor> Sensors { get; protected set; }
+		private List<DataPlugin> _dataPlugins;
 
-		bool Enabled { get; set; }
+		public abstract string Name { get; }
+		public abstract int Version { get; }
 
-		void Init(Dictionary<string, string> settings);
+		private bool _enabled = true;
+
+		public bool Enabled
+		{
+			get { return _enabled; }
+			set { _enabled = value; }
+		}
+
+		public abstract void Init(Dictionary<string, string> settings);
+		public virtual void Init(Dictionary<string, string> settings, PluginMode mode, List<DataPlugin> dataPlugins) {
+			if(dataPlugins == null)
+				throw new NullReferenceException();
+
+			_dataPlugins = dataPlugins;
+		}
 	}
 }

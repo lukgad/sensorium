@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedFanPlugin", "SpeedFanP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextSettingsPlugin", "TextSettingsPlugin\TextSettingsPlugin.csproj", "{8251A822-589A-44C0-B19F-B8464448F0BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdpPlugin", "UdpPlugin\UdpPlugin.csproj", "{4E044E72-2745-4A45-AB0D-87F20288132A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,14 @@ Global
 		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|x64.ActiveCfg = Release|Any CPU
 		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|x86.ActiveCfg = Release|Any CPU
+		{4E044E72-2745-4A45-AB0D-87F20288132A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E044E72-2745-4A45-AB0D-87F20288132A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E044E72-2745-4A45-AB0D-87F20288132A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4E044E72-2745-4A45-AB0D-87F20288132A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4E044E72-2745-4A45-AB0D-87F20288132A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E044E72-2745-4A45-AB0D-87F20288132A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E044E72-2745-4A45-AB0D-87F20288132A}.Release|x64.ActiveCfg = Release|Any CPU
+		{4E044E72-2745-4A45-AB0D-87F20288132A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

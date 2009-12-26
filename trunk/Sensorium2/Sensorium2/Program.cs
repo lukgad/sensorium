@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using Common;
+using Common.Plugins;
 
 namespace Sensorium2
 {
@@ -151,16 +152,22 @@ namespace Sensorium2
 			foreach (DataPlugin d in _dataPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", d.Name, d.Version);
 				d.Init(_enabledSettingsPlugin.GetSettings(d.Name), (_client ? PluginMode.Client : PluginMode.Default));
+				if(!d.Enabled)
+					Console.WriteLine("Started in client mode");
 			}
 
 			foreach (CommPlugin c in _commPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
 				c.Init(_enabledSettingsPlugin.GetSettings(c.Name), (_client ? PluginMode.Client : PluginMode.Default), _dataPlugins);
+				if (!c.Enabled)
+					Console.WriteLine("Disabled");
 			}
 
 			foreach (IPluginInterface i in _genericPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", i.Name, i.Version);
 				i.Init(_enabledSettingsPlugin.GetSettings(i.Name));
+				if (!i.Enabled)
+					Console.WriteLine("Disabled");
 			}
 
 			Console.WriteLine("Plugins initialized");

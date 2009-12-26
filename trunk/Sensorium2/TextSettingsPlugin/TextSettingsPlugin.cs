@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Common;
+using Common.Plugins;
 
 namespace TextSettingsPlugin
 {
