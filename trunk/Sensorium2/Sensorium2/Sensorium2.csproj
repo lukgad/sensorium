@@ -87,13 +87,13 @@
       <Name>Common</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\dotNetSettingsPlugin\DotNetSettingsPlugin.csproj">
-      <Project>{B7CEE94C-17DF-4D50-B203-989D725B13CE}</Project>
-      <Name>DotNetSettingsPlugin</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SpeedFanPlugin\SpeedFanPlugin.csproj">
       <Project>{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}</Project>
       <Name>SpeedFanPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TextSettingsPlugin\TextSettingsPlugin.csproj">
+      <Project>{8251A822-589A-44C0-B19F-B8464448F0BD}</Project>
+      <Name>TextSettingsPlugin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

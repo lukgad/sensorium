@@ -1,4 +1,6 @@
-﻿/*	Copyright (C) 2009-2010 Aaron Maslen
+﻿/*	This file is part of Sensorium2 <http://code.google.com/p/sensorium>
+ * 
+ *	Copyright (C) 2009-2010 Aaron Maslen
  *	This program is free software: you can redistribute it and/or modify it 
  *	under the terms of the GNU General Public License as published by 
  *	the Free Software Foundation, either version 3 of the License, or 
@@ -19,9 +21,10 @@ namespace Common
 		public abstract string Name { get; }
 		public abstract int Version { get; }
 
-		public bool Enabled { get; set; }
+		public virtual bool Enabled { get; set; }
 
 		public abstract void Init(Dictionary<string, string> settings);
 		public abstract Dictionary<string, string> GetSettings(string pluginName);
+        public abstract void Save();
 	}
 }

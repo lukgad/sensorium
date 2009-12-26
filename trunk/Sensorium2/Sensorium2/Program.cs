@@ -1,4 +1,6 @@
-﻿/*	Copyright (C) 2009-2010 Aaron Maslen
+﻿/*	This file is part of Sensorium2 <http://code.google.com/p/sensorium>
+ * 
+ *	Copyright (C) 2009-2010 Aaron Maslen
  *	This program is free software: you can redistribute it and/or modify it 
  *	under the terms of the GNU General Public License as published by 
  *	the Free Software Foundation, either version 3 of the License, or 
@@ -128,8 +130,11 @@ namespace Sensorium2
 					if (!i.Enabled)
 						Console.WriteLine("Disabled");
 
-					if (i.Enabled && _enabledSettingsPlugin == null) //Only 1 settings plugin can be enabled
-						_enabledSettingsPlugin = (SettingsPlugin)i;
+					if (i.Enabled) //Only 1 settings plugin can be enabled
+						if (_enabledSettingsPlugin == null)
+							_enabledSettingsPlugin = (SettingsPlugin) i;
+						else
+							i.Enabled = false;
 				}
 				else {
 					_genericPlugins.Add(i);

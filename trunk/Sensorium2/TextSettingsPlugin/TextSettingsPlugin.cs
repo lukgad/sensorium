@@ -1,4 +1,6 @@
-﻿/*	Copyright (C) 2009-2010 Aaron Maslen
+﻿/*	This file is part of Sensorium2 <http://code.google.com/p/sensorium>
+ * 
+ *	Copyright (C) 2009-2010 Aaron Maslen
  *	This program is free software: you can redistribute it and/or modify it 
  *	under the terms of the GNU General Public License as published by 
  *	the Free Software Foundation, either version 3 of the License, or 
@@ -10,15 +12,23 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Common;
 
 namespace TextSettingsPlugin
 {
 	public class TextSettingsPlugin : SettingsPlugin {
 		private Dictionary<string, Dictionary<string, string>> _settings;
-		
+
+		private string _settingsFile;
+
+		public TextSettingsPlugin(){
+			_settings = new Dictionary<string, Dictionary<string, string>>();
+		}
+
 		public override string Name {
 			get { return "TextFileSettings"; }
 		}
@@ -27,22 +37,106 @@ namespace TextSettingsPlugin
 			get { return 1; }
 		}
 
+		public override bool Enabled {
+			get { return base.Enabled; }
+			set {
+				base.Enabled = value;
+
+				Dictionary<string, string> mySettings = GetSettings(Name);
+
+				if (!mySettings.ContainsKey("Enabled"))
+					mySettings.Add("Enabled", value.ToString());
+				else
+					mySettings["Enabled"] = value.ToString();
+			}
+		}
+
 		public override void Init(Dictionary<string, string> settings) {
 			if (settings["settingsDir"] == null || settings["settingsDir"].Equals(""))
 				throw new DirectoryNotFoundException("Invalid settings directory"); //TODO: May no longer be needed
 
 			string pluginSettingsDir = settings["settingsDir"] + @"\" + Name;
+			_settingsFile = pluginSettingsDir + @"\config.ini";
 
 			if (!Directory.Exists(pluginSettingsDir)) //Create settings directory if it does not exist
 				Directory.CreateDirectory(pluginSettingsDir);
 
-			using (FileStream fs = new FileStream(pluginSettingsDir + @"\config.ini",FileMode.OpenOrCreate,FileAccess.Read)) {
-				
+			Console.WriteLine("Loading settings...");
+
+			if (!File.Exists(_settingsFile))
+				return;
+
+			//Read and parse config file
+			using (StreamReader sr = new StreamReader(_settingsFile)){
+				string line;
+				string currentPlugin = null;
+
+				while((line = sr.ReadLine()) != null)
+				{
+					char[] splitChars = {'|'};
+
+
+                    string[] splitLine = line.Split(splitChars);
+
+					if (currentPlugin == null) {
+						if (splitLine[0].Trim().Equals("Plugin")) {
+							currentPlugin = splitLine[1].Trim();
+
+							if (!_settings.ContainsKey(currentPlugin))
+								_settings.Add(currentPlugin, new Dictionary<string, string>());
+
+							Console.WriteLine("Loaded settings for " + currentPlugin);
+
+							continue;
+						}
+						continue;
+					}
+
+					if (line.Equals("EndPlugin")) {
+						currentPlugin = null;
+						continue;
+					} 
+
+					_settings[currentPlugin].Add(splitLine[0].Trim(),splitLine[1].Trim());
+				}
 			}
+
+			if(_settings.ContainsKey(Name) &&_settings[Name].ContainsKey("Enabled") 
+				&& _settings[Name]["Enabled"].ToLower().Equals("true"))
+				Enabled = true;
 		}
 
 		public override Dictionary<string, string> GetSettings(string pluginName) {
-			return null; //TODO: Actually return something
+			if (!_settings.ContainsKey(pluginName))
+				_settings.Add(pluginName, new Dictionary<string, string>());
+			
+			return _settings[pluginName];
+		}
+
+		public override void Save()
+		{
+				//Write data to settings file.
+				using (StreamWriter sw = new StreamWriter(_settingsFile))
+				{
+					foreach (string p in _settings.Keys)
+					{
+						if (_settings[p].Count == 0)
+							continue;
+
+						sw.WriteLine("Plugin|" + p);
+						foreach (string s in _settings[p].Keys)
+						{
+							sw.WriteLine(s + "|" + _settings[p][s]);
+						}
+						sw.WriteLine("EndPlugin");
+					}
+					sw.Close();
+				}
+		}
+
+		~TextSettingsPlugin()
+		{
+			Save();
 		}
 	}
 }
