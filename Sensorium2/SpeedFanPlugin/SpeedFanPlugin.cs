@@ -1,4 +1,6 @@
-﻿/*	Copyright (C) 2009-2010 Aaron Maslen
+﻿/*	This file is part of Sensorium2 <http://code.google.com/p/sensorium>
+ * 
+ *	Copyright (C) 2009-2010 Aaron Maslen
  *	This program is free software: you can redistribute it and/or modify it 
  *	under the terms of the GNU General Public License as published by 
  *	the Free Software Foundation, either version 3 of the License, or 
@@ -23,7 +25,7 @@ namespace SpeedFanPlugin
 		private const double VoltMult = .01;
 
 		public override void Init(Dictionary<string, string> settings, PluginMode mode){
-			if (settings["Enabled"].Equals("false"))
+			if (settings.ContainsKey("Enabled") && settings["Enabled"].Equals("false"))
 				return;
 
 			if (mode == PluginMode.Client || Environment.OSVersion.Platform.ToString() != "Win32NT") {
