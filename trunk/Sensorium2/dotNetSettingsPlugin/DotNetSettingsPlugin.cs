@@ -11,20 +11,28 @@
 */
 
 using System.Collections.Generic;
+using Common;
 
-namespace Common
-{
-	public enum PluginMode { Server, Client, Default }
+namespace DotNetSettingsPlugin {
+	public class DotNetSettingsPlugin : SettingsPlugin {
+		public override string Name
+		{
+			get { return ".NET Settings Plugin"; }
+		}
 
-	public interface IPluginInterface
-	{
-		//string GetName();
-		string Name { get; }
-		//int GetVersion();
-		int Version { get; }
+		public override int Version
+		{
+			get { return 1; }
+		}
 
-		bool Enabled { get; set; }
+		public override void Init(Dictionary<string, string> settings)
+		{
 
-		void Init(Dictionary<string, string> settings);
+		}
+
+		public override Dictionary<string, string> GetSettings(string pluginName)
+		{
+			return null;
+		}
 	}
 }
