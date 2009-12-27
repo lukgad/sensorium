@@ -12,20 +12,60 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
+using System.Collections.Generic;
+using Common.Plugins;
 
 namespace UdpPlugin {
-	class UdpServer {
-		public void Start() {
-			return;
+	static class UdpServer {
+		private static Dictionary<IPAddress, int> _listenAddress;
+		private static List<DataPlugin> _dataPlugins;
+
+		public static void Start(Dictionary<IPAddress, int> addresses, List<DataPlugin> plugins) {
+			 _listenAddress = addresses;
+			 _dataPlugins = plugins;
+
+			WaitCallback callBack = Listener;
+
+			foreach(IPAddress i in _listenAddress.Keys)
+				ThreadPool.QueueUserWorkItem(callBack, i);
 		}
 
-		private void Listener() {
-			
+		private static void Listener(object listenAddress) {
+			WaitCallback callBack = Responder;
+
+			IPAddress address = (IPAddress) listenAddress;
+
+			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
+			listener.Bind(new IPEndPoint(address, _listenAddress[address]));
+
+            while(true) {
+            	Socket handler = listener.Accept();
+            	List<byte> data = new List<byte>();
+
+				//do
+				//{
+				byte[] bytes = new byte[1024];
+				/*int bytesRec =*/ handler.Receive(bytes);
+				data.AddRange(bytes);
+				//} while ()
+
+            	ThreadPool.QueueUserWorkItem(callBack, data);
+
+				handler.Close();
+            }
 		}
 		
-		private void Responder() {
+		private static void Responder(object data) {
+			Console.Write("Recieved");
 			
+			foreach(byte i in ((List<byte>) data))
+				Console.Write(i + " ");
+
+			Console.WriteLine();
 		}
 	}
 }
