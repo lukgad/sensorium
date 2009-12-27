@@ -14,6 +14,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Text;
 using Common.Plugins;
 
 namespace UdpPlugin{
@@ -26,13 +28,53 @@ namespace UdpPlugin{
 			get { return 1; }
 		}
 
-		public override void Init(Dictionary<string, string> settings) { throw new NotImplementedException();}
+		public override void Init(Dictionary<string, string> settings) { throw new NotImplementedException(); }
 
 		public override void Init(Dictionary<string, string> settings, PluginMode mode, List<DataPlugin> dataPlugins)
 		{
 			base.Init(settings, mode, dataPlugins);
 
-			return;
-		} 
+			Mode = mode;
+
+			if (settings.ContainsKey("Enabled") && settings["Enabled"].ToLower().Equals("false")) {
+				Enabled = false;
+				return;
+			}
+
+			//If in "default" mode, load default mode from config
+			if(Mode == PluginMode.Default && settings.ContainsKey("Mode")) {
+				if (settings["Mode"].ToLower().Equals("Client"))
+					Mode = PluginMode.Client;
+				else if (settings["Mode"].ToLower().Equals("Server"))
+					Mode = PluginMode.Server;
+			}
+
+			//If in server mode, start the server
+			if (Mode == PluginMode.Server && settings.ContainsKey("Listen"))
+			{
+				Dictionary<IPAddress, int> listenAddresses = new Dictionary<IPAddress, int>();
+
+				string[] splitListen = settings["Listen"].Split(' ');
+
+				if ((splitListen.Length%2) != 0)
+					throw new Exception("Listen address parse error");
+
+				for (int i = 0; i < splitListen.Length; i += 2)
+				{
+					IPAddress address;
+
+					if ((address = IPAddress.Parse(splitListen[i])) != null)
+						listenAddresses.Add(address, int.Parse(splitListen[2 + 1]));
+					else
+						throw new Exception("Listen address parse error");
+				}
+
+				UdpServer.Start(listenAddresses,dataPlugins);
+
+			} else { //Otherwise, start in client mode (default)
+				Console.WriteLine("Starting in client mode");
+				Mode = PluginMode.Client;
+			}
+		}
 	}
 }

@@ -20,7 +20,6 @@ namespace Common.Plugins
 	public abstract class CommPlugin : IPluginInterface
 	{
 		public List<Sensor> Sensors { get; protected set; }
-		private List<DataPlugin> _dataPlugins;
 
 		public abstract string Name { get; }
 		public abstract int Version { get; }
@@ -33,12 +32,14 @@ namespace Common.Plugins
 			set { _enabled = value; }
 		}
 
+		public PluginMode Mode { get; protected set; }
+
 		public abstract void Init(Dictionary<string, string> settings);
 		public virtual void Init(Dictionary<string, string> settings, PluginMode mode, List<DataPlugin> dataPlugins) {
 			if(dataPlugins == null)
 				throw new NullReferenceException();
 
-			_dataPlugins = dataPlugins;
+			Mode = mode;
 		}
 	}
 }

@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace Common.Plugins
 {
-	public enum PluginMode { Server, Client, Default }
+	public enum PluginMode { Default, Server, Client }
 
 	public interface IPluginInterface
 	{
