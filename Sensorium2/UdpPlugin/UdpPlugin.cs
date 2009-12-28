@@ -57,7 +57,7 @@ namespace UdpPlugin{
 				string[] splitListen = settings["Listen"].Split(' ');
 
 				if ((splitListen.Length%2) != 0)
-					throw new Exception("Listen address parse error");
+					throw new Exception("Error parsing data file");
 
 				for (int i = 0; i < splitListen.Length; i += 2)
 				{
@@ -66,7 +66,7 @@ namespace UdpPlugin{
 					if ((address = IPAddress.Parse(splitListen[i])) != null)
 						listenAddresses.Add(address, int.Parse(splitListen[2 + 1]));
 					else
-						throw new Exception("Listen address parse error");
+						throw new Exception("Error parsing data file");
 				}
 
 				UdpServer.Start(listenAddresses,dataPlugins);

@@ -38,31 +38,29 @@ namespace UdpPlugin {
 			WaitCallback callBack = Responder;
 
 			IPAddress address = (IPAddress) listenAddress;
+			byte[] data = new byte[1024];
+
 
 			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
 			listener.Bind(new IPEndPoint(address, _listenAddress[address]));
 
-            while(true) {
-            	Socket handler = listener.Accept();
-            	List<byte> data = new List<byte>();
+			while (true) {
+				EndPoint sender = new IPEndPoint(IPAddress.Any, 0);
+				SocketFlags flags = new SocketFlags();
+				IPPacketInformation packetInfo;
 
-				//do
-				//{
-				byte[] bytes = new byte[1024];
-				/*int bytesRec =*/ handler.Receive(bytes);
-				data.AddRange(bytes);
-				//} while ()
+				listener.ReceiveMessageFrom(data,0,data.Length,ref flags,ref sender,out packetInfo);
 
-            	ThreadPool.QueueUserWorkItem(callBack, data);
-
-				handler.Close();
-            }
+				ThreadPool.QueueUserWorkItem(callBack, new IpPacket(packetInfo, data));
+			}
 		}
 		
-		private static void Responder(object data) {
-			Console.Write("Recieved");
-			
-			foreach(byte i in ((List<byte>) data))
+		private static void Responder(object packet) {
+			IpPacket ipPacket = (IpPacket) packet;
+
+			Console.Write("Recieved" + ipPacket.PacketInfo.Address);
+
+			foreach (byte i in ipPacket.Data)
 				Console.Write(i + " ");
 
 			Console.WriteLine();
