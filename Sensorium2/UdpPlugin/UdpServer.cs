@@ -23,15 +23,20 @@ namespace UdpPlugin {
 	static class UdpServer {
 		private static Dictionary<IPAddress, int> _listenAddress;
 		private static List<DataPlugin> _dataPlugins;
+		private static bool _running;
 
 		public static void Start(Dictionary<IPAddress, int> addresses, List<DataPlugin> plugins) {
 			 _listenAddress = addresses;
 			 _dataPlugins = plugins;
 
-			WaitCallback callBack = Listener;
+			_running = true;
 
-			foreach(IPAddress i in _listenAddress.Keys)
-				ThreadPool.QueueUserWorkItem(callBack, i);
+			ParameterizedThreadStart callBack = Listener;
+			
+			foreach(IPAddress i in addresses.Keys) {
+				Thread newThread = new Thread(callBack);
+				newThread.Start(i);
+			}
 		}
 
 		private static void Listener(object listenAddress) {
@@ -44,7 +49,7 @@ namespace UdpPlugin {
 			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
 			listener.Bind(new IPEndPoint(address, _listenAddress[address]));
 
-			while (true) {
+			while (_running) {
 				EndPoint sender = new IPEndPoint(IPAddress.Any, 0);
 				SocketFlags flags = new SocketFlags();
 				IPPacketInformation packetInfo;
@@ -53,6 +58,8 @@ namespace UdpPlugin {
 
 				ThreadPool.QueueUserWorkItem(callBack, new IpPacket(packetInfo, data));
 			}
+
+			listener.Close();
 		}
 		
 		private static void Responder(object packet) {
@@ -64,6 +71,10 @@ namespace UdpPlugin {
 				Console.Write(i + " ");
 
 			Console.WriteLine();
+		}
+
+		public static void Stop() {
+			_running = false;
 		}
 	}
 }
