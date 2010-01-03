@@ -40,6 +40,9 @@ namespace Common.Plugins
 				throw new NullReferenceException();
 
 			Mode = mode;
+
+			if (!settings.ContainsKey("Enabled"))
+				settings.Add("Enabled", Enabled.ToString());
 		}
 	}
 }

@@ -51,7 +51,7 @@ namespace Sensorium2
         	foreach (DataPlugin d in _dataPlugins)
         		foreach (Sensor s in d.Sensors)
         			Console.WriteLine("{0}		{1}	{2}		{3}		{4}",
-        			                  s.Source, s.SourcePlugin, s.Type, s.Name, d.SensorToString(s));
+						s.Source, s.SourcePlugin, s.Type, s.Name, d.SensorToString(s));
 
         	Console.WriteLine();
 			Console.WriteLine("Press any key to exit");
@@ -108,7 +108,7 @@ namespace Sensorium2
 			//Get all plugins
 			Console.WriteLine("Initializing Plugins...");
 
-			_allPlugins = PluginManager.GetPlugins(_pluginDir, _recursive);
+			_allPlugins = PluginLoader.GetPlugins(_pluginDir, _recursive);
 
 			_settingsPlugins = new List<SettingsPlugin>();
 			_dataPlugins = new List<DataPlugin>();
@@ -152,7 +152,7 @@ namespace Sensorium2
 			foreach (DataPlugin d in _dataPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", d.Name, d.Version);
 				d.Init(_enabledSettingsPlugin.GetSettings(d.Name), (_client ? PluginMode.Client : PluginMode.Default));
-				if(!d.Enabled)
+				if (!d.Enabled)
 					Console.WriteLine("Started in client mode");
 			}
 

@@ -73,6 +73,7 @@ namespace TextSettingsPlugin
 
 				while((line = sr.ReadLine()) != null)
 				{
+					line = line.Trim();
 					char[] splitChars = {'|'};
 
 
@@ -115,23 +116,24 @@ namespace TextSettingsPlugin
 
 		public override void Save()
 		{
-				//Write data to settings file.
-				using (StreamWriter sw = new StreamWriter(_settingsFile))
+			//Write data to settings file.
+			using (StreamWriter sw = new StreamWriter(_settingsFile))
+			{
+				foreach (string p in _settings.Keys)
 				{
-					foreach (string p in _settings.Keys)
-					{
-						if (_settings[p].Count == 0)
-							continue;
+					//if (_settings[p].Count == 0)
+					//	continue;
 
-						sw.WriteLine("Plugin|" + p);
-						foreach (string s in _settings[p].Keys)
-						{
-							sw.WriteLine(s + "|" + _settings[p][s]);
-						}
-						sw.WriteLine("EndPlugin");
+					sw.WriteLine("Plugin|" + p);
+					foreach (string s in _settings[p].Keys)
+					{
+						sw.WriteLine("	" + s + "|" + _settings[p][s]);
 					}
-					sw.Close();
+					sw.WriteLine("EndPlugin");
+					sw.WriteLine();
 				}
+				sw.Close();
+			}
 		}
 
 		~TextSettingsPlugin()

@@ -21,7 +21,7 @@ using Common.Plugins;
 
 namespace Sensorium2
 {
-	static class PluginManager {
+	static class PluginLoader {
 		/// <summary>
 		/// Gets all compatible plugins from a specified directory.
 		/// </summary>
