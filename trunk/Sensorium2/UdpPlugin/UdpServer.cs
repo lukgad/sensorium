@@ -33,6 +33,8 @@ namespace UdpPlugin {
 
 			ParameterizedThreadStart callBack = Listener;
 			
+            //Start threads for each IPAddress.
+			//TODO: Change the dictionary to have an array of port numbers, not just one
 			foreach(IPAddress i in addresses.Keys) {
 				Thread newThread = new Thread(callBack);
 				newThread.Start(i);
@@ -54,8 +56,10 @@ namespace UdpPlugin {
 				SocketFlags flags = new SocketFlags();
 				IPPacketInformation packetInfo;
 
+				//Wait for a packet
 				listener.ReceiveMessageFrom(data,0,data.Length,ref flags,ref sender,out packetInfo);
 
+				//Queue a new responder task
 				ThreadPool.QueueUserWorkItem(callBack, new IpPacket(packetInfo, data));
 			}
 
@@ -63,13 +67,15 @@ namespace UdpPlugin {
 		}
 		
 		private static void Responder(object packet) {
+			//For now, just print the packet contents
+
 			IpPacket ipPacket = (IpPacket) packet;
 
 			Console.Write("Recieved" + ipPacket.PacketInfo.Address);
 
 			foreach (byte i in ipPacket.Data)
-				Console.Write(i + " ");
-
+				Console.Write(i.ToString("X"));
+			
 			Console.WriteLine();
 		}
 
