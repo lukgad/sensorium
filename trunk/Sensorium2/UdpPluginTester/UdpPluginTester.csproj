@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>25f324c4-21aa-4db0-ad73-332e0659b634</ProjectGuid>
+    <ProjectGuid>{4843C4ED-B811-43C8-ACA5-E227E308A493}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UdpPluginTester</RootNamespace>
