@@ -24,7 +24,10 @@ namespace Common.Plugins
 			Sensors = new List<Sensor>();
 		}
 
-		public abstract void Init(Dictionary<string, string> settings, PluginMode mode);
+		public virtual void Init(Dictionary<string, string> settings, PluginMode mode) {
+			if(!settings.ContainsKey("Enabled"))
+				settings.Add("Enabled", Enabled.ToString());
+		}
 
 		public abstract string Name { get; }
 		public abstract int Version { get; }
@@ -37,7 +40,7 @@ namespace Common.Plugins
 		}
 
 		public virtual void Init(Dictionary<string, string> settings) {
-			Init(null, PluginMode.Server);
+			Init(settings, PluginMode.Server);
 		}
 
 		public abstract string SensorToString(Sensor sensor);

@@ -26,6 +26,8 @@ namespace SpeedFanPlugin
 		private const double VoltMult = .01;
 
 		public override void Init(Dictionary<string, string> settings, PluginMode mode){
+			base.Init(settings, mode);
+
 			foreach (string s in settings.Keys)
 				if(s.Equals("Enabled"))
 					Enabled = settings[s].ToLower().Equals("true");
