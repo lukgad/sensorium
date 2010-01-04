@@ -28,6 +28,7 @@ namespace Sensorium2
 		private static bool _recursive;
 
 	    private static List<IPluginInterface> _allPlugins;
+		private static Dictionary<String, IPluginInterface> _allPluginsD;
 
 		private static SettingsPlugin _enabledSettingsPlugin;
     	
@@ -35,6 +36,8 @@ namespace Sensorium2
         private static List<DataPlugin> _dataPlugins;
 		private static List<CommPlugin> _commPlugins;
 		private static List<IPluginInterface> _genericPlugins;
+
+		private static List<Sensor> _sensors;
 		
         static void Main(string[] args)
 		{
@@ -48,10 +51,11 @@ namespace Sensorium2
 			Console.WriteLine();
 			Console.WriteLine("Sensors:");
 			Console.WriteLine("Source		Plugin		Type		Name		Value");
-        	foreach (DataPlugin d in _dataPlugins)
-        		foreach (Sensor s in d.Sensors)
-        			Console.WriteLine("{0}		{1}	{2}		{3}		{4}",
-						s.Source, s.SourcePlugin, s.Type, s.Name, d.SensorToString(s));
+			foreach (Sensor s in _sensors) {
+				Console.WriteLine("{0}		{1}	{2}		{3}		{4}",
+					s.Source, s.SourcePlugin, s.Type, s.Name,
+					((DataPlugin) _allPluginsD[s.SourcePlugin]).SensorToString(s));
+			}
 
         	Console.WriteLine();
 			Console.WriteLine("Press any key to exit");
@@ -115,18 +119,24 @@ namespace Sensorium2
 			Console.WriteLine("Initializing Plugins...");
 
 			_allPlugins = PluginLoader.GetPlugins(_pluginDir, _recursive);
+			_allPluginsD = new Dictionary<string, IPluginInterface>();
 
 			_settingsPlugins = new List<SettingsPlugin>();
 			_dataPlugins = new List<DataPlugin>();
 			_commPlugins = new List<CommPlugin>();
 			_genericPlugins = new List<IPluginInterface>();
 
+			_sensors = new List<Sensor>();
+
 			//Add plugins to correct lists
 			foreach (IPluginInterface i in _allPlugins) {
-				if (i is DataPlugin)
-					_dataPlugins.Add((DataPlugin)i);
-				else if (i is CommPlugin)
+				_allPluginsD.Add(i.Name, i);
+
+				if (i is DataPlugin) {
+					_dataPlugins.Add((DataPlugin) i);
+				} else if (i is CommPlugin) {
 					_commPlugins.Add((CommPlugin)i);
+				}
 				else if (i is SettingsPlugin) {
 					_settingsPlugins.Add((SettingsPlugin)i);
 
@@ -139,11 +149,10 @@ namespace Sensorium2
 
 					if (i.Enabled) //Only 1 settings plugin can be enabled
 						if (_enabledSettingsPlugin == null)
-							_enabledSettingsPlugin = (SettingsPlugin) i;
+							_enabledSettingsPlugin = (SettingsPlugin)i;
 						else
 							i.Enabled = false;
-				}
-				else {
+				} else {
 					_genericPlugins.Add(i);
 				}
 			}
@@ -160,13 +169,19 @@ namespace Sensorium2
 				d.Init(_enabledSettingsPlugin.GetSettings(d.Name), (_client ? PluginMode.Client : PluginMode.Default));
 				if (!d.Enabled)
 					Console.WriteLine("Started in client mode");
+
+				foreach (Sensor s in d.Sensors)
+					_sensors.Add(s);
 			}
 
 			foreach (CommPlugin c in _commPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
-				c.Init(_enabledSettingsPlugin.GetSettings(c.Name), (_client ? PluginMode.Client : PluginMode.Default), _dataPlugins);
+				c.Init(_enabledSettingsPlugin.GetSettings(c.Name), (_client ? PluginMode.Client : PluginMode.Default), _sensors);
 				if (!c.Enabled)
 					Console.WriteLine("Disabled");
+
+				foreach (Sensor s in c.Sensors)
+					_sensors.Add(s);
 			}
 
 			foreach (IPluginInterface i in _genericPlugins) {

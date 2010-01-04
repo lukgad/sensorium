@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -24,20 +25,64 @@ namespace UdpPluginTester {
 			foreach(string s in args)
 				Debug.WriteLine(s);
 
-			IPEndPoint endPoint = null;
+			EndPoint endPoint;
 			IPAddress address;
 
 			if ((address = IPAddress.Parse(args[0])) != null)
 				endPoint = new IPEndPoint(address, Int16.Parse(args[1]));
-
-			if(address == null)
+			else
 				return;
 			
-			Socket socket = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
+			Socket socket = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp) {ReceiveTimeout = 1000};
 
-			byte[] data = Encoding.UTF8.GetBytes(args[2]);
+			List<byte> request = new List<byte> {3, 0};
+
+			request.InsertRange(1,BitConverter.GetBytes(request.Count + 4));
+
+			byte[] data = request.ToArray();
 
 			socket.SendTo(data, endPoint);
+
+			data = new byte[1024];
+
+			socket.ReceiveFrom(data, ref endPoint);
+
+			for (int i = 0; i < BitConverter.ToInt32(data, 1) ; i++) {
+				Console.Write(data[i].ToString("X") + " ");
+
+				if (i == 0 || i == 4 || i == 5)
+					Console.WriteLine();
+			}
+
+			Console.ReadKey();
+
+			Console.WriteLine("Requesting {0} sensors", BitConverter.ToInt32(data, 6));
+
+			int numSensors = BitConverter.ToInt32(data, 6);
+
+			for(int i = 0; i < numSensors; i++) {
+				Console.WriteLine("Sensor {0}", i);
+				
+				request = new List<byte> {3,3};
+				request.AddRange(BitConverter.GetBytes(i));
+				request.InsertRange(1, BitConverter.GetBytes(request.Count + 4));
+
+				data = request.ToArray();
+				endPoint = new IPEndPoint(address, Int16.Parse(args[1]));
+
+				socket.SendTo(data, endPoint);
+
+				data = new byte[1024];
+
+				socket.ReceiveFrom(data, ref endPoint);
+				
+				Console.Write("Name: ");
+				foreach (char c in Encoding.UTF8.GetChars(data, 10, BitConverter.ToInt32(data, 1) - 10))
+					Console.Write(c);
+				Console.WriteLine();
+			}
+
+			Console.ReadKey();
 		}
 	}
 }

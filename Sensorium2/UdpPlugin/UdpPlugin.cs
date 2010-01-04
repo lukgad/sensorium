@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using Common;
 using Common.Plugins;
 
 namespace UdpPlugin{
@@ -32,9 +33,9 @@ namespace UdpPlugin{
 			UdpServer.Stop();
 		}
 
-		public override void Init(Dictionary<string, string> settings, PluginMode mode, List<DataPlugin> dataPlugins)
+		public override void Init(Dictionary<string, string> settings, PluginMode mode, List<Sensor> sensors)
 		{
-			base.Init(settings, mode, dataPlugins);
+			base.Init(settings, mode, sensors);
 
 			Mode = mode;
 
@@ -59,7 +60,7 @@ namespace UdpPlugin{
 				string[] splitListen = settings["Listen"].Trim().Split(' ');
 
 				if ((splitListen.Length%2) != 0)
-					throw new Exception("Error parsing data file");
+					throw new Exception();
 
 				for (int i = 0; i < splitListen.Length; i += 2)
 				{
@@ -68,10 +69,10 @@ namespace UdpPlugin{
 					if ((address = IPAddress.Parse(splitListen[i])) != null)
 						listenAddresses.Add(address, int.Parse(splitListen[i + 1]));
 					else
-						throw new Exception("Error parsing data file");
+						throw new Exception();
 				}
 
-				UdpServer.Start(listenAddresses,dataPlugins);
+				UdpServer.Start(listenAddresses, sensors);
 
 			} else { //Otherwise, start in client mode (default)
 				Console.WriteLine("Starting in client mode");

@@ -12,18 +12,19 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System.Net;
 using System.Net.Sockets;
 
 namespace UdpPlugin {
-	class IpPacket {
+	class UdpPluginPacket {
 		public IPPacketInformation PacketInfo { get; private set; }
         public byte[] Data { get; private set; }
-		public int Length { get; private set; }
+		public IPEndPoint EndPoint { get; private set; }
 
-		public IpPacket(IPPacketInformation packetInfo, byte[] data, int length) {
+		public UdpPluginPacket(IPPacketInformation packetInfo, byte[] data, IPEndPoint endpoint) {
 			Data = data;
 			PacketInfo = packetInfo;
-			Length = length;
+			EndPoint = endpoint;
 		}
 	}
 }

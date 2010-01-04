@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IpPacket.cs" />
+    <Compile Include="UdpPluginPacket.cs" />
     <Compile Include="UdpClient.cs" />
     <Compile Include="UdpPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
