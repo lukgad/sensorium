@@ -12,23 +12,21 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Collections.Generic;
-using Common.Plugins;
+using Common;
 
 namespace UdpPlugin {
 	static class UdpServer {
 		private static Dictionary<IPAddress, int> _listenAddresses;
-		private static List<DataPlugin> _dataPlugins;
 		private static bool _running;
+		private static List<Sensor> _sensors;
 
-		public static void Start(Dictionary<IPAddress, int> addresses, List<DataPlugin> plugins) {
-			 _listenAddresses = addresses;
-			 _dataPlugins = plugins;
-
+		public static void Start(Dictionary<IPAddress, int> addresses, List<Sensor> sensors) {
+			_listenAddresses = addresses;
+			_sensors = sensors;
 			_running = true;
 
 			ParameterizedThreadStart callBack = Listener;
@@ -46,8 +44,6 @@ namespace UdpPlugin {
 
 			IPAddress address = (IPAddress) listenAddress;
 			byte[] data = new byte[1024];
-
-			Console.WriteLine("Listening on {0}:{1}", address, _listenAddresses[address]);
 
 			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp) {ReceiveTimeout = 1000};
 
@@ -69,23 +65,21 @@ namespace UdpPlugin {
 				}
 
 				//Queue a new responder task
-				ThreadPool.QueueUserWorkItem(callBack, new IpPacket(packetInfo, data, 0));
+				ThreadPool.QueueUserWorkItem(callBack, new UdpPluginPacket(packetInfo, data, (IPEndPoint) sender));
 			}
 
 			listener.Close();
 		}
 		
 		private static void Responder(object packet) {
-			//For now, just print the packet contents
+			UdpPluginPacket ipPacket = (UdpPluginPacket) packet;
 
-			IpPacket ipPacket = (IpPacket) packet;
+			byte[] response = SensoriumPacket.GetResponse(ipPacket.Data, _sensors);
+            
+			Socket responseSocket = new Socket(ipPacket.PacketInfo.Address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
 
-			Console.WriteLine("Recieved from " + ipPacket.PacketInfo.Address);
-
-			foreach (byte i in ipPacket.Data)
-				Console.Write(i.ToString("X"));
-			
-			Console.WriteLine();
+			if (response != null)
+				responseSocket.SendTo(response, 0, response.Length, SocketFlags.None, ipPacket.EndPoint); //Send the response
 		}
 
 		public static void Stop() {
