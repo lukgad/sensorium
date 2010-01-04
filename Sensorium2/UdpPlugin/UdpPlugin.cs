@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using Common.Plugins;
 
 namespace UdpPlugin{
@@ -29,6 +28,9 @@ namespace UdpPlugin{
 		}
 
 		public override void Init(Dictionary<string, string> settings) { throw new NotImplementedException(); }
+		public override void Stop() {
+			UdpServer.Stop();
+		}
 
 		public override void Init(Dictionary<string, string> settings, PluginMode mode, List<DataPlugin> dataPlugins)
 		{
@@ -43,9 +45,9 @@ namespace UdpPlugin{
 
 			//If in "default" mode, load default mode from config
 			if(Mode == PluginMode.Default && settings.ContainsKey("Mode")) {
-				if (settings["Mode"].ToLower().Equals("Client"))
+				if (settings["Mode"].ToLower().Equals("client"))
 					Mode = PluginMode.Client;
-				else if (settings["Mode"].ToLower().Equals("Server"))
+				else if (settings["Mode"].ToLower().Equals("server"))
 					Mode = PluginMode.Server;
 			}
 
@@ -54,7 +56,7 @@ namespace UdpPlugin{
 			{
 				Dictionary<IPAddress, int> listenAddresses = new Dictionary<IPAddress, int>();
 
-				string[] splitListen = settings["Listen"].Split(' ');
+				string[] splitListen = settings["Listen"].Trim().Split(' ');
 
 				if ((splitListen.Length%2) != 0)
 					throw new Exception("Error parsing data file");
@@ -64,7 +66,7 @@ namespace UdpPlugin{
 					IPAddress address;
 
 					if ((address = IPAddress.Parse(splitListen[i])) != null)
-						listenAddresses.Add(address, int.Parse(splitListen[2 + 1]));
+						listenAddresses.Add(address, int.Parse(splitListen[i + 1]));
 					else
 						throw new Exception("Error parsing data file");
 				}

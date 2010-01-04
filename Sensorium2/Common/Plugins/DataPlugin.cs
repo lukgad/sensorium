@@ -43,6 +43,8 @@ namespace Common.Plugins
 			Init(settings, PluginMode.Server);
 		}
 
+		public abstract void Stop();
+
 		public abstract string SensorToString(Sensor sensor);
 	}
 }

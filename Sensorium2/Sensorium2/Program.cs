@@ -56,6 +56,12 @@ namespace Sensorium2
         	Console.WriteLine();
 			Console.WriteLine("Press any key to exit");
 			Console.ReadKey();
+
+			foreach (IPluginInterface i in _allPlugins) {
+				if(i.Enabled)
+					i.Stop();
+			}
+
 		}
 
 		static void ArgHandler(string[] args) { //Processes command-line args
