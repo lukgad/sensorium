@@ -18,10 +18,12 @@ namespace UdpPlugin {
 	class IpPacket {
 		public IPPacketInformation PacketInfo { get; private set; }
         public byte[] Data { get; private set; }
+		public int Length { get; private set; }
 
-		public IpPacket(IPPacketInformation packetInfo, byte[] data) {
+		public IpPacket(IPPacketInformation packetInfo, byte[] data, int length) {
 			Data = data;
 			PacketInfo = packetInfo;
+			Length = length;
 		}
 	}
 }

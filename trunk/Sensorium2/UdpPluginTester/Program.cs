@@ -12,10 +12,32 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
 namespace UdpPluginTester {
 	static class Program {
 		static void Main(string[] args) {
+			foreach(string s in args)
+				Debug.WriteLine(s);
+
+			IPEndPoint endPoint = null;
+			IPAddress address;
+
+			if ((address = IPAddress.Parse(args[0])) != null)
+				endPoint = new IPEndPoint(address, Int16.Parse(args[1]));
+
+			if(address == null)
+				return;
 			
+			Socket socket = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
+
+			byte[] data = Encoding.UTF8.GetBytes(args[2]);
+
+			socket.SendTo(data, endPoint);
 		}
 	}
 }

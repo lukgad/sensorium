@@ -24,6 +24,7 @@ namespace Common.Plugins
 		public virtual bool Enabled { get; set; }
 
 		public abstract void Init(Dictionary<string, string> settings);
+		public abstract void Stop();
 		public abstract Dictionary<string, string> GetSettings(string pluginName);
 		public abstract void Save();
 	}

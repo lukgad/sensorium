@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using Common.Plugins;
 
 namespace TextSettingsPlugin
@@ -105,6 +104,10 @@ namespace TextSettingsPlugin
 			if(_settings.ContainsKey(Name) &&_settings[Name].ContainsKey("Enabled") 
 				&& _settings[Name]["Enabled"].ToLower().Equals("true"))
 				Enabled = true;
+		}
+
+		public override void Stop() {
+
 		}
 
 		public override Dictionary<string, string> GetSettings(string pluginName) {

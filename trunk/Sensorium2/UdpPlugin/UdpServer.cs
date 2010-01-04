@@ -21,12 +21,12 @@ using Common.Plugins;
 
 namespace UdpPlugin {
 	static class UdpServer {
-		private static Dictionary<IPAddress, int> _listenAddress;
+		private static Dictionary<IPAddress, int> _listenAddresses;
 		private static List<DataPlugin> _dataPlugins;
 		private static bool _running;
 
 		public static void Start(Dictionary<IPAddress, int> addresses, List<DataPlugin> plugins) {
-			 _listenAddress = addresses;
+			 _listenAddresses = addresses;
 			 _dataPlugins = plugins;
 
 			_running = true;
@@ -47,9 +47,11 @@ namespace UdpPlugin {
 			IPAddress address = (IPAddress) listenAddress;
 			byte[] data = new byte[1024];
 
+			Console.WriteLine("Listening on {0}:{1}", address, _listenAddresses[address]);
 
-			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
-			listener.Bind(new IPEndPoint(address, _listenAddress[address]));
+			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp) {ReceiveTimeout = 1000};
+
+			listener.Bind(new IPEndPoint(address, _listenAddresses[address]));
 
 			while (_running) {
 				EndPoint sender = new IPEndPoint(IPAddress.Any, 0);
@@ -57,10 +59,17 @@ namespace UdpPlugin {
 				IPPacketInformation packetInfo;
 
 				//Wait for a packet
-				listener.ReceiveMessageFrom(data,0,data.Length,ref flags,ref sender,out packetInfo);
+				try {
+					listener.ReceiveMessageFrom(data, 0, data.Length, ref flags, ref sender, out packetInfo);
+				} catch (SocketException se) {
+					if(se.ErrorCode == 10060)
+						continue;
+
+					throw(se);
+				}
 
 				//Queue a new responder task
-				ThreadPool.QueueUserWorkItem(callBack, new IpPacket(packetInfo, data));
+				ThreadPool.QueueUserWorkItem(callBack, new IpPacket(packetInfo, data, 0));
 			}
 
 			listener.Close();
@@ -71,7 +80,7 @@ namespace UdpPlugin {
 
 			IpPacket ipPacket = (IpPacket) packet;
 
-			Console.Write("Recieved" + ipPacket.PacketInfo.Address);
+			Console.WriteLine("Recieved from " + ipPacket.PacketInfo.Address);
 
 			foreach (byte i in ipPacket.Data)
 				Console.Write(i.ToString("X"));
