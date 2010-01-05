@@ -29,8 +29,10 @@ namespace SpeedFanPlugin
 			base.Init(settings, mode);
 
 			foreach (string s in settings.Keys)
-				if(s.Equals("Enabled"))
+				if (s.Equals("Enabled")) {
 					Enabled = settings[s].ToLower().Equals("true");
+					break;
+				}
 
 			if (mode == PluginMode.Client || Environment.OSVersion.Platform.ToString() != "Win32NT") {
 				Enabled = false;
@@ -41,9 +43,8 @@ namespace SpeedFanPlugin
             
 			try {
 				SpeedFanWrapper.OpenSharedMemory();
-			} catch (NullReferenceException e) { //TODO: Use dedicated exception here
-				if (e.Message.Equals("Unable to read shared memory."))
-				{
+			} catch (NullReferenceException e) {
+				if (e.Message.Equals("Unable to read shared memory.")) {
 					Console.WriteLine(e.Message + " Restarting in client mode.");
 					Init(settings, PluginMode.Client);
 				}

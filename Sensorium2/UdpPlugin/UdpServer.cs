@@ -61,7 +61,7 @@ namespace UdpPlugin {
 					if(se.ErrorCode == 10060)
 						continue;
 
-					throw(se);
+					throw;
 				}
 
 				//Queue a new responder task

@@ -80,14 +80,5 @@ namespace Common {
 
 			return request.ToArray();
 		}
-
-		public static int NumSensors(byte[] packet) {
-			if (packet.Length != BitConverter.ToInt32(packet, 1) || packet[5] != RequestType.NumSensors)
-				throw new Exception("Invalid Packet");
-
-			return BitConverter.ToInt32(packet, 6);
-		}
-
-		
 	}
 }

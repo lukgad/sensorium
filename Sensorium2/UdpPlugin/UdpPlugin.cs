@@ -72,6 +72,10 @@ namespace UdpPlugin{
 						throw new Exception();
 				}
 
+				Console.WriteLine("Listening on:");
+				foreach(IPAddress i in listenAddresses.Keys)
+					Console.WriteLine(i + ":" + listenAddresses[i]);
+
 				UdpServer.Start(listenAddresses, sensors);
 
 			} else { //Otherwise, start in client mode (default)

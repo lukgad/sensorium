@@ -53,7 +53,7 @@ namespace UdpPluginTester {
 				if (i == 0 || i == 4 || i == 5)
 					Console.WriteLine();
 			}
-
+			Console.WriteLine();
 			Console.ReadKey();
 
 			Console.WriteLine("Requesting {0} sensors", BitConverter.ToInt32(data, 6));
