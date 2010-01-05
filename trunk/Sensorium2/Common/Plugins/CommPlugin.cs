@@ -21,15 +21,21 @@ namespace Common.Plugins
 	{
 		public List<Sensor> Sensors { get; protected set; }
 
+		private Dictionary<string, string> _settings;
+
 		public abstract string Name { get; }
 		public abstract int Version { get; }
 
 		private bool _enabled = true;
 
-		public bool Enabled
-		{
-			get { return _enabled; }
-			set { _enabled = value; }
+		public bool Enabled {
+			get {
+				return _enabled;
+			}
+			set {
+				_settings["Enabled"] = value.ToString();
+				_enabled = value;
+			}
 		}
 
 		public PluginMode Mode { get; protected set; }
@@ -45,8 +51,10 @@ namespace Common.Plugins
 
 			Mode = mode;
 
-			if (!settings.ContainsKey("Enabled"))
-				settings.Add("Enabled", Enabled.ToString());
+			_settings = settings;
+
+			if (!_settings.ContainsKey("Enabled"))
+				_settings.Add("Enabled", _enabled.ToString());
 		}
 	}
 }

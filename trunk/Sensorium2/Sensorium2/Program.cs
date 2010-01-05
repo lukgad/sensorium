@@ -21,7 +21,7 @@ namespace Sensorium2
 {
 	static class Program
 	{
-		private static string _pluginDir =  Environment.CurrentDirectory;
+		private static string _pluginDir = Environment.CurrentDirectory;
         private static string _settingsDir;
 
 		private static bool _client;

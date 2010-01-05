@@ -20,13 +20,17 @@ namespace Common.Plugins
 	{
 		public List<Sensor> Sensors { get; protected set; } //TODO: This may be bad. Can other plugins add sensors?
 		//TODO: If so, I'll need a getter >_>
+		private Dictionary<string, string> _settings;
+		
 		protected DataPlugin() {
 			Sensors = new List<Sensor>();
 		}
 
 		public virtual void Init(Dictionary<string, string> settings, PluginMode mode) {
-			if(!settings.ContainsKey("Enabled"))
-				settings.Add("Enabled", Enabled.ToString());
+			_settings = settings;
+
+			if (!_settings.ContainsKey("Enabled"))
+				_settings.Add("Enabled", _enabled.ToString());
 		}
 
 		public abstract string Name { get; }
@@ -35,8 +39,13 @@ namespace Common.Plugins
 		private bool _enabled = true;
 		public bool Enabled
 		{
-			get { return _enabled; }
-			set { _enabled = value; }
+			get {
+				return _enabled;
+			}
+			set {
+				_settings["Enabled"] = value.ToString();
+				_enabled = value;
+			}
 		}
 
 		public virtual void Init(Dictionary<string, string> settings) {
