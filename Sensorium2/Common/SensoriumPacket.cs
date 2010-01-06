@@ -70,7 +70,7 @@ namespace Common {
 			}
 		}
 
-		public static byte[] Request(byte requestType, int sensor) {
+		private static byte[] Request(byte requestType, int sensor) {
 			List<byte> request = new List<byte> {3, requestType};
 
 			if (requestType != RequestType.NumSensors)
@@ -79,6 +79,28 @@ namespace Common {
 			request.InsertRange(1, BitConverter.GetBytes(request.Count + 4));
 
 			return request.ToArray();
+		}
+
+		public delegate byte[] PacketDelegate(byte[] request);
+
+		public static List<Sensor> GetSensors(PacketDelegate pDelegate) {
+			int numSensors = BitConverter.ToInt32(pDelegate(Request(RequestType.NumSensors, -1)), 0);
+			List<Sensor> sensors = new List<Sensor>();
+
+			for (int i = 0; i < numSensors; i++) {
+				string[] packetData = new string[5];
+
+				for (byte n = 1; n < 5; n++) {
+					byte[] response = pDelegate(Request(n, i));
+					if (response[0] == 3 && BitConverter.ToInt32(response, 1) == response.Length &&
+						response[5] == n && BitConverter.ToInt32(response, 6) == i)
+						packetData[n] = Encoding.UTF8.GetString(response, 10, response.Length - 10);
+					else
+						throw new Exception("Unexpected packet recieved");
+				}
+				sensors.Add(new Sensor(packetData[RequestType.Name], packetData[RequestType.Type], packetData[RequestType.HostId], packetData[RequestType.SourcePlugin]));
+			}
+			return sensors;
 		}
 	}
 }

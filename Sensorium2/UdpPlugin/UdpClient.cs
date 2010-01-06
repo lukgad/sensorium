@@ -14,5 +14,6 @@
 
 namespace UdpPlugin {
 	class UdpClient {
+		
 	}
 }
