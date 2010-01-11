@@ -50,10 +50,10 @@ namespace Sensorium2
 			//Output data plugins' sensor data
 			Console.WriteLine();
 			Console.WriteLine("Sensors:");
-			Console.WriteLine("Source		Plugin		Type		Name		Value");
+			Console.WriteLine("HostId		Plugin		Type		Name		Value");
 			foreach (Sensor s in _sensors) {
 				Console.WriteLine("{0}		{1}	{2}		{3}		{4}",
-					s.Source, s.SourcePlugin, s.Type, s.Name,
+					s.HostId, s.SourcePlugin, s.Type, s.Name,
 					((DataPlugin) _allPluginsD[s.SourcePlugin]).SensorToString(s));
 			}
 

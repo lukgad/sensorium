@@ -77,7 +77,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SensoriumPacket.cs" />
+    <Compile Include="RequestType.cs" />
+    <Compile Include="SensoriumClient.cs" />
+    <Compile Include="SensoriumServer.cs" />
     <Compile Include="Plugins\CommPlugin.cs" />
     <Compile Include="Concurrency\Channel.cs" />
     <Compile Include="Concurrency\Semaphore.cs" />

@@ -12,6 +12,7 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -73,9 +74,14 @@ namespace UdpPlugin {
 		
 		private static void Responder(object packet) {
 			UdpPluginPacket ipPacket = (UdpPluginPacket) packet;
+			byte[] response;
 
-			byte[] response = SensoriumPacket.GetResponse(ipPacket.Data, _sensors);
-            
+			try {
+				response = SensoriumServer.GetResponse(ipPacket.Data, _sensors);
+			} catch(Exception e) { //TODO: Is any more exception handling necessary here?
+				response = null;
+			}
+
 			Socket responseSocket = new Socket(ipPacket.PacketInfo.Address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
 
 			if (response != null)
