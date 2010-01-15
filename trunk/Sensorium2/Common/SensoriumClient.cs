@@ -4,11 +4,11 @@ using System.Collections.Generic;
 namespace Common {
 	public static class SensoriumClient {
 		private static byte[] Request(byte requestType, int sensorId) {
-			List<byte> request = new List<byte> {3, requestType};
+			List<byte> request = new List<byte> { 3, requestType };
 
-			switch(requestType) {
+			switch (requestType) {
 				case RequestType.NumSensors:
-                    break;
+					break;
 				case RequestType.HostId:
 				case RequestType.SourcePlugin:
 				case RequestType.Name:
@@ -16,7 +16,7 @@ namespace Common {
 				case RequestType.Data:
 					request.AddRange(BitConverter.GetBytes(sensorId));
 					break;
-					
+
 			}
 
 			request.InsertRange(1, BitConverter.GetBytes(request.Count));
@@ -29,7 +29,7 @@ namespace Common {
 		public static List<Sensor> GetSensors(SensorRequest requestSensor) {
 			byte[] request = requestSensor(Request(RequestType.NumSensors, -1));
 
-			if(request[0] != 3 || request[5] != RequestType.NumSensors || BitConverter.ToInt32(request, 1) != request.Length)
+			if (request[0] != 3 || request[5] != RequestType.NumSensors || BitConverter.ToInt32(request, 1) != request.Length)
 				return null;
 
 			int numSensors = BitConverter.ToInt32(request, 6);
