@@ -8,7 +8,7 @@ namespace Common {
 			List<byte> request = new List<byte> { 3, (byte) requestType };
 
 			switch (requestType) {
-				case RequestType.NumSensors:
+				case RequestType.NumSensors: //Not strictly necessary
 					break;
 				case RequestType.HostId:
 				case RequestType.SourcePlugin:
@@ -28,10 +28,10 @@ namespace Common {
 		public delegate byte[] SensorRequest(byte[] request);
 
 		/// <summary>
-		/// 
+		/// Gets a list of Sensors using delegate.
 		/// </summary>
-		/// <param name="requestSensor"></param>
-		/// <returns></returns>
+		/// <param name="requestSensor">SensorRequest delegate function</param>
+		/// <returns>List of Sensors retrieved</returns>
 		public static List<Sensor> GetSensors(SensorRequest requestSensor) {
 			byte[] request = requestSensor(Request(RequestType.NumSensors, -1));
 
@@ -45,20 +45,29 @@ namespace Common {
 				byte[] data;
 
 				for (byte j = 1; j <= 5; j++) {
-					
+					byte[] response = requestSensor(Request((RequestType) j, i));
 
-					switch ((RequestType) j) {
+					if (request[0] != 3 || request[5] != j || BitConverter.ToInt32(request, 1) != request.Length)
+						continue;
+
+                    switch ((RequestType) j) {
 						case RequestType.HostId:
+                    		hostId = BitConverter.ToString(response, 10);
 							break;
 						case RequestType.SourcePlugin:
+							sourcePlugin = BitConverter.ToString(response, 10);
 							break;
 						case RequestType.Name:
+							name = BitConverter.ToString(response, 10);
 							break;
 						case RequestType.Type:
+							type = BitConverter.ToString(response, 10);
 							break;
 						case RequestType.Data:
+							
 							break;
 					}
+
 				}
 			}
 

@@ -4,6 +4,23 @@ using System.Text;
 
 namespace Common {
 	public static class SensoriumServer {
+		/* Data Format
+		 * -------------
+		 * byte	PV		= Protocol version (currently 3)
+		 * int	Length	= Total length (in bytes) of the data
+		 * byte	RT		= Request type (Host ID, Plugin Name, Name, Type or Data) 
+		 * int	Sensor	= Sensor no.
+		 * 
+		 * Request packet:
+		 * Byte no.	|0 |1 |2 |3 |4 |5 |6 |7 |8 |9 |
+		 * Data		|PV|Length     |RT|Sensor     |
+		 * 
+		 * Response:
+		 * Byte no.	|0 |1 |2 |3 |4 |5 |6 |7 |8 |9 |10 ... end|
+		 * Data		|PV|Length     |RT|Sensor     |Data      |
+		 * 
+		 * Data: String for Host ID, Plugin Name, Name, Type requests; byte[] for Data requests
+		 */
 		public static byte[] GetResponse(byte[] requestPacket, List<Sensor> sensors) {
 			if (requestPacket[0] != 3)
 				return null;
