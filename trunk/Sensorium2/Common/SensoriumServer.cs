@@ -16,13 +16,13 @@ namespace Common {
 
 			List<byte> data = new List<byte> {3, requestPacket[5]}; //Common response data
 
-			if (requestPacket[5] != RequestType.NumSensors)
+			if (requestPacket[5] != ((byte) RequestType.NumSensors))
 			{
 				requestedSensor = BitConverter.ToInt32(requestPacket, 6);
 				data.AddRange(BitConverter.GetBytes(requestedSensor));
 			}
 
-			switch (requestPacket[5]) //Add the requested data
+			switch ((RequestType) requestPacket[5]) //Add the requested data
 			{
 				case RequestType.NumSensors:
 					data.AddRange(BitConverter.GetBytes(sensors.Count));

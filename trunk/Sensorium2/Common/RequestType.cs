@@ -1,10 +1,10 @@
 ﻿namespace Common {
-	public static class RequestType {
-		public const byte NumSensors = 0;
-		public const byte HostId = 1;
-		public const byte SourcePlugin = 2;
-		public const byte Name = 3;
-		public const byte Type = 4;
-		public const byte Data = 5;
+	public enum RequestType : byte {
+		NumSensors = 0,
+		HostId = 1,
+		SourcePlugin = 2,
+		Name = 3,
+		Type = 4,
+		Data = 5
 	}
 }

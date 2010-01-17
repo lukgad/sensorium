@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace Common {
 	public static class SensoriumClient {
-		private static byte[] Request(byte requestType, int sensorId) {
-			List<byte> request = new List<byte> { 3, requestType };
+		
+		private static byte[] Request(RequestType requestType, int sensorId) {
+			List<byte> request = new List<byte> { 3, (byte) requestType };
 
 			switch (requestType) {
 				case RequestType.NumSensors:
@@ -26,18 +27,39 @@ namespace Common {
 
 		public delegate byte[] SensorRequest(byte[] request);
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="requestSensor"></param>
+		/// <returns></returns>
 		public static List<Sensor> GetSensors(SensorRequest requestSensor) {
 			byte[] request = requestSensor(Request(RequestType.NumSensors, -1));
 
-			if (request[0] != 3 || request[5] != RequestType.NumSensors || BitConverter.ToInt32(request, 1) != request.Length)
+			if (request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || BitConverter.ToInt32(request, 1) != request.Length)
 				return null;
 
 			int numSensors = BitConverter.ToInt32(request, 6);
 
 			for (int i = 0; i < numSensors; i++) {
-				string hostId, sourcePlugin, name, type, data;
+				string hostId, sourcePlugin, name, type;
+				byte[] data;
 
+				for (byte j = 1; j <= 5; j++) {
+					
 
+					switch ((RequestType) j) {
+						case RequestType.HostId:
+							break;
+						case RequestType.SourcePlugin:
+							break;
+						case RequestType.Name:
+							break;
+						case RequestType.Type:
+							break;
+						case RequestType.Data:
+							break;
+					}
+				}
 			}
 
 			return null;
