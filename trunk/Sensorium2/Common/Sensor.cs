@@ -17,7 +17,13 @@ namespace Common
 	public class Sensor
 	{
 		public string Type { get; protected set; }
-		public virtual byte[] Data { get; set; }
+		private byte[] _data;
+		public virtual byte[] Data
+		{
+			get { return _data; }
+			protected set { _data = value; }
+		}
+
 		public string Name { get; protected set; }
 		public string HostId { get; protected set; }
 		public string SourcePlugin { get; protected set; }
@@ -27,6 +33,10 @@ namespace Common
 			Name = name;
 			HostId = source;
 			SourcePlugin = sourcePlugin;
+		}
+
+		public virtual void SetData(byte[] data) {
+			_data = data;
 		}
 	}
 }

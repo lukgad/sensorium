@@ -37,5 +37,9 @@ namespace SpeedFanPlugin
 				return null;
 			}
 		}
+
+		public override void SetData(byte[] data) {
+			
+		}
 	}
 }
