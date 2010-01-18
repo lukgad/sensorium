@@ -38,17 +38,19 @@ namespace Common {
 			if (request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || BitConverter.ToInt32(request, 1) != request.Length)
 				return null;
 
+			List<Sensor> sensorList = new List<Sensor>();
+
 			int numSensors = BitConverter.ToInt32(request, 6);
 
 			for (int i = 0; i < numSensors; i++) {
-				string hostId, sourcePlugin, name, type;
-				byte[] data;
+				string hostId = null, sourcePlugin = null, name = null, type = null;
+				byte[] data = null;
 
 				for (byte j = 1; j <= 5; j++) {
 					byte[] response = requestSensor(Request((RequestType) j, i));
 
 					if (request[0] != 3 || request[5] != j || BitConverter.ToInt32(request, 1) != request.Length)
-						continue;
+						break;
 
                     switch ((RequestType) j) {
 						case RequestType.HostId:
@@ -64,14 +66,22 @@ namespace Common {
 							type = BitConverter.ToString(response, 10);
 							break;
 						case RequestType.Data:
-							
+                    		data = new byte[request.Length - 10];
+							for (int p = 10; p < request.Length; p++)
+								data[p - 10] = request[p];
 							break;
 					}
 
+					if(hostId == null || sourcePlugin == null || name == null || type == null || data == null)
+						continue;
+
+					Sensor newSensor = new Sensor(name, type, sourcePlugin, hostId);
+					newSensor.SetData(data);
+					sensorList.Add(newSensor);
 				}
 			}
 
-			return null;
+			return sensorList;
 		}
 	}
 }
