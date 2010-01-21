@@ -43,7 +43,7 @@ namespace Common.Plugins
 		public abstract void Init(Dictionary<string, string> settings);
 		public abstract void Stop();
 
-		public virtual void Init(Dictionary<string, string> settings, PluginMode mode, List<Sensor> sensors) {
+		public virtual void Init(Dictionary<string, string> settings, PluginMode mode, List<Sensor> sensors, string hostId) {
 			if (sensors == null)
 				throw new NullReferenceException();
 

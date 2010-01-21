@@ -25,8 +25,8 @@ namespace SpeedFanPlugin
 		private const double TempMult = .01;
 		private const double VoltMult = .01;
 
-		public override void Init(Dictionary<string, string> settings, PluginMode mode){
-			base.Init(settings, mode);
+		public override void Init(Dictionary<string, string> settings, PluginMode mode, string hostId){
+			base.Init(settings, mode, hostId);
 
 			foreach (string s in settings.Keys)
 				if (s.Equals("Enabled")) {
@@ -46,7 +46,7 @@ namespace SpeedFanPlugin
 			} catch (NullReferenceException e) {
 				if (e.Message.Equals("Unable to read shared memory.")) {
 					Console.WriteLine(e.Message + " Restarting in client mode.");
-					Init(settings, PluginMode.Client);
+					Init(settings, PluginMode.Client, hostId);
 				}
 				else
 					throw;
@@ -61,17 +61,17 @@ namespace SpeedFanPlugin
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumFans(); i++) {
-				Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", "local", Name, i));
+				Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", _hostId, Name, i));
 				Console.WriteLine("Found Fan{0}: {1}", i, SpeedFanWrapper.GetFan(i) * FanMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumTemps(); i++) {
-				Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", "local", Name, i));
+				Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", _hostId, Name, i));
 				Console.WriteLine("Found Temp{0}: {1}", i, SpeedFanWrapper.GetTemp(i) * TempMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumVolts(); i++) {
-				Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", "local", Name, i));
+				Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", _hostId, Name, i));
 				Console.WriteLine("Found Voltage{0}: {1}", i, SpeedFanWrapper.GetVolt(i) * VoltMult);
 			}
 		}
@@ -87,10 +87,10 @@ namespace SpeedFanPlugin
 
 		public override void Init(Dictionary<string, string> settings) {
 			if (Environment.OSVersion.Platform.ToString() == "Win32NT") {
-				Init(null, PluginMode.Server);
+				Init(null, PluginMode.Server, "");
 			}
 			else {
-				Init(null, PluginMode.Client);
+				Init(null, PluginMode.Client, "");
 			}
 		}
 
