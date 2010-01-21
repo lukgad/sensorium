@@ -33,9 +33,9 @@ namespace UdpPlugin{
 			UdpServer.Stop();
 		}
 
-		public override void Init(Dictionary<string, string> settings, PluginMode mode, List<Sensor> sensors)
+		public override void Init(Dictionary<string, string> settings, PluginMode mode, List<Sensor> sensors, string hostId)
 		{
-			base.Init(settings, mode, sensors);
+			base.Init(settings, mode, sensors, hostId);
 
 			Mode = mode;
 

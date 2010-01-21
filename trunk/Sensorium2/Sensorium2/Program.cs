@@ -166,7 +166,7 @@ namespace Sensorium2
 			//Init plugins (in correct order)
 			foreach (DataPlugin d in _dataPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", d.Name, d.Version);
-				d.Init(_enabledSettingsPlugin.GetSettings(d.Name), (_client ? PluginMode.Client : PluginMode.Default));
+				d.Init(_enabledSettingsPlugin.GetSettings(d.Name), (_client ? PluginMode.Client : PluginMode.Default), "");
 				if (!d.Enabled)
 					Console.WriteLine("Started in client mode");
 
@@ -176,7 +176,7 @@ namespace Sensorium2
 
 			foreach (CommPlugin c in _commPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
-				c.Init(_enabledSettingsPlugin.GetSettings(c.Name), (_client ? PluginMode.Client : PluginMode.Default), _sensors);
+				c.Init(_enabledSettingsPlugin.GetSettings(c.Name), (_client ? PluginMode.Client : PluginMode.Default), _sensors, "");
 				if (!c.Enabled)
 					Console.WriteLine("Disabled");
 

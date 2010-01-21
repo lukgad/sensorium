@@ -28,10 +28,10 @@ namespace Common
 		public string HostId { get; protected set; }
 		public string SourcePlugin { get; protected set; }
 
-		public Sensor(string name, string type, string source, string sourcePlugin) {
+		public Sensor(string name, string type, string hostId, string sourcePlugin) {
 			Type = type;
 			Name = name;
-			HostId = source;
+			HostId = hostId;
 			SourcePlugin = sourcePlugin;
 		}
 
