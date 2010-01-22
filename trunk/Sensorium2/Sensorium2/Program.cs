@@ -14,6 +14,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using Common;
 using Common.Plugins;
 
@@ -38,10 +40,16 @@ namespace Sensorium2
 		private static List<IPluginInterface> _genericPlugins;
 
 		private static List<Sensor> _sensors;
+
+		private static readonly string HostId = 
+			BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(
+			(new Random()).Next().ToString()))).Replace("-","").Remove(0,20);
 		
         static void Main(string[] args)
 		{
-			Console.WriteLine("OS: {0} ({1})", Environment.OSVersion, Environment.OSVersion.Platform);
+			Console.WriteLine("Host ID: {0}", HostId);
+
+        	Console.WriteLine("OS: {0} ({1})", Environment.OSVersion, Environment.OSVersion.Platform);
 
 			ArgHandler(args);
 
@@ -52,7 +60,7 @@ namespace Sensorium2
 			Console.WriteLine("Sensors:");
 			Console.WriteLine("HostId		Plugin		Type		Name		Value");
 			foreach (Sensor s in _sensors) {
-				Console.WriteLine("{0}		{1}	{2}		{3}		{4}",
+				Console.WriteLine("{0}	{1}	{2}		{3}		{4}",
 					s.HostId, s.SourcePlugin, s.Type, s.Name,
 					((DataPlugin) _allPluginsD[s.SourcePlugin]).SensorToString(s));
 			}
@@ -166,7 +174,8 @@ namespace Sensorium2
 			//Init plugins (in correct order)
 			foreach (DataPlugin d in _dataPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", d.Name, d.Version);
-				d.Init(_enabledSettingsPlugin.GetSettings(d.Name), (_client ? PluginMode.Client : PluginMode.Default), "");
+				d.Init(_enabledSettingsPlugin.GetSettings(d.Name), 
+					(_client ? PluginMode.Client : PluginMode.Default), HostId);
 				if (!d.Enabled)
 					Console.WriteLine("Started in client mode");
 
@@ -176,7 +185,8 @@ namespace Sensorium2
 
 			foreach (CommPlugin c in _commPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
-				c.Init(_enabledSettingsPlugin.GetSettings(c.Name), (_client ? PluginMode.Client : PluginMode.Default), _sensors, "");
+				c.Init(_enabledSettingsPlugin.GetSettings(c.Name), 
+					(_client ? PluginMode.Client : PluginMode.Default), _sensors, HostId);
 				if (!c.Enabled)
 					Console.WriteLine("Disabled");
 
