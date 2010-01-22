@@ -61,17 +61,17 @@ namespace SpeedFanPlugin
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumFans(); i++) {
-				Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", _hostId, Name, i));
+				Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", HostId, Name, i));
 				Console.WriteLine("Found Fan{0}: {1}", i, SpeedFanWrapper.GetFan(i) * FanMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumTemps(); i++) {
-				Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", _hostId, Name, i));
+				Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", HostId, Name, i));
 				Console.WriteLine("Found Temp{0}: {1}", i, SpeedFanWrapper.GetTemp(i) * TempMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumVolts(); i++) {
-				Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", _hostId, Name, i));
+				Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", HostId, Name, i));
 				Console.WriteLine("Found Voltage{0}: {1}", i, SpeedFanWrapper.GetVolt(i) * VoltMult);
 			}
 		}
