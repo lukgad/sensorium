@@ -14,8 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 using Common;
 using Common.Plugins;
 
@@ -41,9 +39,7 @@ namespace Sensorium2
 
 		private static List<Sensor> _sensors;
 
-		private static readonly string HostId = 
-			BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(
-			(new Random()).Next().ToString()))).Replace("-","").Remove(0,20);
+		private static readonly string HostId = Guid.NewGuid().ToString();
 		
         static void Main(string[] args)
 		{
@@ -58,9 +54,9 @@ namespace Sensorium2
 			//Output data plugins' sensor data
 			Console.WriteLine();
 			Console.WriteLine("Sensors:");
-			Console.WriteLine("HostId		Plugin		Type		Name		Value");
+			Console.WriteLine("Host ID					Plugin		Type		Name	Value");
 			foreach (Sensor s in _sensors) {
-				Console.WriteLine("{0}	{1}	{2}		{3}		{4}",
+				Console.WriteLine("{0}	{1}	{2}		{3}	{4}",
 					s.HostId, s.SourcePlugin, s.Type, s.Name,
 					((DataPlugin) _allPluginsD[s.SourcePlugin]).SensorToString(s));
 			}
