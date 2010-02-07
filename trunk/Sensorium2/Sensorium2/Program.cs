@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Common;
 using Common.Plugins;
 
@@ -103,7 +104,8 @@ namespace Sensorium2
 				}
 			}
 			if (_settingsPlugins == null || _settingsPlugins.Equals(""))
-                _settingsDir = (_pluginDir + @"\settings");
+				//_settingsDir = (_pluginDir + @"\settings");
+				_settingsDir = Path.Combine(_pluginDir, "settings");
 		}
 
 		static void HelpMessage()
