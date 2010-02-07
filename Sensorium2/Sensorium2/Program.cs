@@ -69,8 +69,7 @@ namespace Sensorium2
 				if(i.Enabled)
 					i.Stop();
 			}
-
-		}
+        }
 
 		static void ArgHandler(string[] args) { //Processes command-line args
 			for (int i = 0; i < args.Length; i++) {
@@ -177,7 +176,7 @@ namespace Sensorium2
 
 				foreach (Sensor s in d.Sensors)
 					_sensors.Add(s);
-			}
+				}
 
 			foreach (CommPlugin c in _commPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);

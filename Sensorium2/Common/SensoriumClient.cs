@@ -17,7 +17,6 @@ namespace Common {
 				case RequestType.Data:
 					request.AddRange(BitConverter.GetBytes(sensorId));
 					break;
-
 			}
 
 			request.InsertRange(1, BitConverter.GetBytes(request.Count));

@@ -18,8 +18,12 @@ namespace Common.Plugins
 {
 	public abstract class DataPlugin : IPluginInterface
 	{
-		public List<Sensor> Sensors {get; protected set; } //TODO: This may be bad. Can other plugins add sensors?
-															//TODO: If so, I'll need a getter >_>
+		protected List<Sensor> _sensors;
+		public List<Sensor> Sensors
+		{
+			get { return new List<Sensor>(_sensors); }
+			protected set { _sensors = value; }
+		}
 		private Dictionary<string, string> _settings;
 		protected string HostId;
 		
