@@ -54,7 +54,7 @@ namespace TextSettingsPlugin
 			if (settings["settingsDir"] == null || settings["settingsDir"].Equals(""))
 				throw new DirectoryNotFoundException("Invalid settings directory"); //TODO: May no longer be needed
 
-			string pluginSettingsDir = settings["settingsDir"] + @"\" + Name;
+			string pluginSettingsDir = Path.Combine(settings["settingsDir"], Name);
 			//_settingsFile = pluginSettingsDir + @"\config.ini";
 			_settingsFile = Path.Combine(pluginSettingsDir, "config.ini");
 
