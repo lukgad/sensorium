@@ -38,8 +38,7 @@ namespace UdpPlugin {
 			ThreadStart callBack = Listener;
 			
             //Start thread
-			Thread newThread = new Thread(callBack);
-			newThread.Start();
+			new Thread(callBack).Start();
 		}
 
 		private void Listener() {
