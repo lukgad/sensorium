@@ -12,8 +12,14 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System.Collections.Generic;
+using System.Net;
+
 namespace UdpPlugin {
 	class UdpClient {
-		
+		private IPAddress _address;
+		private int port;
+
+
 	}
 }
