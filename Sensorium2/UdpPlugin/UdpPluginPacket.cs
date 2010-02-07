@@ -17,13 +17,11 @@ using System.Net.Sockets;
 
 namespace UdpPlugin {
 	class UdpPluginPacket {
-		public IPPacketInformation PacketInfo { get; private set; }
         public byte[] Data { get; private set; }
 		public IPEndPoint EndPoint { get; private set; }
 
-		public UdpPluginPacket(IPPacketInformation packetInfo, byte[] data, IPEndPoint endpoint) {
+		public UdpPluginPacket(byte[] data, IPEndPoint endpoint) {
 			Data = data;
-			PacketInfo = packetInfo;
 			EndPoint = endpoint;
 		}
 	}

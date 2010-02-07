@@ -53,12 +53,13 @@ namespace UdpPlugin {
 
 			while (_running) {
 				EndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-				SocketFlags flags = new SocketFlags();
-				IPPacketInformation packetInfo;
+				//SocketFlags flags = new SocketFlags();
+				//IPPacketInformation packetInfo;
 
 				//Wait for a packet
 				try {
-					listener.ReceiveMessageFrom(data, 0, data.Length, ref flags, ref sender, out packetInfo);
+					//listener.ReceiveMessageFrom(data, 0, data.Length, ref flags, ref sender, out packetInfo);
+					listener.ReceiveFrom(data, ref sender);
 				} catch (SocketException se) {
 					if(se.ErrorCode == 10060)
 						continue;
@@ -67,7 +68,7 @@ namespace UdpPlugin {
 				}
 
 				//Queue a new responder task
-				ThreadPool.QueueUserWorkItem(callBack, new UdpPluginPacket(packetInfo, data, (IPEndPoint) sender));
+				ThreadPool.QueueUserWorkItem(callBack, new UdpPluginPacket( data, (IPEndPoint) sender));
 			}
 
 			listener.Close();
@@ -83,7 +84,7 @@ namespace UdpPlugin {
 				response = null;
 			}
 
-			Socket responseSocket = new Socket(ipPacket.PacketInfo.Address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
+			Socket responseSocket = new Socket(ipPacket.EndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
 
 			if (response != null)
 				responseSocket.SendTo(response, 0, response.Length, SocketFlags.None, ipPacket.EndPoint); //Send the response
