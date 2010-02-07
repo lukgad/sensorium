@@ -10,7 +10,7 @@
  *	A PARTICULAR PURPOSE. See the GNU General Public License 
  *	for more details. You should have received a copy of the GNU General 
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
-*/
+ */
 
 using System;
 using System.Net;
@@ -20,35 +20,37 @@ using System.Collections.Generic;
 using Common;
 
 namespace UdpPlugin {
-	static class UdpServer {
-		private static Dictionary<IPAddress, int> _listenAddresses;
-		private static bool _running;
-		private static List<Sensor> _sensors;
-
-		public static void Start(Dictionary<IPAddress, int> addresses, List<Sensor> sensors) {
-			_listenAddresses = addresses;
+	class UdpServer {
+	 	private IPAddress _address;
+	 	private int _port;
+		private bool _running;
+		private List<Sensor> _sensors;
+        
+		public UdpServer(IPAddress address, int port, List<Sensor> sensors) {
+			_address = address;
+			_port = port;
 			_sensors = sensors;
-			_running = true;
-
-			ParameterizedThreadStart callBack = Listener;
-			
-            //Start threads for each IPAddress.
-			//TODO: Change the dictionary to have an array of port numbers, not just one
-			foreach(IPAddress i in addresses.Keys) {
-				Thread newThread = new Thread(callBack);
-				newThread.Start(i);
-			}
 		}
 
-		private static void Listener(object listenAddress) {
+		public void Start() {
+			_running = true;
+
+			ThreadStart callBack = Listener;
+			
+            //Start thread
+			Thread newThread = new Thread(callBack);
+			newThread.Start();
+		}
+
+		private void Listener() {
 			WaitCallback callBack = Responder;
 
-			IPAddress address = (IPAddress) listenAddress;
+			IPAddress address = _address;
 			byte[] data = new byte[1024];
 
 			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp) {ReceiveTimeout = 1000};
 
-			listener.Bind(new IPEndPoint(address, _listenAddresses[address]));
+			listener.Bind(new IPEndPoint(address, _port));
 
 			while (_running) {
 				EndPoint sender = new IPEndPoint(IPAddress.Any, 0);
@@ -72,7 +74,7 @@ namespace UdpPlugin {
 			listener.Close();
 		}
 		
-		private static void Responder(object packet) {
+		private void Responder(object packet) {
 			UdpPluginPacket ipPacket = (UdpPluginPacket) packet;
 			byte[] response;
 
@@ -88,7 +90,7 @@ namespace UdpPlugin {
 				responseSocket.SendTo(response, 0, response.Length, SocketFlags.None, ipPacket.EndPoint); //Send the response
 		}
 
-		public static void Stop() {
+		public void Stop() {
 			_running = false;
 		}
 	}

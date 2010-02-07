@@ -20,6 +20,7 @@ using Common.Plugins;
 
 namespace UdpPlugin{
 	public class UdpPlugin : CommPlugin {
+		private List<UdpServer> _servers;
 		public override string Name {
 			get { return "UDP Plugin"; }
 		}
@@ -30,12 +31,23 @@ namespace UdpPlugin{
 
 		public override void Init(Dictionary<string, string> settings) { throw new NotImplementedException(); }
 		public override void Stop() {
-			UdpServer.Stop();
+			foreach(UdpServer s in _servers)
+				s.Stop();
+
+			_servers = new List<UdpServer>();
+		}
+
+		public override void Start() {
+			foreach (UdpServer s in _servers) {
+				s.Start();
+			}
 		}
 
 		public override void Init(Dictionary<string, string> settings, PluginMode mode, List<Sensor> sensors, string hostId)
 		{
 			base.Init(settings, mode, sensors, hostId);
+
+			_servers = new List<UdpServer>();
 
 			Mode = mode;
 
@@ -73,10 +85,13 @@ namespace UdpPlugin{
 				}
 
 				Console.WriteLine("Listening on:");
-				foreach(IPAddress i in listenAddresses.Keys)
+				foreach (IPAddress i in listenAddresses.Keys) {
 					Console.WriteLine(i + ":" + listenAddresses[i]);
+					_servers.Add(new UdpServer(i, listenAddresses[i], sensors));
+				}
 
-				UdpServer.Start(listenAddresses, sensors);
+				foreach(UdpServer s in _servers)
+					s.Start();
 
 			} else { //Otherwise, start in client mode (default)
 				Console.WriteLine("Starting in client mode");
