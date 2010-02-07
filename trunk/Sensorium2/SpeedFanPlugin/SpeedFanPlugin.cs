@@ -50,28 +50,28 @@ namespace SpeedFanPlugin
 				}
 				else
 					throw;
-				
+
 				return;
 			}
 
-			Console.WriteLine("SpeedFan shared memory ver. " + SpeedFanWrapper.GetVersion());
+			Console.WriteLine("SpeedFan shared memory ver. {0}", SpeedFanWrapper.GetVersion());
 			if (SpeedFanWrapper.GetVersion() != 1) {
 				Console.WriteLine("Uknown shared memory version. Is SpeedFan running?");
 				return;
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumFans(); i++) {
-				Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", HostId, Name, i));
+				_sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", HostId, Name, i));
 				Console.WriteLine("Found Fan{0}: {1}", i, SpeedFanWrapper.GetFan(i) * FanMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumTemps(); i++) {
-				Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", HostId, Name, i));
+				_sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", HostId, Name, i));
 				Console.WriteLine("Found Temp{0}: {1}", i, SpeedFanWrapper.GetTemp(i) * TempMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumVolts(); i++) {
-				Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", HostId, Name, i));
+				_sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", HostId, Name, i));
 				Console.WriteLine("Found Voltage{0}: {1}", i, SpeedFanWrapper.GetVolt(i) * VoltMult);
 			}
 		}
