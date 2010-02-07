@@ -18,7 +18,7 @@ using System.Net;
 namespace UdpPlugin {
 	class UdpClient {
 		private IPAddress _address;
-		private int port;
+		private int _port;
 
 
 	}

@@ -30,17 +30,15 @@ namespace UdpPlugin{
 		}
 
 		public override void Init(Dictionary<string, string> settings) { throw new NotImplementedException(); }
+
 		public override void Stop() {
 			foreach(UdpServer s in _servers)
 				s.Stop();
-
-			_servers = new List<UdpServer>();
 		}
 
 		public override void Start() {
-			foreach (UdpServer s in _servers) {
+			foreach (UdpServer s in _servers)
 				s.Start();
-			}
 		}
 
 		public override void Init(Dictionary<string, string> settings, PluginMode mode, List<Sensor> sensors, string hostId)
