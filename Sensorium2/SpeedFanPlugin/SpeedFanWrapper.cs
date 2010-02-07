@@ -20,9 +20,9 @@ namespace SpeedFanPlugin
 	static class SpeedFanWrapper
 	{
 		//private const int PROCESS_ALL_ACCESS = 0x1F0FFF; //Not needed
-		private const int FILE_MAP_READ = 0x0004;
-
 		// ReSharper disable InconsistentNaming
+		private const int FILE_MAP_READ = 0x0004;
+        
 		// ReSharper disable FieldCanBeMadeReadOnly.Local
 #pragma warning disable 169
 		[StructLayout(LayoutKind.Sequential, Pack = 1)]
