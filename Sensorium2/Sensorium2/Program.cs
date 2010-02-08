@@ -193,7 +193,7 @@ namespace Sensorium2
 
 			foreach (IPluginInterface i in _genericPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", i.Name, i.Version);
-				((SettingsPlugin) i).Init(_enabledSettingsPlugin.GetSettings(i.Name));
+				//i.Init(_enabledSettingsPlugin.GetSettings(i.Name));
 				if (!i.Enabled)
 					Console.WriteLine("Disabled");
 			}
