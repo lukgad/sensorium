@@ -81,8 +81,6 @@
     <Compile Include="SensoriumClient.cs" />
     <Compile Include="SensoriumServer.cs" />
     <Compile Include="Plugins\CommPlugin.cs" />
-    <Compile Include="Concurrency\Channel.cs" />
-    <Compile Include="Concurrency\Semaphore.cs" />
     <Compile Include="Plugins\DataPlugin.cs" />
     <Compile Include="Plugins\IPluginInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
