@@ -93,6 +93,7 @@ namespace UdpPlugin{
 				Console.WriteLine("Starting in client mode");
 				Mode = PluginMode.Client;
 			}
+
 		}
 	}
 }
