@@ -147,7 +147,7 @@ namespace Sensorium2
 
 					//Settings plugins have to init first
 					Console.WriteLine("{0}, Ver. {1} initializing...", i.Name, i.Version);
-					i.Init(new Dictionary<string, string> { { "settingsDir", _settingsDir } });
+					((SettingsPlugin) i).Init(new Dictionary<string, string> { { "settingsDir", _settingsDir } });
 
 					if (!i.Enabled)
 						Console.WriteLine("Disabled");
@@ -193,7 +193,7 @@ namespace Sensorium2
 
 			foreach (IPluginInterface i in _genericPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", i.Name, i.Version);
-				i.Init(_enabledSettingsPlugin.GetSettings(i.Name));
+				((SettingsPlugin) i).Init(_enabledSettingsPlugin.GetSettings(i.Name));
 				if (!i.Enabled)
 					Console.WriteLine("Disabled");
 			}

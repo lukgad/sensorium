@@ -40,7 +40,7 @@ namespace Common.Plugins
 
 		public PluginMode Mode { get; protected set; }
 
-		public abstract void Init(Dictionary<string, string> settings);
+		//public abstract void Init(Dictionary<string, string> settings);
 		public abstract void Stop();
 		public abstract void Start();
 
