@@ -29,8 +29,6 @@ namespace UdpPlugin{
 			get { return 1; }
 		}
 
-		public override void Init(Dictionary<string, string> settings) { throw new NotImplementedException(); }
-
 		public override void Stop() {
 			foreach(UdpServer s in _servers)
 				s.Stop();
