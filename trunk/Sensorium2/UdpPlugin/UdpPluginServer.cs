@@ -20,13 +20,13 @@ using System.Collections.Generic;
 using Common;
 
 namespace UdpPlugin {
-	class UdpServer {
+	class UdpPluginServer {
 	 	private IPAddress _address;
 	 	private int _port;
 		private bool _running;
 		private List<Sensor> _sensors;
         
-		public UdpServer(IPAddress address, int port, List<Sensor> sensors) {
+		public UdpPluginServer(IPAddress address, int port, List<Sensor> sensors) {
 			_address = address;
 			_port = port;
 			_sensors = sensors;

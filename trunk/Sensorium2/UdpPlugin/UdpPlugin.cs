@@ -20,7 +20,8 @@ using Common.Plugins;
 
 namespace UdpPlugin{
 	public class UdpPlugin : CommPlugin {
-		private List<UdpServer> _servers;
+		private List<UdpPluginServer> _servers;
+		private List<UdpPluginClient> _clients;
 		public override string Name {
 			get { return "UDP Plugin"; }
 		}
@@ -30,12 +31,12 @@ namespace UdpPlugin{
 		}
 
 		public override void Stop() {
-			foreach(UdpServer s in _servers)
+			foreach(UdpPluginServer s in _servers)
 				s.Stop();
 		}
 
 		public override void Start() {
-			foreach (UdpServer s in _servers)
+			foreach (UdpPluginServer s in _servers)
 				s.Start();
 		}
 
@@ -43,7 +44,8 @@ namespace UdpPlugin{
 		{
 			base.Init(settings, mode, sensors, hostId);
 
-			_servers = new List<UdpServer>();
+			_servers = new List<UdpPluginServer>();
+			_clients = new List<UdpPluginClient>();
 
 			Mode = mode;
 
@@ -61,32 +63,32 @@ namespace UdpPlugin{
 			}
 
 			//If in server mode, start the server
-			if (Mode == PluginMode.Server && settings.ContainsKey("Listen"))
+			if (Mode == PluginMode.Server && settings.ContainsKey("Server"))
 			{
 				Dictionary<IPAddress, int> listenAddresses = new Dictionary<IPAddress, int>();
 
-				string[] splitListen = settings["Listen"].Trim().Split(' ');
+				string[] servers = settings["Server"].Trim().Split(' ');
 
-				if ((splitListen.Length%2) != 0)
-					throw new Exception();
+				if ((servers.Length%2) != 0)
+					throw new Exception("Malformed address/port pair");
 
-				for (int i = 0; i < splitListen.Length; i += 2)
+				for (int i = 0; i < servers.Length; i += 2)
 				{
 					IPAddress address;
 
-					if ((address = IPAddress.Parse(splitListen[i])) != null)
-						listenAddresses.Add(address, int.Parse(splitListen[i + 1]));
+					if ((address = IPAddress.Parse(servers[i])) != null)
+						listenAddresses.Add(address, int.Parse(servers[i + 1]));
 					else
 						throw new Exception();
 				}
 
-				Console.WriteLine("Listening on:");
+				Console.WriteLine("Server listening on:");
 				foreach (IPAddress i in listenAddresses.Keys) {
 					Console.WriteLine(i + ":" + listenAddresses[i]);
-					_servers.Add(new UdpServer(i, listenAddresses[i], sensors));
+					_servers.Add(new UdpPluginServer(i, listenAddresses[i], sensors));
 				}
 
-				foreach(UdpServer s in _servers)
+				foreach(UdpPluginServer s in _servers)
 					s.Start();
 
 			} else { //Otherwise, start in client mode (default)
@@ -94,6 +96,21 @@ namespace UdpPlugin{
 				Mode = PluginMode.Client;
 			}
 
+			if (settings.ContainsKey("Client")) {
+				string[] clients = settings["Client"].Trim().Split(' ');
+
+				if ((clients.Length % 2) != 0)
+					throw new Exception("Malformed address/port pair");
+
+				for (int i = 0; i < clients.Length; i +=2) {
+					_clients.Add(new UdpPluginClient(clients[i], Int32.Parse(clients[i+1])));
+				}
+
+				foreach (UdpPluginClient c in _clients) {
+					c.UpdateSensors();
+					Sensors.AddRange(c.Sensors);
+				}
+			}
 		}
 	}
 }
