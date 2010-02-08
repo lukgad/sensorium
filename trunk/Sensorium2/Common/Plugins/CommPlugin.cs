@@ -26,6 +26,8 @@ namespace Common.Plugins
 		public abstract string Name { get; }
 		public abstract int Version { get; }
 
+		protected string HostId;
+
 		private bool _enabled = true;
 
 		public bool Enabled {
@@ -51,6 +53,8 @@ namespace Common.Plugins
 			Sensors = new List<Sensor>();
 
 			Mode = mode;
+
+			HostId = hostId;
 
 			_settings = settings;
 

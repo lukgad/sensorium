@@ -25,11 +25,13 @@ namespace UdpPlugin {
 	 	private int _port;
 		private bool _running;
 		private List<Sensor> _sensors;
+		private int _timeout;
         
-		public UdpPluginServer(IPAddress address, int port, List<Sensor> sensors) {
+		public UdpPluginServer(IPAddress address, int port, List<Sensor> sensors, int timeout) {
 			_address = address;
 			_port = port;
 			_sensors = sensors;
+			_timeout = timeout;
 		}
 
 		public void Start() {
@@ -47,7 +49,7 @@ namespace UdpPlugin {
 			IPAddress address = _address;
 			byte[] data = new byte[1024];
 
-			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp) {ReceiveTimeout = 1000};
+			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp) {ReceiveTimeout = _timeout};
 
 			listener.Bind(new IPEndPoint(address, _port));
 

@@ -107,6 +107,10 @@ namespace TextSettingsPlugin
 				Enabled = true;
 		}
 
+		public override void Start() {
+			
+		}
+
 		public override void Stop() {
 
 		}

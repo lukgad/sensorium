@@ -31,7 +31,7 @@ namespace Common {
 		/// </summary>
 		/// <param name="requestSensor">SensorRequest delegate function</param>
 		/// <returns>List of Sensors retrieved</returns>
-		public static List<Sensor> GetSensors(SensorRequest requestSensor) {
+		public static List<Sensor> GetSensors(SensorRequest requestSensor, string localHostId) {
 			byte[] request = requestSensor(Request(RequestType.NumSensors, -1));
 
 			if (request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || BitConverter.ToInt32(request, 1) != request.Length)

@@ -59,6 +59,7 @@ namespace Common.Plugins
 		}
 
 		public abstract void Stop();
+		public abstract void Start();
 
 		public abstract string SensorToString(Sensor sensor);
 	}

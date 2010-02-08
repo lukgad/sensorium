@@ -29,6 +29,7 @@ namespace Common.Plugins
 
 		//void Init(Dictionary<string, string> settings);
 
+		void Start();
 		void Stop();
 	}
 }
