@@ -46,7 +46,7 @@ namespace Common {
 				byte[] data = null;
 
 				for (byte j = 1; j <= 5; j++) {
-					byte[] response = requestSensor(Request((RequestType) j, i));
+					byte[] response = requestSensor(Request((RequestType)j, i));
 
 					if (request[0] != 3 || request[5] != j || BitConverter.ToInt32(request, 1) != request.Length)
 						break;
