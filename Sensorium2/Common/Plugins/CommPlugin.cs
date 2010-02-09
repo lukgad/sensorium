@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Common.Plugins
+namespace Sensorium.Common.Plugins
 {
 	public abstract class CommPlugin : IPluginInterface
 	{

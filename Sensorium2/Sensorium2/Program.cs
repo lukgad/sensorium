@@ -15,8 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Common;
-using Common.Plugins;
+using Sensorium.Common;
+using Sensorium.Common.Plugins;
 
 namespace Sensorium2
 {

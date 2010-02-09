@@ -1,8 +1,22 @@
-﻿using System.Collections.Generic;
+﻿/*	This file is part of Sensorium2 <http://code.google.com/p/sensorium>
+ * 
+ *	Copyright (C) 2009-2010 Aaron Maslen
+ *	This program is free software: you can redistribute it and/or modify it 
+ *	under the terms of the GNU General Public License as published by 
+ *	the Free Software Foundation, either version 3 of the License, or 
+ *	(at your option) any later version. This program is distributed in the 
+ *	hope that it will be useful, but WITHOUT ANY WARRANTY; without 
+ *	even the implied warranty of MERCHANTABILITY or FITNESS FOR 
+ *	A PARTICULAR PURPOSE. See the GNU General Public License 
+ *	for more details. You should have received a copy of the GNU General 
+ *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
+*/
+
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using Common;
+using Sensorium.Common;
 
 namespace UdpPlugin {
 	class UdpPluginClient {
@@ -34,9 +48,12 @@ namespace UdpPlugin {
 			_running = false;
 			_localHostId = localHostId;
 			_delay = delay;
+			_sensors = new List<Sensor>();
+
+			_udpClient.Client.ReceiveTimeout = delay;
 		}
 
-		public void UpdateSensors() {
+		private void UpdateSensors() {
 
 			while (_running) {
 				_sensors = SensoriumClient.GetSensors(GetResponse, _localHostId);
@@ -49,7 +66,7 @@ namespace UdpPlugin {
 		private byte[] GetResponse(byte[] request) {
 			_udpClient.Send(request, request.Length);
 			IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
-			
+
 			return _udpClient.Receive(ref remoteEndPoint);
 		}
 	}

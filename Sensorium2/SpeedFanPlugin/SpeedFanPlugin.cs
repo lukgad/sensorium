@@ -14,8 +14,8 @@
 
 using System;
 using System.Collections.Generic;
-using Common;
-using Common.Plugins;
+using Sensorium.Common;
+using Sensorium.Common.Plugins;
 
 namespace SpeedFanPlugin
 {
