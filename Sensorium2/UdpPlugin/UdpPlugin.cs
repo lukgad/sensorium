@@ -116,7 +116,7 @@ namespace UdpPlugin{
 				Console.WriteLine("Server listening on:");
 				foreach (IPAddress i in listenAddresses.Keys) {
 					Console.WriteLine(i + ":" + listenAddresses[i]);
-					_servers.Add(new UdpPluginServer(i, listenAddresses[i], sensors, _delay));
+					_servers.Add(new UdpPluginServer(i, listenAddresses[i], sensors, _delay, HostId));
 				}
 
 			} else { //Otherwise, start in client mode (default)

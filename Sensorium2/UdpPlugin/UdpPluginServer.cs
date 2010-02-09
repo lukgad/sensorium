@@ -26,12 +26,14 @@ namespace UdpPlugin {
 		private bool _running;
 		private List<Sensor> _sensors;
 		private int _timeout;
+		private string _hostId;
         
-		public UdpPluginServer(IPAddress address, int port, List<Sensor> sensors, int timeout) {
+		public UdpPluginServer(IPAddress address, int port, List<Sensor> sensors, int timeout, string hostId) {
 			_address = address;
 			_port = port;
 			_sensors = sensors;
 			_timeout = timeout;
+			_hostId = hostId;
 		}
 
 		public void Start() {
@@ -69,8 +71,6 @@ namespace UdpPlugin {
 					throw;
 				}
 
-				Console.WriteLine("Got request from: {0}", sender);
-
 				//Queue a new responder task
 				ThreadPool.QueueUserWorkItem(callBack, new UdpPluginPacket( data, (IPEndPoint) sender));
 			}
@@ -83,7 +83,7 @@ namespace UdpPlugin {
 			byte[] response;
 
 			try {
-				response = SensoriumServer.GetResponse(ipPacket.Data, _sensors);
+				response = SensoriumServer.GetResponse(ipPacket.Data, _sensors, _hostId);
 			} catch(Exception e) { //TODO: Is any more exception handling necessary here?
 				response = null;
 			}
