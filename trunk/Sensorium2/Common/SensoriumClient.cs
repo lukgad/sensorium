@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Sensorium.Common {
 	public static class SensoriumClient {
@@ -62,21 +63,21 @@ namespace Sensorium.Common {
 				for (byte j = 1; j <= 5; j++) {
 					byte[] response = requestSensor(Request((RequestType)j, i));
 
-					if (request[0] != 3 || request[5] != j || BitConverter.ToInt32(request, 1) != request.Length)
+					if (response[0] != 3 || response[5] != j || BitConverter.ToInt32(response, 1) != response.Length)
 						break;
 
                     switch ((RequestType) j) {
 						case RequestType.HostId:
-                    		hostId = BitConverter.ToString(response, 10);
+                    		hostId = Encoding.UTF8.GetString(response, 10, response.Length - 10);
 							break;
 						case RequestType.SourcePlugin:
-							sourcePlugin = BitConverter.ToString(response, 10);
+							sourcePlugin = Encoding.UTF8.GetString(response, 10, response.Length - 10);
 							break;
 						case RequestType.Name:
-							name = BitConverter.ToString(response, 10);
+							name = Encoding.UTF8.GetString(response, 10, response.Length - 10);
 							break;
 						case RequestType.Type:
-							type = BitConverter.ToString(response, 10);
+							type = Encoding.UTF8.GetString(response, 10, response.Length - 10);
 							break;
 						case RequestType.Data:
                     		data = new byte[request.Length - 10];
@@ -88,7 +89,7 @@ namespace Sensorium.Common {
 					if(hostId == null || sourcePlugin == null || name == null || type == null || data == null)
 						continue;
 
-					Sensor newSensor = new Sensor(name, type, sourcePlugin, hostId);
+					Sensor newSensor = new Sensor(name, type, hostId, sourcePlugin);
 					newSensor.SetData(data);
 					sensorList.Add(newSensor);
 				}

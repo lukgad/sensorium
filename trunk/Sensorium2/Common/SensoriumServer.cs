@@ -35,7 +35,7 @@ namespace Sensorium.Common {
 		 * 
 		 * Data: String for Host ID, Plugin Name, Name, Type requests; byte[] for Data requests
 		 */
-		public static byte[] GetResponse(byte[] requestPacket, List<Sensor> sensors) {
+		public static byte[] GetResponse(byte[] requestPacket, List<Sensor> sensors, string hostId) {
 			if (requestPacket[0] != 3)
 				return null;
 
@@ -60,7 +60,7 @@ namespace Sensorium.Common {
 					break;
 
 				case RequestType.HostId:
-					//TODO: Get HostId here. Used to make sure we don't request data from ourselves
+					data.AddRange(Encoding.UTF8.GetBytes(hostId));
 					break;
 
 				case RequestType.SourcePlugin:

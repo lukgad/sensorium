@@ -12,6 +12,7 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -24,6 +25,8 @@ namespace UdpPlugin {
         private bool _running;
 		private string _localHostId;
 		private int _delay;
+		private string _hostName;
+		private int _port;
 
 		private List<Sensor> _sensors;
 		public List<Sensor> Sensors
@@ -44,7 +47,9 @@ namespace UdpPlugin {
 		}
 
 		public UdpPluginClient(string hostName, int port, string localHostId, int delay) {
-			_udpClient = new UdpClient(hostName, port);
+			_udpClient = new UdpClient();
+			_port = port;
+			_hostName = hostName;
 			_running = false;
 			_localHostId = localHostId;
 			_delay = delay;
@@ -57,6 +62,7 @@ namespace UdpPlugin {
 
 			while (_running) {
 				_sensors = SensoriumClient.GetSensors(GetResponse, _localHostId);
+
 				Thread.Sleep(_delay);
 			}
 
@@ -64,7 +70,7 @@ namespace UdpPlugin {
 		}
 
 		private byte[] GetResponse(byte[] request) {
-			_udpClient.Send(request, request.Length);
+			_udpClient.Send(request, request.Length, _hostName, _port);
 			IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
 			return _udpClient.Receive(ref remoteEndPoint);
