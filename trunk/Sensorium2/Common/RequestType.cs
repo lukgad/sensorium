@@ -1,4 +1,4 @@
-﻿namespace Common {
+﻿namespace Sensorium.Common {
 	public enum RequestType : byte {
 		NumSensors = 0,
 		HostId = 1,

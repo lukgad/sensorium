@@ -16,8 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
-using Common;
-using Common.Plugins;
+using Sensorium.Common;
+using Sensorium.Common.Plugins;
 
 namespace UdpPlugin{
 	public class UdpPlugin : CommPlugin {

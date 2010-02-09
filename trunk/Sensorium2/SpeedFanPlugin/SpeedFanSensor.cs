@@ -13,7 +13,7 @@
 */
 
 using System;
-using Common;
+using Sensorium.Common;
 
 namespace SpeedFanPlugin
 {

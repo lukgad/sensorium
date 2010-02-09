@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Common.Plugins;
+using Sensorium.Common.Plugins;
 
 namespace TextSettingsPlugin
 {

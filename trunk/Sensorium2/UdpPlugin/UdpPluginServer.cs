@@ -17,7 +17,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Collections.Generic;
-using Common;
+using Sensorium.Common;
 
 namespace UdpPlugin {
 	class UdpPluginServer {
@@ -68,6 +68,8 @@ namespace UdpPlugin {
 
 					throw;
 				}
+
+				Console.WriteLine("Got request from: {0}", sender);
 
 				//Queue a new responder task
 				ThreadPool.QueueUserWorkItem(callBack, new UdpPluginPacket( data, (IPEndPoint) sender));

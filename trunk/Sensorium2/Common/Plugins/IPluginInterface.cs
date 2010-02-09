@@ -14,7 +14,7 @@
 
 using System.Collections.Generic;
 
-namespace Common.Plugins
+namespace Sensorium.Common.Plugins
 {
 	public enum PluginMode { Default, Server, Client }
 
