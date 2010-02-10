@@ -30,6 +30,7 @@ namespace Sensorium2
 		/// <returns>Collection containing instances of all compatible plugins</returns>
 		public static List<IPluginInterface> GetPlugins(String pluginDirectory, bool recursive) {
 			Console.WriteLine("Plugin Directory: " + pluginDirectory);
+			Console.WriteLine();
 
 			List<IPluginInterface> plugins = new List<IPluginInterface>();
 

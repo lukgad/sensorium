@@ -21,16 +21,16 @@ using Sensorium.Common;
 
 namespace UdpPlugin {
 	class UdpPluginServer {
-	 	private IPAddress _address;
-	 	private int _port;
+	 	public IPAddress Address { get; private set;}
+	 	public int Port { get; private set; }
 		private bool _running;
 		private List<Sensor> _sensors;
 		private int _timeout;
 		private string _hostId;
         
 		public UdpPluginServer(IPAddress address, int port, List<Sensor> sensors, int timeout, string hostId) {
-			_address = address;
-			_port = port;
+			Address = address;
+			Port = port;
 			_sensors = sensors;
 			_timeout = timeout;
 			_hostId = hostId;
@@ -48,12 +48,12 @@ namespace UdpPlugin {
 		private void Listener() {
 			WaitCallback callBack = Responder;
 
-			IPAddress address = _address;
+			IPAddress address = Address;
 			byte[] data = new byte[1024];
 
 			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp) {ReceiveTimeout = _timeout};
 
-			listener.Bind(new IPEndPoint(address, _port));
+			listener.Bind(new IPEndPoint(address, Port));
 
 			while (_running) {
 				EndPoint sender = new IPEndPoint(IPAddress.Any, 0);
