@@ -61,7 +61,6 @@ namespace Sensorium2
 			Console.WriteLine("Starting enabled plugins...");
 			foreach(IPluginInterface i in _allPlugins)
 				if (i.Enabled) {
-					Console.WriteLine(i.Name);
 					i.Start();
 				}
 
@@ -69,31 +68,12 @@ namespace Sensorium2
 
 			new Thread(UpdateSensors).Start();
 
-			Thread.Sleep(200);
-
-			//Output data plugins' sensor data
-			Console.WriteLine();
-			Console.WriteLine("Sensors:");
-			Console.WriteLine("Host ID					Plugin		Type		Name	Value");
-			Monitor.Enter(_sensors);
-			foreach (Sensor s in (new List<Sensor>(_sensors))) {
-				Console.WriteLine("{0}	{1}	{2}		{3}	{4}",
-					s.HostId, s.SourcePlugin, s.Type, s.Name,
-					((DataPlugin) _allPluginsD[s.SourcePlugin]).SensorToString(s));
-			}
-			Monitor.Exit(_sensors);
-
-        	Console.WriteLine();
-			Console.WriteLine("Press any key to exit");
-			Console.ReadKey();
-
         	_running = false;
 
 			foreach (IPluginInterface i in _allPlugins) {
 				if(i.Enabled)
 					i.Stop();
 			}
-        	
         }
 
 		static void ArgHandler(string[] args) { //Processes command-line arguments
@@ -212,7 +192,7 @@ namespace Sensorium2
 
 			foreach (ControlPlugin c in _controlPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
-				c.Init(_sensors, _allPlugins, _enabledSettingsPlugin);
+				c.Init(_sensors, _allPlugins, _enabledSettingsPlugin, HostId);
 				if (!c.Enabled)
 					Console.WriteLine("Disabled");
 			}
