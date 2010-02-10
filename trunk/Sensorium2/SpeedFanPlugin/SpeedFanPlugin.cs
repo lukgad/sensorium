@@ -109,9 +109,9 @@ namespace SpeedFanPlugin
 			if(sensor.Type.Equals("Temp"))
 				return (BitConverter.ToInt32(sensor.Data, 0) * TempMult) + "°";
 			if (sensor.Type.Equals("Fan"))
-				return (BitConverter.ToInt32(sensor.Data, 0) * FanMult) + " rpm";
+				return (BitConverter.ToInt32(sensor.Data, 0) * FanMult) + "rpm";
 			if (sensor.Type.Equals("Volt"))
-				return (BitConverter.ToInt32(sensor.Data, 0) * VoltMult) + " V";
+				return (BitConverter.ToInt32(sensor.Data, 0) * VoltMult) + "V";
 			
 			throw new Exception("Unknown Sensor Type");
 		}

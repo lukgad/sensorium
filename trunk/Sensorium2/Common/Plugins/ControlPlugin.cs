@@ -19,6 +19,15 @@ using Sensorium.Common.Plugins;
 
 namespace Common.Plugins {
 	public abstract class ControlPlugin : IPluginInterface {
+        protected string HostId;
+		protected List<Sensor> Sensors;
+		protected List<IPluginInterface> Plugins;
+		protected SettingsPlugin EnabledSettingsPlugin;
+		protected List<CommPlugin> CommPlugins;
+		protected List<ControlPlugin> ControlPlugins;
+		protected List<DataPlugin> DataPlugins;
+		protected List<SettingsPlugin> SettingsPlugins;
+
 		protected Type[] PluginTypes { get {
 			return new Type[] {
 	       		typeof (CommPlugin),
@@ -46,6 +55,26 @@ namespace Common.Plugins {
 
 		private Dictionary<string, string> _settings;
 
-		public abstract void Init(List<Sensor> sensors, List<IPluginInterface> plugins, SettingsPlugin settingsPLugin);
+		public virtual void Init(List<Sensor> sensors, List<IPluginInterface> plugins, SettingsPlugin settingsPlugin, string hostId){
+			Sensors = sensors;
+			Plugins = plugins;
+			HostId = hostId;
+			EnabledSettingsPlugin = settingsPlugin;
+			CommPlugins = new List<CommPlugin>();
+			ControlPlugins = new List<ControlPlugin>();
+			DataPlugins = new List<DataPlugin>();
+			SettingsPlugins = new List<SettingsPlugin>();
+
+			foreach(IPluginInterface i in Plugins) {
+				if (i is CommPlugin)
+					CommPlugins.Add((CommPlugin) i);
+				else if (i is ControlPlugin)
+					ControlPlugins.Add((ControlPlugin) i);
+				else if (i is DataPlugin)
+					DataPlugins.Add((DataPlugin) i);
+				else if (i is SettingsPlugin)
+					SettingsPlugins.Add((SettingsPlugin) i);
+			}
+		}
 	}
 }
