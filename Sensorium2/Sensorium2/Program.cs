@@ -10,11 +10,13 @@
  *	A PARTICULAR PURPOSE. See the GNU General Public License 
  *	for more details. You should have received a copy of the GNU General 
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
-*/
+ */
 
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using Common.Plugins;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
@@ -36,43 +38,65 @@ namespace Sensorium2
 		private static List<SettingsPlugin> _settingsPlugins;
         private static List<DataPlugin> _dataPlugins;
 		private static List<CommPlugin> _commPlugins;
+		private static List<ControlPlugin> _controlPlugins;
 		private static List<IPluginInterface> _genericPlugins;
 
-		private static List<Sensor> _sensors;
+		private static List<Sensor> _sensors; //TODO: make _sensors thread-safe
 
 		private static readonly string HostId = Guid.NewGuid().ToString();
+
+		private static bool _running;
 		
         static void Main(string[] args)
 		{
 			Console.WriteLine("Host ID: {0}", HostId);
-
         	Console.WriteLine("OS: {0} ({1})", Environment.OSVersion, Environment.OSVersion.Platform);
+        	Console.WriteLine();
 
 			ArgHandler(args);
 
 			InitPlugins();
 
+			//Start enabled plugins
+			Console.WriteLine("Starting enabled plugins...");
+			foreach(IPluginInterface i in _allPlugins)
+				if (i.Enabled) {
+					Console.WriteLine(i.Name);
+					i.Start();
+				}
+
+        	_running = true;
+
+			new Thread(UpdateSensors).Start();
+
+			Thread.Sleep(200);
+
 			//Output data plugins' sensor data
 			Console.WriteLine();
 			Console.WriteLine("Sensors:");
 			Console.WriteLine("Host ID					Plugin		Type		Name	Value");
-			foreach (Sensor s in _sensors) {
+			Monitor.Enter(_sensors);
+			foreach (Sensor s in (new List<Sensor>(_sensors))) {
 				Console.WriteLine("{0}	{1}	{2}		{3}	{4}",
 					s.HostId, s.SourcePlugin, s.Type, s.Name,
 					((DataPlugin) _allPluginsD[s.SourcePlugin]).SensorToString(s));
 			}
+			Monitor.Exit(_sensors);
 
         	Console.WriteLine();
 			Console.WriteLine("Press any key to exit");
 			Console.ReadKey();
 
+        	_running = false;
+
 			foreach (IPluginInterface i in _allPlugins) {
 				if(i.Enabled)
 					i.Stop();
 			}
+        	
         }
 
-		static void ArgHandler(string[] args) { //Processes command-line args
+		static void ArgHandler(string[] args) { //Processes command-line arguments
 			for (int i = 0; i < args.Length; i++) {
 				if (args[i].Equals("-p")) {
 					i++;
@@ -104,7 +128,6 @@ namespace Sensorium2
 				}
 			}
 			if (_settingsPlugins == null || _settingsPlugins.Equals(""))
-				//_settingsDir = (_pluginDir + @"\settings");
 				_settingsDir = Path.Combine(_pluginDir, "settings");
 		}
 
@@ -121,17 +144,18 @@ namespace Sensorium2
 		static void InitPlugins()
 		{
 			//Get all plugins
-			Console.WriteLine("Initializing Plugins...");
-
 			_allPlugins = PluginLoader.GetPlugins(_pluginDir, _recursive);
 			_allPluginsD = new Dictionary<string, IPluginInterface>();
 
 			_settingsPlugins = new List<SettingsPlugin>();
 			_dataPlugins = new List<DataPlugin>();
 			_commPlugins = new List<CommPlugin>();
+			_controlPlugins = new List<ControlPlugin>();
 			_genericPlugins = new List<IPluginInterface>();
 
 			_sensors = new List<Sensor>();
+
+			Console.WriteLine("Initializing Plugins...");
 
 			//Add plugins to correct lists
 			foreach (IPluginInterface i in _allPlugins) {
@@ -140,14 +164,15 @@ namespace Sensorium2
 				if (i is DataPlugin) {
 					_dataPlugins.Add((DataPlugin) i);
 				} else if (i is CommPlugin) {
-					_commPlugins.Add((CommPlugin)i);
-				}
-				else if (i is SettingsPlugin) {
+					_commPlugins.Add((CommPlugin) i);
+				} else if (i is ControlPlugin) {
+					_controlPlugins.Add((ControlPlugin) i);
+				} else if (i is SettingsPlugin) {
 					_settingsPlugins.Add((SettingsPlugin)i);
 
 					//Settings plugins have to init first
 					Console.WriteLine("{0}, Ver. {1} initializing...", i.Name, i.Version);
-					((SettingsPlugin) i).Init(new Dictionary<string, string> { { "settingsDir", _settingsDir } });
+					((SettingsPlugin) i).Init(_settingsDir);
 
 					if (!i.Enabled)
 						Console.WriteLine("Disabled");
@@ -157,7 +182,7 @@ namespace Sensorium2
 							_enabledSettingsPlugin = (SettingsPlugin)i;
 						else
 							i.Enabled = false;
-				} else {
+				} else if (i.Enabled) {
 					_genericPlugins.Add(i);
 				}
 			}
@@ -175,10 +200,7 @@ namespace Sensorium2
 					(_client ? PluginMode.Client : PluginMode.Default), HostId);
 				if (!d.Enabled)
 					Console.WriteLine("Started in client mode");
-
-				foreach (Sensor s in d.Sensors)
-					_sensors.Add(s);
-				}
+			}
 
 			foreach (CommPlugin c in _commPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
@@ -186,9 +208,13 @@ namespace Sensorium2
 					(_client ? PluginMode.Client : PluginMode.Default), _sensors, HostId);
 				if (!c.Enabled)
 					Console.WriteLine("Disabled");
+			}
 
-				foreach (Sensor s in c.Sensors)
-					_sensors.Add(s);
+			foreach (ControlPlugin c in _controlPlugins) {
+				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
+				c.Init(_sensors, _allPlugins, _enabledSettingsPlugin);
+				if (!c.Enabled)
+					Console.WriteLine("Disabled");
 			}
 
 			foreach (IPluginInterface i in _genericPlugins) {
@@ -199,6 +225,21 @@ namespace Sensorium2
 			}
 
 			Console.WriteLine("Plugins initialized");
+			Console.WriteLine();
+		}
+
+		static void UpdateSensors() {
+			while (_running) {
+				List<Sensor> s = new List<Sensor>();
+
+				foreach (DataPlugin d in _dataPlugins)
+					s.AddRange(d.Sensors);
+				foreach (CommPlugin c in _commPlugins)
+					s.AddRange(c.Sensors);
+
+				_sensors = s;
+				Thread.Sleep(1000);
+			}
 		}
 	}
 }

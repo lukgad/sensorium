@@ -50,11 +50,11 @@ namespace TextSettingsPlugin
 			}
 		}
 
-		public override void Init(Dictionary<string, string> settings) {
-			if (settings["settingsDir"] == null || settings["settingsDir"].Equals(""))
+		public override void Init(string settingsDir) {
+			if (settingsDir == null || settingsDir.Equals(""))
 				throw new DirectoryNotFoundException("Invalid settings directory"); //TODO: May no longer be needed
 
-			string pluginSettingsDir = Path.Combine(settings["settingsDir"], Name);
+			string pluginSettingsDir = Path.Combine(settingsDir, Name);
 			//_settingsFile = pluginSettingsDir + @"\config.ini";
 			_settingsFile = Path.Combine(pluginSettingsDir, "config.ini");
 

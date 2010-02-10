@@ -45,8 +45,10 @@ namespace UdpPlugin{
 		}
 
 		public override void Start() {
-			foreach (UdpPluginServer s in _servers)
+			foreach (UdpPluginServer s in _servers) {
 				s.Start();
+				Console.WriteLine("Server started on {0}:{1}", s.Address, s.Port);
+			}
 
 			foreach (UdpPluginClient c in _clients)
 				c.Start();
@@ -60,7 +62,7 @@ namespace UdpPlugin{
 			while(_running) {
 				Sensors = new List<Sensor>();
 				foreach(UdpPluginClient c in _clients) {
-					Sensors.AddRange(c.Sensors);
+					_sensors.AddRange(c.Sensors);
 				}
 				Thread.Sleep(_delay);
 			}
@@ -113,9 +115,7 @@ namespace UdpPlugin{
 						throw new Exception();
 				}
 
-				Console.WriteLine("Server listening on:");
 				foreach (IPAddress i in listenAddresses.Keys) {
-					Console.WriteLine(i + ":" + listenAddresses[i]);
 					_servers.Add(new UdpPluginServer(i, listenAddresses[i], sensors, _delay, HostId));
 				}
 
@@ -134,8 +134,6 @@ namespace UdpPlugin{
 					_clients.Add(new UdpPluginClient(clients[i], Int32.Parse(clients[i + 1]), HostId, 1000));
 				}
 			}
-
-			Start();
 		}
 	}
 }
