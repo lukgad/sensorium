@@ -19,19 +19,17 @@ namespace Sensorium.Common.Plugins
 {
 	public abstract class CommPlugin : IPluginInterface
 	{
-		protected List<Sensor> _sensors;
+		protected List<Sensor> _Sensors;
 		public List<Sensor> Sensors
 		{
-			get { return new List<Sensor>(_sensors); }
-			protected set { _sensors = value; }
+			get { return new List<Sensor>(_Sensors); }
+			protected set { _Sensors = value; }
 		}
 
-		private Dictionary<string, string> _settings;
+		protected Dictionary<string, string> Settings;
 
 		public abstract string Name { get; }
 		public abstract int Version { get; }
-
-		protected string HostId;
 
 		private bool _enabled = true;
 
@@ -40,7 +38,7 @@ namespace Sensorium.Common.Plugins
 				return _enabled;
 			}
 			set {
-				_settings["Enabled"] = value.ToString();
+				Settings["Enabled"] = value.ToString();
 				_enabled = value;
 			}
 		}
@@ -51,23 +49,17 @@ namespace Sensorium.Common.Plugins
 		public abstract void Stop();
 		public abstract void Start();
 
-		public CommPlugin()
-		{
-			Sensors = new List<Sensor>();
+		protected CommPlugin() {
+			_Sensors = new List<Sensor>();
 		}
 
-		public virtual void Init(Dictionary<string, string> settings, PluginMode mode, List<Sensor> sensors, string hostId) {
-			if (sensors == null)
-				throw new NullReferenceException();
-
+		public virtual void Init(IAppInterface app, PluginMode mode) {
 			Mode = mode;
 
-			HostId = hostId;
+			Settings = app.EnabledSettingsPlugin.GetSettings(Name);
 
-			_settings = settings;
-
-			if (!_settings.ContainsKey("Enabled"))
-				_settings.Add("Enabled", _enabled.ToString());
+			if (!Settings.ContainsKey("Enabled"))
+				Settings.Add("Enabled", _enabled.ToString());
 		}
 	}
 }

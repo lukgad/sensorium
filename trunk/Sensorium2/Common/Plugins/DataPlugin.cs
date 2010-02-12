@@ -18,25 +18,24 @@ namespace Sensorium.Common.Plugins
 {
 	public abstract class DataPlugin : IPluginInterface
 	{
-		protected List<Sensor> _sensors;
+		protected List<Sensor> _Sensors;
 		public List<Sensor> Sensors
 		{
-			get { return new List<Sensor>(_sensors); }
-			protected set { _sensors = value; }
+			get { return new List<Sensor>(_Sensors); }
+			protected set { _Sensors = value; }
 		}
-		private Dictionary<string, string> _settings;
-		protected string HostId;
+
+		protected Dictionary<string, string> Settings;
 		
 		protected DataPlugin() {
 			Sensors = new List<Sensor>();
 		}
 
-		public virtual void Init(Dictionary<string, string> settings, PluginMode mode, string hostId) {
-			_settings = settings;
-			HostId = hostId;
+		public virtual void Init(IAppInterface app, PluginMode mode) {
+			Settings = app.EnabledSettingsPlugin.GetSettings(Name);
 
-			if (!_settings.ContainsKey("Enabled"))
-				_settings.Add("Enabled", _enabled.ToString());
+			if (!Settings.ContainsKey("Enabled"))
+				Settings.Add("Enabled", _enabled.ToString());
 		}
 
 		public abstract string Name { get; }
@@ -49,13 +48,9 @@ namespace Sensorium.Common.Plugins
 				return _enabled;
 			}
 			set {
-				_settings["Enabled"] = value.ToString();
+				Settings["Enabled"] = value.ToString();
 				_enabled = value;
 			}
-		}
-
-		public virtual void Init(Dictionary<string, string> settings) {
-			Init(settings, PluginMode.Server, "");
 		}
 
 		public abstract void Stop();

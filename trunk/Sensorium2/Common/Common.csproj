@@ -77,6 +77,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppData.cs" />
+    <Compile Include="IAppInterface.cs" />
     <Compile Include="Plugins\ControlPlugin.cs" />
     <Compile Include="RequestType.cs" />
     <Compile Include="SensoriumClient.cs" />
