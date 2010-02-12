@@ -14,19 +14,16 @@
 
 using System;
 using System.Collections.Generic;
-using Sensorium.Common;
-using Sensorium.Common.Plugins;
 
-namespace Common.Plugins {
+namespace Sensorium.Common.Plugins {
 	public abstract class ControlPlugin : IPluginInterface {
-        protected string HostId;
-		protected List<Sensor> Sensors;
-		protected List<IPluginInterface> Plugins;
-		protected SettingsPlugin EnabledSettingsPlugin;
+		protected IAppInterface App;
 		protected List<CommPlugin> CommPlugins;
 		protected List<ControlPlugin> ControlPlugins;
 		protected List<DataPlugin> DataPlugins;
 		protected List<SettingsPlugin> SettingsPlugins;
+		
+		protected Dictionary<string, string> Settings;
 
 		protected Type[] PluginTypes { get {
 			return new Type[] {
@@ -45,7 +42,7 @@ namespace Common.Plugins {
 				return _enabled;
 			}
 			set {
-				_settings["Enabled"] = value.ToString();
+				Settings["Enabled"] = value.ToString();
 				_enabled = value;
 			}
 		}
@@ -53,19 +50,23 @@ namespace Common.Plugins {
 		public abstract void Start();
 		public abstract void Stop();
 
-		private Dictionary<string, string> _settings;
+		public event EventHandler<EventArgs> Exit;
 
-		public virtual void Init(List<Sensor> sensors, List<IPluginInterface> plugins, SettingsPlugin settingsPlugin, string hostId){
-			Sensors = sensors;
-			Plugins = plugins;
-			HostId = hostId;
-			EnabledSettingsPlugin = settingsPlugin;
+		protected virtual void OnExit() {
+			EventHandler<EventArgs> handler = Exit;
+			if (handler != null) {
+				handler(this, EventArgs.Empty);
+			}
+		}
+
+		public virtual void Init(IAppInterface app){
+			App = app;
 			CommPlugins = new List<CommPlugin>();
 			ControlPlugins = new List<ControlPlugin>();
 			DataPlugins = new List<DataPlugin>();
 			SettingsPlugins = new List<SettingsPlugin>();
 
-			foreach(IPluginInterface i in Plugins) {
+			foreach(IPluginInterface i in app.Plugins) {
 				if (i is CommPlugin)
 					CommPlugins.Add((CommPlugin) i);
 				else if (i is ControlPlugin)
@@ -75,6 +76,8 @@ namespace Common.Plugins {
 				else if (i is SettingsPlugin)
 					SettingsPlugins.Add((SettingsPlugin) i);
 			}
+
+			Settings = app.EnabledSettingsPlugin.GetSettings(Name);
 		}
 	}
 }

@@ -25,12 +25,12 @@ namespace SpeedFanPlugin
 		private const double TempMult = .01;
 		private const double VoltMult = .01;
 
-		public override void Init(Dictionary<string, string> settings, PluginMode mode, string hostId){
-			base.Init(settings, mode, hostId);
+		public override void Init(IAppInterface app, PluginMode mode){
+			base.Init(app, mode);
 
-			foreach (string s in settings.Keys)
+			foreach (string s in Settings.Keys)
 				if (s.Equals("Enabled")) {
-					Enabled = settings[s].ToLower().Equals("true");
+					Enabled = Settings[s].ToLower().Equals("true");
 					break;
 				}
 
@@ -46,7 +46,7 @@ namespace SpeedFanPlugin
 			} catch (NullReferenceException e) {
 				if (e.Message.Equals("Unable to read shared memory.")) {
 					Console.WriteLine(e.Message + " Restarting in client mode.");
-					Init(settings, PluginMode.Client, hostId);
+					Init(app, PluginMode.Client);
 				}
 				else
 					throw;
@@ -61,17 +61,17 @@ namespace SpeedFanPlugin
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumFans(); i++) {
-				_sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", HostId, Name, i));
+				_Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", app.HostId, Name, i));
 				Console.WriteLine("Found Fan{0}: {1}", i, SpeedFanWrapper.GetFan(i) * FanMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumTemps(); i++) {
-				_sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", HostId, Name, i));
+				_Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", app.HostId, Name, i));
 				Console.WriteLine("Found Temp{0}: {1}", i, SpeedFanWrapper.GetTemp(i) * TempMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumVolts(); i++) {
-				_sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", HostId, Name, i));
+				_Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", app.HostId, Name, i));
 				Console.WriteLine("Found Voltage{0}: {1}", i, SpeedFanWrapper.GetVolt(i) * VoltMult);
 			}
 		}
@@ -83,15 +83,6 @@ namespace SpeedFanPlugin
 		public override int Version
 		{
 			get { return 1; }
-		}
-
-		public override void Init(Dictionary<string, string> settings) {
-			if (Environment.OSVersion.Platform.ToString() == "Win32NT") {
-				Init(null, PluginMode.Server, "");
-			}
-			else {
-				Init(null, PluginMode.Client, "");
-			}
 		}
 
 		public override void Start() {
