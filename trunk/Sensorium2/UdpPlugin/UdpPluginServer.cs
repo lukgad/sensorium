@@ -24,16 +24,12 @@ namespace UdpPlugin {
 	 	public IPAddress Address { get; private set;}
 	 	public int Port { get; private set; }
 		private bool _running;
-		private List<Sensor> _sensors;
 		private int _timeout;
-		private string _hostId;
         
-		public UdpPluginServer(IPAddress address, int port, List<Sensor> sensors, int timeout, string hostId) {
+		public UdpPluginServer(IPAddress address, int port, int timeout) {
 			Address = address;
 			Port = port;
-			_sensors = sensors;
 			_timeout = timeout;
-			_hostId = hostId;
 		}
 
 		public void Start() {
@@ -51,7 +47,8 @@ namespace UdpPlugin {
 			IPAddress address = Address;
 			byte[] data = new byte[1024];
 
-			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, ProtocolType.Udp) {ReceiveTimeout = _timeout};
+			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, 
+				ProtocolType.Udp) {ReceiveTimeout = _timeout};
 
 			listener.Bind(new IPEndPoint(address, Port));
 
@@ -83,15 +80,18 @@ namespace UdpPlugin {
 			byte[] response;
 
 			try {
-				response = SensoriumServer.GetResponse(ipPacket.Data, _sensors, _hostId);
+				response = SensoriumServer.GetResponse(ipPacket.Data,
+					SensoriumFactory.GetAppInterface().Sensors, SensoriumFactory.GetAppInterface().HostId);
 			} catch(Exception e) { //TODO: Is any more exception handling necessary here?
 				response = null;
 			}
 
-			Socket responseSocket = new Socket(ipPacket.EndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
+			Socket responseSocket = new Socket(ipPacket.EndPoint.AddressFamily, 
+				SocketType.Dgram, ProtocolType.Udp);
 
 			if (response != null)
-				responseSocket.SendTo(response, 0, response.Length, SocketFlags.None, ipPacket.EndPoint); //Send the response
+				responseSocket.SendTo(response, 0, response.Length, 
+					SocketFlags.None, ipPacket.EndPoint); //Send the response
 		}
 
 		public void Stop() {

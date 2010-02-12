@@ -82,6 +82,7 @@
     <Compile Include="Plugins\ControlPlugin.cs" />
     <Compile Include="RequestType.cs" />
     <Compile Include="SensoriumClient.cs" />
+    <Compile Include="SensoriumFactory.cs" />
     <Compile Include="SensoriumServer.cs" />
     <Compile Include="Plugins\CommPlugin.cs" />
     <Compile Include="Plugins\DataPlugin.cs" />
