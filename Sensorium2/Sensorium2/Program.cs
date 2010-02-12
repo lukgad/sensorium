@@ -38,7 +38,7 @@ namespace Sensorium2
 		private static List<IPluginInterface> _genericPlugins;
 
 
-		static readonly AppData Me = new AppData(); //TODO: Better variable name
+		static readonly AppData Me = (AppData) SensoriumFactory.GetAppInterface(); //TODO: Better variable name
 
         static void Main(string[] args)
 		{
@@ -172,21 +172,21 @@ namespace Sensorium2
 			//Init plugins (in correct order)
 			foreach (DataPlugin d in _dataPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", d.Name, d.Version);
-				d.Init(Me, (_client ? PluginMode.Client : PluginMode.Default));
+				d.Init(_client ? PluginMode.Client : PluginMode.Default);
 				if (!d.Enabled)
 					Console.WriteLine("Started in client mode");
 			}
 
 			foreach (CommPlugin c in _commPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
-				c.Init(Me, (_client ? PluginMode.Client : PluginMode.Default));
+				c.Init(_client ? PluginMode.Client : PluginMode.Default);
 				if (!c.Enabled)
 					Console.WriteLine("Disabled");
 			}
 
 			foreach (ControlPlugin c in _controlPlugins) {
 				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
-				c.Init(Me);
+				c.Init();
 				if (!c.Enabled)
 					Console.WriteLine("Disabled");
 				else

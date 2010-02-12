@@ -17,7 +17,6 @@ using System.Collections.Generic;
 
 namespace Sensorium.Common.Plugins {
 	public abstract class ControlPlugin : IPluginInterface {
-		protected IAppInterface App;
 		protected List<CommPlugin> CommPlugins;
 		protected List<ControlPlugin> ControlPlugins;
 		protected List<DataPlugin> DataPlugins;
@@ -59,14 +58,13 @@ namespace Sensorium.Common.Plugins {
 			}
 		}
 
-		public virtual void Init(IAppInterface app){
-			App = app;
+		public virtual void Init(){
 			CommPlugins = new List<CommPlugin>();
 			ControlPlugins = new List<ControlPlugin>();
 			DataPlugins = new List<DataPlugin>();
 			SettingsPlugins = new List<SettingsPlugin>();
 
-			foreach(IPluginInterface i in app.Plugins) {
+			foreach(IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
 				if (i is CommPlugin)
 					CommPlugins.Add((CommPlugin) i);
 				else if (i is ControlPlugin)
@@ -77,7 +75,7 @@ namespace Sensorium.Common.Plugins {
 					SettingsPlugins.Add((SettingsPlugin) i);
 			}
 
-			Settings = app.EnabledSettingsPlugin.GetSettings(Name);
+			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 		}
 	}
 }

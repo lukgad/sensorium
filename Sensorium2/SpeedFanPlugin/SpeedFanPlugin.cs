@@ -25,8 +25,8 @@ namespace SpeedFanPlugin
 		private const double TempMult = .01;
 		private const double VoltMult = .01;
 
-		public override void Init(IAppInterface app, PluginMode mode){
-			base.Init(app, mode);
+		public override void Init(PluginMode mode){
+			base.Init(mode);
 
 			foreach (string s in Settings.Keys)
 				if (s.Equals("Enabled")) {
@@ -46,7 +46,7 @@ namespace SpeedFanPlugin
 			} catch (NullReferenceException e) {
 				if (e.Message.Equals("Unable to read shared memory.")) {
 					Console.WriteLine(e.Message + " Restarting in client mode.");
-					Init(app, PluginMode.Client);
+					Init(PluginMode.Client);
 				}
 				else
 					throw;
@@ -61,19 +61,26 @@ namespace SpeedFanPlugin
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumFans(); i++) {
-				_Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", app.HostId, Name, i));
+				_Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", 
+					SensoriumFactory.GetAppInterface().HostId, Name, i));
 				Console.WriteLine("Found Fan{0}: {1}", i, SpeedFanWrapper.GetFan(i) * FanMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumTemps(); i++) {
-				_Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", app.HostId, Name, i));
+				_Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", 
+					SensoriumFactory.GetAppInterface().HostId, Name, i));
 				Console.WriteLine("Found Temp{0}: {1}", i, SpeedFanWrapper.GetTemp(i) * TempMult);
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumVolts(); i++) {
-				_Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", app.HostId, Name, i));
+				_Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", 
+					SensoriumFactory.GetAppInterface().HostId, Name, i));
 				Console.WriteLine("Found Voltage{0}: {1}", i, SpeedFanWrapper.GetVolt(i) * VoltMult);
 			}
+		}
+
+		~SpeedFanPlugin() {
+			SpeedFanWrapper.CloseSharedMemory();
 		}
 
 		public override string Name {

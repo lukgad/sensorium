@@ -68,9 +68,9 @@ namespace UdpPlugin{
 			}
 		}
 
-		public override void Init(IAppInterface app, PluginMode mode)
+		public override void Init(PluginMode mode)
 		{
-			base.Init(app, mode);
+			base.Init(mode);
 
 			_servers = new List<UdpPluginServer>();
 			_clients = new List<UdpPluginClient>();
@@ -116,7 +116,7 @@ namespace UdpPlugin{
 				}
 
 				foreach (IPAddress i in listenAddresses.Keys) {
-					_servers.Add(new UdpPluginServer(i, listenAddresses[i], app.Sensors, _delay, app.HostId));
+					_servers.Add(new UdpPluginServer(i, listenAddresses[i], _delay));
 				}
 
 			} else { //Otherwise, start in client mode (default)
@@ -131,7 +131,7 @@ namespace UdpPlugin{
 					throw new Exception("Malformed address/port pair");
 
 				for (int i = 0; i < clients.Length; i += 2) {
-					_clients.Add(new UdpPluginClient(clients[i], Int32.Parse(clients[i + 1]), app.HostId, 1000));
+					_clients.Add(new UdpPluginClient(clients[i], Int32.Parse(clients[i + 1]), 1000));
 				}
 			}
 		}

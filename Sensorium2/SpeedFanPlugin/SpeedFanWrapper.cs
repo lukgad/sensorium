@@ -55,7 +55,7 @@ namespace SpeedFanPlugin
 			}
 		}
 
-		private static SpeedFanSharedMem sm;
+		//private static SpeedFanSharedMem sm;
 #pragma warning restore 169
 		// ReSharper restore FieldCanBeMadeReadOnly.Local
 		// ReSharper restore InconsistentNaming
@@ -75,40 +75,44 @@ namespace SpeedFanPlugin
 		[DllImport("kernel32.dll")]
 		private static extern bool CloseHandle(IntPtr hObject);
 
-
+		private static IntPtr _handle;
+		private static IntPtr mem;
 		public static void OpenSharedMemory() {
 			StringBuilder sharedMemFile = new StringBuilder("SFSharedMemory_ALM");
-			IntPtr handle = OpenFileMapping(FILE_MAP_READ, false, sharedMemFile);
-			IntPtr mem = MapViewOfFile(handle, FILE_MAP_READ, 0, 0, Marshal.SizeOf(typeof(SpeedFanSharedMem)));
+			_handle = OpenFileMapping(FILE_MAP_READ, false, sharedMemFile);
+			mem = MapViewOfFile(_handle, FILE_MAP_READ, 0, 0, Marshal.SizeOf(typeof(SpeedFanSharedMem)));
 			if (mem == IntPtr.Zero) {
 				throw new NullReferenceException("Unable to read shared memory.");
 			}
 
-			sm = (SpeedFanSharedMem)Marshal.PtrToStructure(mem, typeof(SpeedFanSharedMem));
-			UnmapViewOfFile(handle);
-			CloseHandle(handle);
+			//sm = (SpeedFanSharedMem)Marshal.PtrToStructure(mem, typeof(SpeedFanSharedMem));
+		}
+
+		public static void CloseSharedMemory() {
+			UnmapViewOfFile(_handle);
+			CloseHandle(_handle);
 		}
 
 		public static ushort GetVersion() {
-			return sm.version;
+			return ((SpeedFanSharedMem)Marshal.PtrToStructure(mem, typeof(SpeedFanSharedMem))).version;
 		}
         public static ushort GetNumFans() {
-			return sm.numFans;
+			return ((SpeedFanSharedMem)Marshal.PtrToStructure(mem, typeof(SpeedFanSharedMem))).numFans;
         }
         public static ushort GetNumTemps() {
-        	return sm.numTemps;
+			return ((SpeedFanSharedMem)Marshal.PtrToStructure(mem, typeof(SpeedFanSharedMem))).numTemps;
         }
         public static ushort GetNumVolts() {
-			return sm.numVolts;
+			return ((SpeedFanSharedMem)Marshal.PtrToStructure(mem, typeof(SpeedFanSharedMem))).numVolts;
         }
         public static Int32 GetTemp(int id) {
-			return sm.temps[id];
+			return ((SpeedFanSharedMem)Marshal.PtrToStructure(mem, typeof(SpeedFanSharedMem))).temps[id];
         }
         public static Int32 GetFan(int id) {
-        	return sm.fans[id];
+			return ((SpeedFanSharedMem)Marshal.PtrToStructure(mem, typeof(SpeedFanSharedMem))).fans[id];
         }
         public static Int32 GetVolt(int id){
-        	return sm.volts[id];
+			return ((SpeedFanSharedMem)Marshal.PtrToStructure(mem, typeof(SpeedFanSharedMem))).volts[id];
         }
 	}
 }

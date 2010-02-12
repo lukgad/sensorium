@@ -31,8 +31,8 @@ namespace Sensorium.Common.Plugins
 			Sensors = new List<Sensor>();
 		}
 
-		public virtual void Init(IAppInterface app, PluginMode mode) {
-			Settings = app.EnabledSettingsPlugin.GetSettings(Name);
+		public virtual void Init(PluginMode mode) {
+			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 
 			if (!Settings.ContainsKey("Enabled"))
 				Settings.Add("Enabled", _enabled.ToString());

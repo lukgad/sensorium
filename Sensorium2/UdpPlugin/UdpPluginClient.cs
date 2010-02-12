@@ -23,7 +23,6 @@ namespace UdpPlugin {
 	class UdpPluginClient {
 		private UdpClient _udpClient;
         private bool _running;
-		private string _localHostId;
 		private int _delay;
 		private string _hostName;
 		private int _port;
@@ -46,12 +45,11 @@ namespace UdpPlugin {
 			_running = false;
 		}
 
-		public UdpPluginClient(string hostName, int port, string localHostId, int delay) {
+		public UdpPluginClient(string hostName, int port, int delay) {
 			_udpClient = new UdpClient();
 			_port = port;
 			_hostName = hostName;
 			_running = false;
-			_localHostId = localHostId;
 			_delay = delay;
 			_sensors = new List<Sensor>();
 
@@ -61,7 +59,7 @@ namespace UdpPlugin {
 		private void UpdateSensors() {
 
 			while (_running) {
-				_sensors = SensoriumClient.GetSensors(GetResponse, _localHostId);
+				_sensors = SensoriumClient.GetSensors(GetResponse, SensoriumFactory.GetAppInterface().HostId);
 
 				Thread.Sleep(_delay);
 			}
