@@ -35,7 +35,7 @@ namespace Sensorium.Common {
 		 * 
 		 * Data: String for Host ID, Plugin Name, Name, Type requests; byte[] for Data requests
 		 */
-		public static byte[] GetResponse(byte[] requestPacket, List<Sensor> sensors, string hostId) {
+		public static byte[] GetResponse(byte[] requestPacket) {
 			if (requestPacket[0] != 3)
 				return null;
 
@@ -56,27 +56,30 @@ namespace Sensorium.Common {
 			switch ((RequestType) requestPacket[5]) //Add the requested data
 			{
 				case RequestType.NumSensors:
-					data.AddRange(BitConverter.GetBytes(sensors.Count));
+					data.AddRange(BitConverter.GetBytes(SensoriumFactory.GetAppInterface().Sensors.Count));
 					break;
 
 				case RequestType.HostId:
-					data.AddRange(Encoding.UTF8.GetBytes(hostId));
+					data.AddRange(Encoding.UTF8.GetBytes(SensoriumFactory.GetAppInterface().HostId));
 					break;
 
 				case RequestType.SourcePlugin:
-					data.AddRange(Encoding.UTF8.GetBytes(sensors[requestedSensor].SourcePlugin));
+					data.AddRange(Encoding.UTF8.GetBytes(
+						SensoriumFactory.GetAppInterface().Sensors[requestedSensor].SourcePlugin));
 					break;
 
 				case RequestType.Name:
-					data.AddRange(Encoding.UTF8.GetBytes(sensors[requestedSensor].Name));
+					data.AddRange(Encoding.UTF8.GetBytes(
+						SensoriumFactory.GetAppInterface().Sensors[requestedSensor].Name));
 					break;
 
 				case RequestType.Type:
-					data.AddRange(Encoding.UTF8.GetBytes(sensors[requestedSensor].Type));
+					data.AddRange(Encoding.UTF8.GetBytes(
+						SensoriumFactory.GetAppInterface().Sensors[requestedSensor].Type));
 					break;
 
 				case RequestType.Data:
-					data.AddRange(sensors[requestedSensor].Data);
+					data.AddRange(SensoriumFactory.GetAppInterface().Sensors[requestedSensor].Data);
 					break;
 			}
 			//Add the total size to the packet, now that we know how big it is
