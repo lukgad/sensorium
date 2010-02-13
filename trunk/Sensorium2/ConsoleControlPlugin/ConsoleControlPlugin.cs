@@ -46,6 +46,9 @@ namespace ConsoleControlPlugin {
 		}
         
 		private void UpdateConsole(ConsoleKeyInfo keyPress) {
+			int cursorTop = Console.CursorTop;
+			int cursorLeft = Console.CursorLeft;
+
 			Console.Clear();
 			Console.WriteLine("Host ID: {0}", SensoriumFactory.GetAppInterface().HostId);
 			Console.WriteLine("Plugins:");
@@ -63,11 +66,18 @@ namespace ConsoleControlPlugin {
 				}
 			}
 
-			if (keyPress.KeyChar != '\0') {
+			Console.CursorTop = cursorTop;
+			Console.CursorLeft = cursorLeft;
+
+            if (keyPress.KeyChar != '\0') {
 				Console.Write(keyPress.KeyChar);
-				if (keyPress.KeyChar.Equals('q'))
-					OnExit();
-			}
+				
+				switch(keyPress.Key) {
+					case ConsoleKey.Q:
+						OnExit();
+						break;
+				}
+            }
 		}
 	}
 }
