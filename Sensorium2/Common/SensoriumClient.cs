@@ -46,10 +46,11 @@ namespace Sensorium.Common {
 		/// </summary>
 		/// <param name="requestSensor">SensorRequest delegate function</param>
 		/// <returns>List of Sensors retrieved</returns>
-		public static List<Sensor> GetSensors(SensorRequest requestSensor, string localHostId) {
+		public static List<Sensor> GetSensors(SensorRequest requestSensor) {
 			byte[] request = requestSensor(Request(RequestType.NumSensors, -1));
 
-			if (request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || BitConverter.ToInt32(request, 1) != request.Length)
+			if (request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || 
+				BitConverter.ToInt32(request, 1) != request.Length)
 				return null;
 
 			List<Sensor> sensorList = new List<Sensor>();
@@ -80,9 +81,9 @@ namespace Sensorium.Common {
 							type = Encoding.UTF8.GetString(response, 10, response.Length - 10);
 							break;
 						case RequestType.Data:
-                    		data = new byte[request.Length - 10];
-							for (int p = 10; p < request.Length; p++)
-								data[p - 10] = request[p];
+                    		data = new byte[response.Length - 10];
+							for (int p = 10; p < response.Length; p++)
+								data[p - 10] = response[p];
 							break;
 					}
 

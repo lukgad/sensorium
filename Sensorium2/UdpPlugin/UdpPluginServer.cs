@@ -80,8 +80,7 @@ namespace UdpPlugin {
 			byte[] response;
 
 			try {
-				response = SensoriumServer.GetResponse(ipPacket.Data,
-					SensoriumFactory.GetAppInterface().Sensors, SensoriumFactory.GetAppInterface().HostId);
+				response = SensoriumServer.GetResponse(ipPacket.Data);
 			} catch(Exception e) { //TODO: Is any more exception handling necessary here?
 				response = null;
 			}
