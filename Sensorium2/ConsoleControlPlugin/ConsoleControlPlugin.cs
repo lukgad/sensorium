@@ -46,8 +46,6 @@ namespace ConsoleControlPlugin {
 		}
         
 		private void UpdateConsole(ConsoleKeyInfo keyPress) {
-			int cursorTop = Console.CursorTop;
-			int cursorLeft = Console.CursorLeft;
 
 			Console.Clear();
 			Console.WriteLine("Host ID: {0}", SensoriumFactory.GetAppInterface().HostId);
@@ -66,30 +64,10 @@ namespace ConsoleControlPlugin {
 				}
 			}
 
-			Console.CursorTop = cursorTop;
-			Console.CursorLeft = cursorLeft;
-
         	switch(keyPress.Key) {
 				case ConsoleKey.Q:
 					OnExit();
 					break;
-				case ConsoleKey.UpArrow:
-					if (Console.CursorTop > 0)
-						Console.CursorTop--;
-					break;
-				case ConsoleKey.DownArrow:
-					if (Console.CursorTop < (Console.WindowHeight - 1))
-						Console.CursorTop++;
-					break;
-				case ConsoleKey.LeftArrow:
-					if (Console.CursorLeft > 0)
-						Console.CursorLeft--;
-					break;
-				case ConsoleKey.RightArrow:
-					if (Console.CursorLeft < (Console.WindowWidth - 1))
-						Console.CursorLeft++;
-					break;
-
 			}
 		}
 	}
