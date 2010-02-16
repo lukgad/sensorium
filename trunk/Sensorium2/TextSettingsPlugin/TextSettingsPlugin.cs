@@ -20,12 +20,12 @@ using Sensorium.Common.Plugins;
 namespace TextSettingsPlugin
 {
 	public class TextSettingsPlugin : SettingsPlugin {
-		private Dictionary<string, Dictionary<string, string>> _settings;
+		private Dictionary<string, Dictionary<string, List<string>>> _settings;
 
 		private string _settingsFile;
 
 		public TextSettingsPlugin(){
-			_settings = new Dictionary<string, Dictionary<string, string>>();
+			_settings = new Dictionary<string, Dictionary<string, List<string>>>();
 		}
 
 		public override string Name {
@@ -41,12 +41,12 @@ namespace TextSettingsPlugin
 			set {
 				base.Enabled = value;
 
-				Dictionary<string, string> mySettings = GetSettings(Name);
+				Dictionary<string, List<string>> mySettings = GetSettings(Name);
 
 				if (!mySettings.ContainsKey("Enabled"))
-					mySettings.Add("Enabled", value.ToString());
+					mySettings.Add("Enabled", new List<string> { value.ToString() });
 				else
-					mySettings["Enabled"] = value.ToString();
+					mySettings["Enabled"][0] = value.ToString();
 			}
 		}
 
@@ -84,7 +84,7 @@ namespace TextSettingsPlugin
 							currentPlugin = splitLine[1].Trim();
 
 							if (!_settings.ContainsKey(currentPlugin))
-								_settings.Add(currentPlugin, new Dictionary<string, string>());
+								_settings.Add(currentPlugin, new Dictionary<string, List<string>>());
 
 							Console.WriteLine("Loaded settings for " + currentPlugin);
 
@@ -96,14 +96,14 @@ namespace TextSettingsPlugin
 					if (line.Equals("EndPlugin")) {
 						currentPlugin = null;
 						continue;
-					} 
+					}
 
-					_settings[currentPlugin].Add(splitLine[0].Trim(),splitLine[1].Trim());
+					_settings[currentPlugin].Add(splitLine[0].Trim(), new List<string> { splitLine[1].Trim() });
 				}
 			}
 
 			if(_settings.ContainsKey(Name) &&_settings[Name].ContainsKey("Enabled") 
-				&& _settings[Name]["Enabled"].ToLower().Equals("true"))
+				&& _settings[Name]["Enabled"][0].ToLower().Equals("true"))
 				Enabled = true;
 		}
 
@@ -115,9 +115,9 @@ namespace TextSettingsPlugin
 
 		}
 
-		public override Dictionary<string, string> GetSettings(string pluginName) {
+		public override Dictionary<string, List<string>> GetSettings(string pluginName) {
 			if (!_settings.ContainsKey(pluginName))
-				_settings.Add(pluginName, new Dictionary<string, string>());
+				_settings.Add(pluginName, new Dictionary<string, List<string>>());
 			
 			return _settings[pluginName];
 		}

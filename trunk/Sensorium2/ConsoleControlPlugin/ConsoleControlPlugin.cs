@@ -38,7 +38,7 @@ namespace ConsoleControlPlugin {
 				UpdateConsole(new ConsoleKeyInfo());
 
 				int delay;
-				if(Settings.ContainsKey("Delay") && (delay = Int32.Parse(Settings["Delay"])) >= 200)
+				if(Settings.ContainsKey("Delay") && (delay = Int32.Parse(Settings["Delay"][0])) >= 200)
 					Thread.Sleep(delay);
 				else 
 					Thread.Sleep(1000);
