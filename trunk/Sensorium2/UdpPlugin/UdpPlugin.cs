@@ -60,10 +60,11 @@ namespace UdpPlugin{
 
 		private void UpdateSensors() {
 			while(_running) {
-				Sensors = new List<Sensor>();
+				List<Sensor> s = new List<Sensor>();
 				foreach(UdpPluginClient c in _clients) {
-					_Sensors.AddRange(c.Sensors);
+					s.AddRange(c.Sensors);
 				}
+				Sensors = s;
 				Thread.Sleep(_delay);
 			}
 		}
