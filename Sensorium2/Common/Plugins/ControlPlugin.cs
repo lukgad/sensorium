@@ -22,7 +22,7 @@ namespace Sensorium.Common.Plugins {
 		protected List<DataPlugin> DataPlugins;
 		protected List<SettingsPlugin> SettingsPlugins;
 		
-		protected Dictionary<string, string> Settings;
+		protected Dictionary<string, List<string>> Settings;
 
 		protected Type[] PluginTypes { get {
 			return new Type[] {
@@ -41,7 +41,7 @@ namespace Sensorium.Common.Plugins {
 				return _enabled;
 			}
 			set {
-				Settings["Enabled"] = value.ToString();
+				Settings["Enabled"][0] = value.ToString();
 				_enabled = value;
 			}
 		}

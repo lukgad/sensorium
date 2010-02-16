@@ -78,21 +78,21 @@ namespace UdpPlugin{
 
 			Mode = mode;
 
-			if (Settings.ContainsKey("Enabled") && Settings["Enabled"].ToLower().Equals("false")) {
+			if (Settings.ContainsKey("Enabled") && Settings["Enabled"][0].ToLower().Equals("false")) {
 				Enabled = false;
 				return;
 			}
 
-			if (Settings.ContainsKey("UpdateDelay") && Int32.Parse(Settings["UpdateDelay"]) > 300)
-				_delay = Int32.Parse(Settings["UpdateDelay"]);
+			if (Settings.ContainsKey("UpdateDelay") && Int32.Parse(Settings["UpdateDelay"][0]) > 300)
+				_delay = Int32.Parse(Settings["UpdateDelay"][0]);
 			else
 				_delay = 1000;
 
 			//If in "default" mode, load default mode from config
 			if(Mode == PluginMode.Default && Settings.ContainsKey("Mode")) {
-				if (Settings["Mode"].ToLower().Equals("client"))
+				if (Settings["Mode"][0].ToLower().Equals("client"))
 					Mode = PluginMode.Client;
-				else if (Settings["Mode"].ToLower().Equals("server"))
+				else if (Settings["Mode"][0].ToLower().Equals("server"))
 					Mode = PluginMode.Server;
 			}
 
@@ -101,7 +101,7 @@ namespace UdpPlugin{
 			{
 				Dictionary<IPAddress, int> listenAddresses = new Dictionary<IPAddress, int>();
 
-				string[] servers = Settings["Server"].Trim().Split(' ');
+				string[] servers = Settings["Server"][0].Trim().Split(' ');
 
 				if ((servers.Length%2) != 0)
 					throw new Exception("Malformed address/port pair");
@@ -126,7 +126,7 @@ namespace UdpPlugin{
 			}
 
 			if (Settings.ContainsKey("Client")) {
-				string[] clients = Settings["Client"].Trim().Split(' ');
+				string[] clients = Settings["Client"][0].Trim().Split(' ');
 
 				if ((clients.Length % 2) != 0)
 					throw new Exception("Malformed address/port pair");
