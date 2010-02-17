@@ -49,10 +49,10 @@ namespace Sensorium.Common.Plugins {
 		public abstract void Start();
 		public abstract void Stop();
 
-		public event EventHandler<EventArgs> Exit;
+		public event EventHandler<EventArgs> ExitEventHandler;
 
 		protected virtual void OnExit() {
-			EventHandler<EventArgs> handler = Exit;
+			EventHandler<EventArgs> handler = ExitEventHandler;
 			if (handler != null) {
 				handler(this, EventArgs.Empty);
 			}

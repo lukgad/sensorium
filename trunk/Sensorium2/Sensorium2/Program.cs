@@ -190,7 +190,7 @@ namespace Sensorium2
 				if (!c.Enabled)
 					Console.WriteLine("Disabled");
 				else
-					c.Exit += HandleExit;
+					c.ExitEventHandler += HandleExit;
 			}
 
 			foreach (IPluginInterface i in _genericPlugins) {
