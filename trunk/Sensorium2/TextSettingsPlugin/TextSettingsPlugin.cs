@@ -98,7 +98,10 @@ namespace TextSettingsPlugin
 						continue;
 					}
 
-					_settings[currentPlugin].Add(splitLine[0].Trim(), new List<string> { splitLine[1].Trim() });
+					if(_settings[currentPlugin].ContainsKey(splitLine[0]))
+						_settings[currentPlugin][splitLine[0]].Add(splitLine[1]);
+					else
+						_settings[currentPlugin].Add(splitLine[0].Trim(), new List<string> { splitLine[1].Trim() });
 				}
 			}
 
@@ -133,9 +136,10 @@ namespace TextSettingsPlugin
 					//	continue;
 
 					sw.WriteLine("Plugin|" + p);
-					foreach (string s in _settings[p].Keys)
+					foreach (string settingName in _settings[p].Keys)
 					{
-						sw.WriteLine("	" + s + "|" + _settings[p][s]);
+						foreach(string setting in _settings[p][settingName])
+							sw.WriteLine("	" + settingName + "|" + setting);
 					}
 					sw.WriteLine("EndPlugin");
 					sw.WriteLine();
