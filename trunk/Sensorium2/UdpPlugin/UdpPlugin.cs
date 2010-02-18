@@ -47,7 +47,7 @@ namespace UdpPlugin{
 		public override void Start() {
 			foreach (UdpPluginServer s in _servers) {
 				s.Start();
-				Console.WriteLine("Server started on {0}:{1}", s.Address, s.Port);
+				Console.WriteLine("Starting server on {0}:{1}", s.Address, s.Port);
 			}
 
 			foreach (UdpPluginClient c in _clients)
@@ -78,46 +78,47 @@ namespace UdpPlugin{
 
 			Mode = mode;
 
-			if (Settings.ContainsKey("Enabled") && Settings["Enabled"].ToLower().Equals("false")) {
+			if (Settings.ContainsKey("Enabled") && Settings["Enabled"][0].ToLower().Equals("false")) {
 				Enabled = false;
 				return;
 			}
 
-			if (Settings.ContainsKey("UpdateDelay") && Int32.Parse(Settings["UpdateDelay"]) > 300)
-				_delay = Int32.Parse(Settings["UpdateDelay"]);
+			if (Settings.ContainsKey("UpdateDelay") && Int32.Parse(Settings["UpdateDelay"][0]) > 300)
+				_delay = Int32.Parse(Settings["UpdateDelay"][0]);
 			else
 				_delay = 1000;
 
 			//If in "default" mode, load default mode from config
 			if(Mode == PluginMode.Default && Settings.ContainsKey("Mode")) {
-				if (Settings["Mode"].ToLower().Equals("client"))
+				if (Settings["Mode"][0].ToLower().Equals("client"))
 					Mode = PluginMode.Client;
-				else if (Settings["Mode"].ToLower().Equals("server"))
+				else if (Settings["Mode"][0].ToLower().Equals("server"))
 					Mode = PluginMode.Server;
 			}
 
 			//If in server mode, start the server
 			if (Mode == PluginMode.Server && Settings.ContainsKey("Server"))
 			{
-				Dictionary<IPAddress, int> listenAddresses = new Dictionary<IPAddress, int>();
+				//Dictionary<IPAddress, int> listenAddresses = new Dictionary<IPAddress, int>();
 
-				string[] servers = Settings["Server"].Trim().Split(' ');
+				//string[] servers = Settings["Server"][0].Trim().Split(' ');
 
-				if ((servers.Length%2) != 0)
-					throw new Exception("Malformed address/port pair");
+				//if ((servers.Length%2) != 0)
+				//    throw new Exception("Malformed address/port pair");
 
-				for (int i = 0; i < servers.Length; i += 2)
-				{
-					IPAddress address;
+				//for (int i = 0; i < servers.Length; i += 2)
+				//{
+				//    IPAddress address;
 
-					if ((address = IPAddress.Parse(servers[i])) != null)
-						listenAddresses.Add(address, int.Parse(servers[i + 1]));
-					else
-						throw new Exception();
-				}
+				//    if ((address = IPAddress.Parse(servers[i])) != null)
+				//        listenAddresses.Add(address, int.Parse(servers[i + 1]));
+				//    else
+				//        throw new Exception();
+				//}
 
-				foreach (IPAddress i in listenAddresses.Keys) {
-					_servers.Add(new UdpPluginServer(i, listenAddresses[i], _delay));
+				foreach (string s in Settings["Server"]) {
+					string[] servers = s.Trim().Split(new char[] { ' ', '	' });
+					_servers.Add(new UdpPluginServer(IPAddress.Parse(servers[0]), Int32.Parse(servers[1]), _delay));
 				}
 
 			} else { //Otherwise, start in client mode (default)
@@ -126,7 +127,7 @@ namespace UdpPlugin{
 			}
 
 			if (Settings.ContainsKey("Client")) {
-				string[] clients = Settings["Client"].Trim().Split(' ');
+				string[] clients = Settings["Client"][0].Trim().Split(' ');
 
 				if ((clients.Length % 2) != 0)
 					throw new Exception("Malformed address/port pair");
