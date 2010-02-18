@@ -47,22 +47,22 @@ namespace ConsoleControlPlugin {
         
 		private void UpdateConsole(ConsoleKeyInfo keyPress) {
 
-			Console.Clear();
-			Console.WriteLine("Host ID: {0}", SensoriumFactory.GetAppInterface().HostId);
-			Console.WriteLine("Plugins:");
+			//Console.Clear();
+			//Console.WriteLine("Host ID: {0}", SensoriumFactory.GetAppInterface().HostId);
+			//Console.WriteLine("Plugins:");
 
-			List<Sensor> tempSensors = new List<Sensor>(SensoriumFactory.GetAppInterface().Sensors);
+			//List<Sensor> tempSensors = new List<Sensor>(SensoriumFactory.GetAppInterface().Sensors);
 
-			foreach (Type t in PluginTypes) {
-				foreach (IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
-					if (t.IsAssignableFrom(i.GetType())) {
-						Console.WriteLine(" {0}", i.Name);
-						foreach (Sensor s in tempSensors)
-							if(s.SourcePlugin.Equals(i.Name))
-								Console.WriteLine("	{0}	{1}", s.Name, ((DataPlugin) i).SensorToString(s));
-					}
-				}
-			}
+			//foreach (Type t in PluginTypes) {
+			//    foreach (IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
+			//        if (t.IsAssignableFrom(i.GetType())) {
+			//            Console.WriteLine(" {0}", i.Name);
+			//            foreach (Sensor s in tempSensors)
+			//                if(s.SourcePlugin.Equals(i.Name))
+			//                    Console.WriteLine("	{0}	{1}", s.Name, ((DataPlugin) i).SensorToString(s));
+			//        }
+			//    }
+			//}
 
         	switch(keyPress.Key) {
 				case ConsoleKey.Q:

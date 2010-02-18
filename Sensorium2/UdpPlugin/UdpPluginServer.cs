@@ -49,8 +49,12 @@ namespace UdpPlugin {
 
 			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, 
 				ProtocolType.Udp) {ReceiveTimeout = _timeout};
-
-			listener.Bind(new IPEndPoint(address, Port));
+			try {
+				listener.Bind(new IPEndPoint(address, Port));
+			} catch (SocketException se) {
+				Console.WriteLine("{0}:{1} - Socket Exception: {2}", address, Port, se.SocketErrorCode);
+				return;
+			}
 
 			while (_running) {
 				EndPoint sender = new IPEndPoint(IPAddress.Any, 0);
@@ -62,8 +66,9 @@ namespace UdpPlugin {
 					//listener.ReceiveMessageFrom(data, 0, data.Length, ref flags, ref sender, out packetInfo);
 					listener.ReceiveFrom(data, ref sender);
 				} catch (SocketException se) {
-					if(se.ErrorCode == 10060)
+					if(se.SocketErrorCode == SocketError.TimedOut) {
 						continue;
+					}
 
 					throw;
 				}
