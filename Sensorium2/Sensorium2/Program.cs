@@ -16,13 +16,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
+
+using log4net;
 
 namespace Sensorium2
 {
 	static class Program
 	{
+		private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
+		
 		private static string _pluginDir = Environment.CurrentDirectory;
 		private static string _settingsDir;
 
@@ -42,6 +47,8 @@ namespace Sensorium2
 
         static void Main(string[] args)
 		{
+
+
 			Console.WriteLine("Host ID: {0}", Me.HostId);
         	Console.WriteLine("OS: {0} ({1})", Environment.OSVersion, Environment.OSVersion.Platform);
         	Console.WriteLine();
