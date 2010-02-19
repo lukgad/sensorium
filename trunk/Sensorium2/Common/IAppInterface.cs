@@ -23,7 +23,6 @@ namespace Sensorium.Common {
 		List<IPluginInterface> Plugins { get; }
 		SettingsPlugin EnabledSettingsPlugin { get; }
 		string HostId { get; }
-		ILog Message { get; }
 		List<MemoryAppender> Logs { get; }
 	}
 }

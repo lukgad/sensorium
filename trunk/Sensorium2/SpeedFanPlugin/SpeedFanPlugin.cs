@@ -13,6 +13,7 @@
 */
 
 using System;
+using log4net;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
@@ -23,6 +24,8 @@ namespace SpeedFanPlugin
 		private const double FanMult = 1;
 		private const double TempMult = .01;
 		private const double VoltMult = .01;
+
+		private readonly ILog _log = LogManager.GetLogger(typeof (SpeedFanPlugin));
 
 		public override void Init(PluginMode mode){
 			base.Init(mode);
@@ -41,7 +44,7 @@ namespace SpeedFanPlugin
 				SpeedFanWrapper.OpenSharedMemory();
 			} catch (NullReferenceException e) {
 				if (e.Message.Equals("Unable to read shared memory.")) {
-					Console.WriteLine(e.Message + " Restarting in client mode.");
+					_log.Warn(e.Message + " Restarting in client mode.");
 					Init(PluginMode.Client);
 				}
 				else
@@ -50,28 +53,33 @@ namespace SpeedFanPlugin
 				return;
 			}
 
-			Console.WriteLine("SpeedFan shared memory ver. {0}", SpeedFanWrapper.GetVersion());
+			if (_log.IsDebugEnabled)
+				_log.Debug("SpeedFan shared memory ver. " + SpeedFanWrapper.GetVersion());
+
 			if (SpeedFanWrapper.GetVersion() != 1) {
-				Console.WriteLine("Uknown shared memory version. Is SpeedFan running?");
+				_log.Error("Uknown shared memory version. Is SpeedFan running?");
 				return;
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumFans(); i++) {
 				_Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", 
 					SensoriumFactory.GetAppInterface().HostId, Name, i));
-				Console.WriteLine("Found Fan{0}: {1}", i, SpeedFanWrapper.GetFan(i) * FanMult);
+				if (_log.IsDebugEnabled)
+					_log.Debug("Found Fan" + i + ": " + (SpeedFanWrapper.GetFan(i) * FanMult));
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumTemps(); i++) {
 				_Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", 
 					SensoriumFactory.GetAppInterface().HostId, Name, i));
-				Console.WriteLine("Found Temp{0}: {1}", i, SpeedFanWrapper.GetTemp(i) * TempMult);
+				if (_log.IsDebugEnabled)
+					_log.Debug("Found Temp" + i + ": " + (SpeedFanWrapper.GetTemp(i) * TempMult));
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumVolts(); i++) {
 				_Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", 
 					SensoriumFactory.GetAppInterface().HostId, Name, i));
-				Console.WriteLine("Found Voltage{0}: {1}", i, SpeedFanWrapper.GetVolt(i) * VoltMult);
+				if (_log.IsDebugEnabled)
+					_log.Debug("Found Voltage" + i + ": " + (SpeedFanWrapper.GetVolt(i) * VoltMult));
 			}
 		}
 

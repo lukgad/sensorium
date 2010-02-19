@@ -17,11 +17,14 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
 using System.Collections;
+using log4net;
 using Sensorium.Common.Plugins;
 
 namespace Sensorium2
 {
 	static class PluginLoader {
+		private static readonly ILog Log = LogManager.GetLogger(typeof (PluginLoader));
+
 		/// <summary>
 		/// Gets all compatible plugins from a specified directory.
 		/// </summary>
@@ -29,7 +32,7 @@ namespace Sensorium2
 		/// <param name="recursive">Search recursively?</param>
 		/// <returns>Collection containing instances of all compatible plugins</returns>
 		public static List<IPluginInterface> GetPlugins(String pluginDirectory, bool recursive) {
-			Console.WriteLine("Plugin Directory: " + pluginDirectory);
+			Log.Debug("Plugin Directory: " + pluginDirectory);
 
 			List<IPluginInterface> plugins = new List<IPluginInterface>();
 
@@ -61,8 +64,8 @@ namespace Sensorium2
 							//Add an instance of the plugin to the list
 							plugins.Add((IPluginInterface) Activator.CreateInstance(t));
 				} catch (BadImageFormatException e) {
-					Console.WriteLine(e.Message);
-					Console.WriteLine(f.FullName + " is not a valid .NET assembly");
+					Log.Error(e.Message);
+					Log.Error(f.FullName + " is not a valid .NET assembly");
 				}
 			}
 			
