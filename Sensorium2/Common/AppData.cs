@@ -14,6 +14,8 @@
 
 using System;
 using System.Collections.Generic;
+using log4net;
+using log4net.Appender;
 using Sensorium.Common.Plugins;
 
 namespace Sensorium.Common {
@@ -32,5 +34,8 @@ namespace Sensorium.Common {
 		public string HostId {
 			get { return _hostId; }
 		}
+
+		public ILog Message { get; set; }
+		public List<MemoryAppender> Logs { get; set; }
 	}
 }

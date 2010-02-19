@@ -13,7 +13,6 @@
 */
 
 using System;
-using System.Collections.Generic;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
@@ -29,7 +28,7 @@ namespace SpeedFanPlugin
 			base.Init(mode);
 
 			if (Settings.ContainsKey("Enabled"))
-					Enabled = Settings["Enabled"][0].ToLower().Equals("true");
+				Enabled = Settings["Enabled"][0].ToLower().Equals("true");
 
 			if (mode == PluginMode.Client || Environment.OSVersion.Platform.ToString() != "Win32NT") {
 				Enabled = false;

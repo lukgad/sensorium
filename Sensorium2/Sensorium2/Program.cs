@@ -16,7 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-
+using log4net.Appender;
+using log4net.Core;
+using log4net.Layout;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
@@ -26,7 +28,9 @@ namespace Sensorium2
 {
 	static class Program
 	{
-		private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
+		internal static readonly ILog DebugLog = LogManager.GetLogger(typeof(Program));
+		internal static readonly ILog Message = LogManager.GetLogger("Message");
+		internal static readonly List<MemoryAppender> Logs = new List<MemoryAppender>();
 		
 		private static string _pluginDir = Environment.CurrentDirectory;
 		private static string _settingsDir;
@@ -41,24 +45,101 @@ namespace Sensorium2
 		private static List<CommPlugin> _commPlugins;
 		private static List<ControlPlugin> _controlPlugins;
 		private static List<IPluginInterface> _genericPlugins;
-
-
+        
 		static readonly AppData Me = (AppData) SensoriumFactory.GetAppInterface(); //TODO: Better variable name
 
         static void Main(string[] args)
 		{
+        	Me.Message = Message;
 
+        	IAppender[] appenders = LogManager.GetRepository().GetAppenders();
+        	IAppenderAttachable debugMessageApp = null;
+			IAppenderAttachable messageApp = null;
+        	
+			foreach(IAppender app in appenders) 
+				switch(app.Name)
+				{
+					case "ForwardingAppender":
+						messageApp = (IAppenderAttachable) app;
+						break;
+					case "DebugForwardingAppender":
+						debugMessageApp = (IAppenderAttachable)app;
+						break;
 
-			Console.WriteLine("Host ID: {0}", Me.HostId);
-        	Console.WriteLine("OS: {0} ({1})", Environment.OSVersion, Environment.OSVersion.Platform);
-        	Console.WriteLine();
+				}
+
+        	ColoredConsoleAppender.LevelColors[] consoleColors = new ColoredConsoleAppender.LevelColors[5];
+			for (int i = 0; i < 5; i++)
+				consoleColors[i] = new ColoredConsoleAppender.LevelColors();
+
+        	consoleColors[0].Level = Level.Info;
+			consoleColors[0].ForeColor = ColoredConsoleAppender.Colors.White;
+			consoleColors[0].ActivateOptions();
+
+			consoleColors[1].Level = Level.Debug;
+			consoleColors[1].ForeColor = ColoredConsoleAppender.Colors.Green;
+			consoleColors[1].ActivateOptions();
+
+        	consoleColors[2].Level = Level.Warn;
+			consoleColors[2].ForeColor = ColoredConsoleAppender.Colors.Yellow | ColoredConsoleAppender.Colors.HighIntensity;
+			consoleColors[2].ActivateOptions();
+
+			consoleColors[3].Level = Level.Error;
+			consoleColors[3].ForeColor = ColoredConsoleAppender.Colors.Red | ColoredConsoleAppender.Colors.HighIntensity;
+			consoleColors[3].ActivateOptions();
+
+			consoleColors[4].Level = Level.Fatal;
+			consoleColors[4].ForeColor = ColoredConsoleAppender.Colors.White | ColoredConsoleAppender.Colors.HighIntensity;
+        	consoleColors[4].BackColor = ColoredConsoleAppender.Colors.Red;
+			consoleColors[4].ActivateOptions();
+
+			if (messageApp != null) {
+				ColoredConsoleAppender consoleMessageApp = new ColoredConsoleAppender();
+
+				PatternLayout messageLayout = new PatternLayout("%message%newline");
+				messageLayout.ActivateOptions();
+				consoleMessageApp.Layout = messageLayout;
+
+				foreach(ColoredConsoleAppender.LevelColors lc in consoleColors)
+					consoleMessageApp.AddMapping(lc);
+
+				consoleMessageApp.ActivateOptions();
+
+				messageApp.AddAppender(consoleMessageApp);
+
+				MemoryAppender messageMemoryAppender = new MemoryAppender();
+				messageApp.AddAppender(messageMemoryAppender);
+                Logs.Add(messageMemoryAppender);
+			}
+
+			if (debugMessageApp != null) {
+				ColoredConsoleAppender debugConsoleMessageApp = new ColoredConsoleAppender();
+
+				PatternLayout debugLayout = new PatternLayout("%date [%thread] %-5level %logger [%property{NDC}] - %message%newline");
+				debugLayout.ActivateOptions();
+				debugConsoleMessageApp.Layout = debugLayout;
+
+				foreach (ColoredConsoleAppender.LevelColors lc in consoleColors)
+					debugConsoleMessageApp.AddMapping(lc);
+
+				debugConsoleMessageApp.ActivateOptions();
+
+				debugMessageApp.AddAppender(debugConsoleMessageApp);
+
+				MemoryAppender debugMemoryAppender = new MemoryAppender();
+                debugMessageApp.AddAppender(debugMemoryAppender);
+				Logs.Add(debugMemoryAppender);
+			}
+
+        	Message.Info("Host ID: " + Me.HostId);
+        	Message.Info("OS: " + Environment.OSVersion + "(" + Environment.OSVersion.Platform + ")");
 
 			ArgHandler(args);
 
 			InitPlugins();
 
 			//Start enabled plugins
-			Console.WriteLine("Starting enabled plugins...");
+			Message.Info("Starting enabled plugins...");
 			foreach(IPluginInterface i in Me.Plugins)
 				if (i.Enabled) {
 					i.Start();
@@ -116,12 +197,12 @@ namespace Sensorium2
 
 		static void HelpMessage()
 		{
-			Console.WriteLine("Usage: Sensorium2.exe [options]");
-			Console.WriteLine("Option		Description");
-			Console.WriteLine("-p dir		Set plugin directory to dir. Default: current directory");
-			Console.WriteLine("-R			Search plugin directory recursively");
-			Console.WriteLine("-c			All plugins will operate in client mode only");
-			Console.WriteLine("-h			Display this message");
+			Message.Info("Usage: Sensorium2.exe [options]");
+			Message.Info("Option		Description");
+			Message.Info("-p dir		Set plugin directory to dir. Default: current directory");
+			Message.Info("-R			Search plugin directory recursively");
+			Message.Info("-c			All plugins will operate in client mode only");
+			Message.Info("-h			Display this message");
 		}
 
 		static void InitPlugins()
@@ -138,7 +219,7 @@ namespace Sensorium2
 
 			Me.Sensors = new List<Sensor>();
 
-			Console.WriteLine("Initializing Plugins...");
+			Message.Info("Initializing Plugins...");
 
 			//Add plugins to correct lists
 			foreach (IPluginInterface i in Me.Plugins) {
@@ -154,11 +235,11 @@ namespace Sensorium2
 					_settingsPlugins.Add((SettingsPlugin)i);
 
 					//Settings plugins have to init first
-					Console.WriteLine("{0}, Ver. {1} initializing...", i.Name, i.Version);
+					Message.Info(i.Name + ", Ver. " + i.Version + " initializing...");
 					((SettingsPlugin) i).Init(_settingsDir);
 
 					if (!i.Enabled)
-						Console.WriteLine("Disabled");
+						Message.Info("Disabled");
 
 					if (i.Enabled) //Only 1 settings plugin can be enabled
 						if (Me.EnabledSettingsPlugin == null)
@@ -171,44 +252,43 @@ namespace Sensorium2
 			}
 
 			if (Me.EnabledSettingsPlugin == null) {
-				Console.WriteLine("No settings plugin is enabled, enabling 1st in list");
+				Message.Warn("No settings plugin is enabled, enabling 1st in list");
 				_settingsPlugins[0].Enabled = true;
 				Me.EnabledSettingsPlugin = _settingsPlugins[0];
 			}
 
 			//Init plugins (in correct order)
-			foreach (DataPlugin d in _dataPlugins) {
-				Console.WriteLine("{0}, Ver. {1} initializing...", d.Name, d.Version);
-				d.Init(_client ? PluginMode.Client : PluginMode.Default);
-				if (!d.Enabled)
-					Console.WriteLine("Started in client mode");
+			foreach (DataPlugin p in _dataPlugins) {
+				Message.Info(p.Name + ", Ver. " + p.Version + " initializing...");
+				p.Init(_client ? PluginMode.Client : PluginMode.Default);
+				if (!p.Enabled)
+					Message.Info(p.Name + " Started in client mode");
 			}
 
-			foreach (CommPlugin c in _commPlugins) {
-				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
-				c.Init(_client ? PluginMode.Client : PluginMode.Default);
-				if (!c.Enabled)
-					Console.WriteLine("Disabled");
+			foreach (CommPlugin p in _commPlugins) {
+				Message.Info(p.Name + ", Ver. " + p.Version + " initializing...");
+				p.Init(_client ? PluginMode.Client : PluginMode.Default);
+				if (!p.Enabled)
+					Message.Info(p.Name + " Disabled");
 			}
 
-			foreach (ControlPlugin c in _controlPlugins) {
-				Console.WriteLine("{0}, Ver. {1} initializing...", c.Name, c.Version);
-				c.Init();
-				if (!c.Enabled)
-					Console.WriteLine("Disabled");
+			foreach (ControlPlugin p in _controlPlugins) {
+				Message.Info(p.Name + ", Ver. " + p.Version + " initializing...");
+				p.Init();
+				if (!p.Enabled)
+					Message.Info(p.Name + " Disabled");
 				else
-					c.ExitEventHandler += HandleExit;
+					p.ExitEventHandler += HandleExit;
 			}
 
-			foreach (IPluginInterface i in _genericPlugins) {
-				Console.WriteLine("{0}, Ver. {1} initializing...", i.Name, i.Version);
+			foreach (IPluginInterface p in _genericPlugins) {
+				Message.Info(p.Name + ", Ver. " + p.Version + " initializing...");
 				//i.Init(_EnabledSettingsPlugin.GetSettings(i.Name));
-				if (!i.Enabled)
-					Console.WriteLine("Disabled");
+				if (!p.Enabled)
+					Message.Info(p.Name + " Disabled");
 			}
 
-			Console.WriteLine("Plugins initialized");
-			Console.WriteLine();
+			Message.Info("Plugins initialized");
 		}
 
 		static void UpdateSensors() {
