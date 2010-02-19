@@ -16,7 +16,6 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Collections.Generic;
 using Sensorium.Common;
 
 namespace UdpPlugin {
@@ -49,6 +48,7 @@ namespace UdpPlugin {
 
 			Socket listener = new Socket(address.AddressFamily, SocketType.Dgram, 
 				ProtocolType.Udp) {ReceiveTimeout = _timeout};
+
 			try {
 				listener.Bind(new IPEndPoint(address, Port));
 			} catch (SocketException se) {

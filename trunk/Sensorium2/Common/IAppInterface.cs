@@ -13,6 +13,8 @@
  */
 
 using System.Collections.Generic;
+using log4net;
+using log4net.Appender;
 using Sensorium.Common.Plugins;
 
 namespace Sensorium.Common {
@@ -21,5 +23,7 @@ namespace Sensorium.Common {
 		List<IPluginInterface> Plugins { get; }
 		SettingsPlugin EnabledSettingsPlugin { get; }
 		string HostId { get; }
+		ILog Message { get; }
+		List<MemoryAppender> Logs { get; }
 	}
 }
