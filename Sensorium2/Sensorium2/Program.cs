@@ -260,14 +260,27 @@ namespace Sensorium2
 
 			//Get all appenders
 			IAppender[] appenders = LogManager.GetRepository().GetAppenders();
-			IAppenderAttachable debugMessageApp = null;
+			IAppenderAttachable forwardingApp = null;
 
 			//Find the appender we need
 			foreach (IAppender app in appenders)
 				if (app.Name == "ForwardingAppender")
-					debugMessageApp = (IAppenderAttachable)app;
+					forwardingApp = (IAppenderAttachable)app;
 
-			if (debugMessageApp != null) {
+			if (forwardingApp != null) {
+                
+				//PatternLayout layout = new PatternLayout("%date [%thread] %-5level %logger [%property{NDC}] - %message%newline");
+				PatternLayout layout = new PatternLayout("%message%newline");
+				layout.ActivateOptions();
+
+				if (!(Environment.OSVersion.Platform == PlatformID.Win32NT)) {
+					ConsoleAppender consoleAppender = new ConsoleAppender {Layout = layout};
+					consoleAppender.ActivateOptions();
+
+					forwardingApp.AddAppender(consoleAppender);
+					return;
+				}
+
 				//Set up level colors
 				List<ColoredConsoleAppender.LevelColors> consoleColors =
 					new List<ColoredConsoleAppender.LevelColors> {
@@ -294,28 +307,24 @@ namespace Sensorium2
 						}
 					};
 
-				foreach (ColoredConsoleAppender.LevelColors lc in consoleColors)
-					lc.ActivateOptions();
-
-				ColoredConsoleAppender consoleAppender = new ColoredConsoleAppender();
-
-				//PatternLayout debugLayout = new PatternLayout("%date [%thread] %-5level %logger [%property{NDC}] - %message%newline");
-				PatternLayout layout = new PatternLayout("%message%newline");
-				layout.ActivateOptions();
-				consoleAppender.Layout = layout;
+				ColoredConsoleAppender colorConsoleAppender = new ColoredConsoleAppender();
 
 				//Add the color mappings to the console appender
-				foreach (ColoredConsoleAppender.LevelColors lc in consoleColors)
-					consoleAppender.AddMapping(lc);
+				foreach (ColoredConsoleAppender.LevelColors lc in consoleColors) {
+					lc.ActivateOptions();
+					colorConsoleAppender.AddMapping(lc);
+				}
 
-				consoleAppender.ActivateOptions();
+				colorConsoleAppender.Layout = layout;
+                
+				colorConsoleAppender.ActivateOptions();
 
 				//Add the appender to the forwarder
-				debugMessageApp.AddAppender(consoleAppender);
+				forwardingApp.AddAppender(colorConsoleAppender);
 
 				//Add a memory appender to the forwarder
 				MemoryAppender memoryAppender = new MemoryAppender();
-				debugMessageApp.AddAppender(memoryAppender);
+				forwardingApp.AddAppender(memoryAppender);
 				Logs.Add(memoryAppender);
 			}
 		}
