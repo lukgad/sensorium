@@ -1,0 +1,8 @@
+<log4net>
+	<appender name="ForwardingAppender" type="log4net.Appender.ForwardingAppender">
+	</appender>
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="ForwardingAppender" />
+	</root>
+</log4net>
