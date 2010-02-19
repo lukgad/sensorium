@@ -60,7 +60,7 @@ namespace ConsoleControlPlugin {
 			}
 		}
 
-        private enum State {IdleMenu, DisplayMenu, IdleSensors, DisplaySensors}
+        private enum State {IdleMenu, DisplayMenu, DisplaySensors}
 
 		private State _state;
 
@@ -88,7 +88,6 @@ namespace ConsoleControlPlugin {
 							}
 						}
 					}
-					_state = State.IdleSensors;
 					break;
 			}
 
