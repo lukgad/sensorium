@@ -53,6 +53,7 @@ namespace Sensorium2
 		{
         	Me.Logs = Logs;
 
+			//TODO: Move this to a separate method/class
         	IAppender[] appenders = LogManager.GetRepository().GetAppenders();
         	IAppenderAttachable debugMessageApp = null;
 			
@@ -89,7 +90,7 @@ namespace Sensorium2
 				ColoredConsoleAppender debugConsoleMessageApp = new ColoredConsoleAppender();
 
 				//PatternLayout debugLayout = new PatternLayout("%date [%thread] %-5level %logger [%property{NDC}] - %message%newline");
-				PatternLayout debugLayout = new PatternLayout("%logger - %message%newline");
+				PatternLayout debugLayout = new PatternLayout("%message%newline");
 				debugLayout.ActivateOptions();
 				debugConsoleMessageApp.Layout = debugLayout;
 
