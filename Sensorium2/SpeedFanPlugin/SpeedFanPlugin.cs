@@ -33,7 +33,7 @@ namespace SpeedFanPlugin
 			if (Settings.ContainsKey("Enabled"))
 				Enabled = Settings["Enabled"][0].ToLower().Equals("true");
 
-			if (mode == PluginMode.Client || Environment.OSVersion.Platform.ToString() != "Win32NT") {
+			if (mode == PluginMode.Client || Environment.OSVersion.Platform != PlatformID.Win32NT) {
 				Enabled = false;
 			}
 
