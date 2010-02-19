@@ -17,14 +17,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
+using log4net;
 using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
 
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
-
-using log4net;
 
 namespace Sensorium2
 {
@@ -53,58 +52,7 @@ namespace Sensorium2
 		{
         	Me.Logs = Logs;
 
-			//TODO: Move this to a separate method/class
-        	IAppender[] appenders = LogManager.GetRepository().GetAppenders();
-        	IAppenderAttachable debugMessageApp = null;
-			
-			foreach(IAppender app in appenders) 
-				if(app.Name == "ForwardingAppender")
-					debugMessageApp = (IAppenderAttachable)app;
-						
-        	ColoredConsoleAppender.LevelColors[] consoleColors = new ColoredConsoleAppender.LevelColors[5];
-			for (int i = 0; i < 5; i++)
-				consoleColors[i] = new ColoredConsoleAppender.LevelColors();
-
-        	consoleColors[0].Level = Level.Info;
-			consoleColors[0].ForeColor = ColoredConsoleAppender.Colors.White;
-			consoleColors[0].ActivateOptions();
-
-			consoleColors[1].Level = Level.Debug;
-			consoleColors[1].ForeColor = ColoredConsoleAppender.Colors.Green;
-			consoleColors[1].ActivateOptions();
-
-        	consoleColors[2].Level = Level.Warn;
-			consoleColors[2].ForeColor = ColoredConsoleAppender.Colors.Yellow | ColoredConsoleAppender.Colors.HighIntensity;
-			consoleColors[2].ActivateOptions();
-
-			consoleColors[3].Level = Level.Error;
-			consoleColors[3].ForeColor = ColoredConsoleAppender.Colors.Red | ColoredConsoleAppender.Colors.HighIntensity;
-			consoleColors[3].ActivateOptions();
-
-			consoleColors[4].Level = Level.Fatal;
-			consoleColors[4].ForeColor = ColoredConsoleAppender.Colors.White | ColoredConsoleAppender.Colors.HighIntensity;
-        	consoleColors[4].BackColor = ColoredConsoleAppender.Colors.Red;
-			consoleColors[4].ActivateOptions();
-
-			if (debugMessageApp != null) {
-				ColoredConsoleAppender debugConsoleMessageApp = new ColoredConsoleAppender();
-
-				//PatternLayout debugLayout = new PatternLayout("%date [%thread] %-5level %logger [%property{NDC}] - %message%newline");
-				PatternLayout debugLayout = new PatternLayout("%message%newline");
-				debugLayout.ActivateOptions();
-				debugConsoleMessageApp.Layout = debugLayout;
-
-				foreach (ColoredConsoleAppender.LevelColors lc in consoleColors)
-					debugConsoleMessageApp.AddMapping(lc);
-
-				debugConsoleMessageApp.ActivateOptions();
-
-				debugMessageApp.AddAppender(debugConsoleMessageApp);
-
-				MemoryAppender debugMemoryAppender = new MemoryAppender();
-                debugMessageApp.AddAppender(debugMemoryAppender);
-				Logs.Add(debugMemoryAppender);
-			}
+			SetUpLog();
 
         	Log.Debug("Host ID: " + Me.HostId);
         	Log.Debug("OS: " + Environment.OSVersion + "(" + Environment.OSVersion.Platform + ")");
@@ -125,7 +73,7 @@ namespace Sensorium2
 			new Thread(UpdateSensors).Start();
         }
 
-		static void HandleExit(object sender, EventArgs e) {
+		private static void HandleExit(object sender, EventArgs e) {
 			_running = false;
 
 			foreach (IPluginInterface i in Me.Plugins) {
@@ -135,7 +83,7 @@ namespace Sensorium2
 		}
 
 
-		static void ArgHandler(string[] args) { //Processes command-line arguments
+		private static void ArgHandler(string[] args) { //Processes command-line arguments
 			for (int i = 0; i < args.Length; i++) {
 				if (args[i].Equals("-p")) {
 					i++;
@@ -170,7 +118,7 @@ namespace Sensorium2
 				_settingsDir = Path.Combine(_pluginDir, "settings");
 		}
 
-		static void HelpMessage()
+		private static void HelpMessage()
 		{
 			Console.WriteLine("Usage: Sensorium2.exe [options]");
 			Console.WriteLine("Option		Description");
@@ -180,7 +128,7 @@ namespace Sensorium2
 			Console.WriteLine("-h			Display this message");
 		}
 
-		static void InitPlugins()
+		private static void InitPlugins()
 		{
 			//Get all plugins
 			Me.Plugins = PluginLoader.GetPlugins(_pluginDir, _recursive);
@@ -266,7 +214,7 @@ namespace Sensorium2
 			Log.Info("Plugins initialized");
 		}
 
-		static void UpdateSensors() {
+		private static void UpdateSensors() {
 			while (_running) {
 				List<Sensor> s = new List<Sensor>();
 
@@ -277,6 +225,60 @@ namespace Sensorium2
 
 				Me.Sensors = s;
 				Thread.Sleep(1000);
+			}
+		}
+
+		private static void SetUpLog() {
+			IAppender[] appenders = LogManager.GetRepository().GetAppenders();
+			IAppenderAttachable debugMessageApp = null;
+
+			foreach (IAppender app in appenders)
+				if (app.Name == "ForwardingAppender")
+					debugMessageApp = (IAppenderAttachable)app;
+
+			if (debugMessageApp != null) {
+				ColoredConsoleAppender.LevelColors[] consoleColors = new ColoredConsoleAppender.LevelColors[5];
+				for (int i = 0; i < 5; i++)
+					consoleColors[i] = new ColoredConsoleAppender.LevelColors();
+
+				consoleColors[0].Level = Level.Info;
+				consoleColors[0].ForeColor = ColoredConsoleAppender.Colors.White;
+				consoleColors[0].ActivateOptions();
+
+				consoleColors[1].Level = Level.Debug;
+				consoleColors[1].ForeColor = ColoredConsoleAppender.Colors.Green;
+				consoleColors[1].ActivateOptions();
+
+				consoleColors[2].Level = Level.Warn;
+				consoleColors[2].ForeColor = ColoredConsoleAppender.Colors.Yellow | ColoredConsoleAppender.Colors.HighIntensity;
+				consoleColors[2].ActivateOptions();
+
+				consoleColors[3].Level = Level.Error;
+				consoleColors[3].ForeColor = ColoredConsoleAppender.Colors.Red | ColoredConsoleAppender.Colors.HighIntensity;
+				consoleColors[3].ActivateOptions();
+
+				consoleColors[4].Level = Level.Fatal;
+				consoleColors[4].ForeColor = ColoredConsoleAppender.Colors.White | ColoredConsoleAppender.Colors.HighIntensity;
+				consoleColors[4].BackColor = ColoredConsoleAppender.Colors.Red;
+				consoleColors[4].ActivateOptions();
+
+				ColoredConsoleAppender consoleAppender = new ColoredConsoleAppender();
+
+				//PatternLayout debugLayout = new PatternLayout("%date [%thread] %-5level %logger [%property{NDC}] - %message%newline");
+				PatternLayout layout = new PatternLayout("%message%newline");
+				layout.ActivateOptions();
+				consoleAppender.Layout = layout;
+
+				foreach (ColoredConsoleAppender.LevelColors lc in consoleColors)
+					consoleAppender.AddMapping(lc);
+
+				consoleAppender.ActivateOptions();
+
+				debugMessageApp.AddAppender(consoleAppender);
+
+				MemoryAppender memoryAppender = new MemoryAppender();
+				debugMessageApp.AddAppender(memoryAppender);
+				Logs.Add(memoryAppender);
 			}
 		}
 	}
