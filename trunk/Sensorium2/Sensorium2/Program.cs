@@ -268,12 +268,14 @@ namespace Sensorium2
 					forwardingApp = (IAppenderAttachable)app;
 
 			if (forwardingApp != null) {
-                
+		        
 				//PatternLayout layout = new PatternLayout("%date [%thread] %-5level %logger [%property{NDC}] - %message%newline");
 				PatternLayout layout = new PatternLayout("%message%newline");
 				layout.ActivateOptions();
 
-				if (!(Environment.OSVersion.Platform == PlatformID.Win32NT)) {
+
+				//Workaround for mono (no colored console support)
+				if (Environment.OSVersion.Platform != PlatformID.Win32NT) {
 					ConsoleAppender consoleAppender = new ConsoleAppender {Layout = layout};
 					consoleAppender.ActivateOptions();
 
@@ -316,7 +318,7 @@ namespace Sensorium2
 				}
 
 				colorConsoleAppender.Layout = layout;
-                
+		        
 				colorConsoleAppender.ActivateOptions();
 
 				//Add the appender to the forwarder
