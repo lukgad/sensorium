@@ -43,7 +43,7 @@ namespace Sensorium2
 
 			if (recursive) {
 				foreach (DirectoryInfo d in dir.GetDirectories()) {
-					//Ignore .. and .
+					//Ignore '..' and '.' (parent dir and current dir)
 					if (d.Name == ".." || d.Name == ".")
 						continue;
 

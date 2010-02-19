@@ -82,7 +82,10 @@ namespace Sensorium2
 			}
 		}
 
-
+		/// <summary>
+		/// Handles command-line arguments
+		/// </summary>
+		/// <param name="args">Command-line arguments</param>
 		private static void ArgHandler(string[] args) { //Processes command-line arguments
 			for (int i = 0; i < args.Length; i++) {
 				if (args[i].Equals("-p")) {
@@ -118,6 +121,9 @@ namespace Sensorium2
 				_settingsDir = Path.Combine(_pluginDir, "settings");
 		}
 
+		/// <summary>
+		/// Prints the command-line help message
+		/// </summary>
 		private static void HelpMessage()
 		{
 			Console.WriteLine("Usage: Sensorium2.exe [options]");
@@ -128,6 +134,9 @@ namespace Sensorium2
 			Console.WriteLine("-h			Display this message");
 		}
 
+		/// <summary>
+		/// Initialises all plugins
+		/// </summary>
 		private static void InitPlugins()
 		{
 			//Get all plugins
@@ -214,6 +223,9 @@ namespace Sensorium2
 			Log.Info("Plugins initialized");
 		}
 
+		/// <summary>
+		/// Thread-safe (I think) updater for sensors list
+		/// </summary>
 		private static void UpdateSensors() {
 			while (_running) {
 				List<Sensor> s = new List<Sensor>();
@@ -227,16 +239,41 @@ namespace Sensorium2
 				Thread.Sleep(1000);
 			}
 		}
-
+        
+		/// <summary>
+		/// Sets up log4net appenders
+		/// </summary>
 		private static void SetUpLog() {
+			if (!File.Exists("Sensorium2.exe.log4net")) {
+				Console.WriteLine("log4net config file not found.");
+				using(StreamWriter sw = new StreamWriter("Sensorium2.exe.log4net")) {
+					sw.WriteLine("<log4net>");
+					sw.WriteLine("	<appender name=\"ForwardingAppender\" type=\"log4net.Appender.ForwardingAppender\">");
+					sw.WriteLine("	</appender>");
+					sw.WriteLine("	<root>");
+					sw.WriteLine("		<level value=\"DEBUG\" />");
+					sw.WriteLine("		<appender-ref ref=\"ForwardingAppender\" />");
+					sw.WriteLine("	</root>");
+					sw.WriteLine("</log4net>");
+					sw.Close();
+				}
+				Console.WriteLine("Default config generated.");
+				Console.WriteLine("Exiting.");
+				Environment.Exit(2);
+			}
+
+			//Get all appenders
 			IAppender[] appenders = LogManager.GetRepository().GetAppenders();
 			IAppenderAttachable debugMessageApp = null;
 
+			//Find the appender we need
 			foreach (IAppender app in appenders)
 				if (app.Name == "ForwardingAppender")
 					debugMessageApp = (IAppenderAttachable)app;
 
 			if (debugMessageApp != null) {
+				//Set the colors for the various message levels
+				//TODO: Make this nicer
 				ColoredConsoleAppender.LevelColors[] consoleColors = new ColoredConsoleAppender.LevelColors[5];
 				for (int i = 0; i < 5; i++)
 					consoleColors[i] = new ColoredConsoleAppender.LevelColors();
@@ -269,13 +306,16 @@ namespace Sensorium2
 				layout.ActivateOptions();
 				consoleAppender.Layout = layout;
 
+				//Add the color mappings to the console appender
 				foreach (ColoredConsoleAppender.LevelColors lc in consoleColors)
 					consoleAppender.AddMapping(lc);
 
 				consoleAppender.ActivateOptions();
 
+				//Add the appender to the forwarder
 				debugMessageApp.AddAppender(consoleAppender);
 
+				//Add a memory appender to the forwarder
 				MemoryAppender memoryAppender = new MemoryAppender();
 				debugMessageApp.AddAppender(memoryAppender);
 				Logs.Add(memoryAppender);
