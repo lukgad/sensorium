@@ -25,6 +25,8 @@ using log4net.Layout;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
+using Sensorium2.Properties;
+
 namespace Sensorium2
 {
 	static class Program
@@ -244,17 +246,11 @@ namespace Sensorium2
 		/// Sets up log4net appenders
 		/// </summary>
 		private static void SetUpLog() {
+			//Create default log4net config if a config file doesn't already exist
 			if (!File.Exists("Sensorium2.exe.log4net")) {
 				Console.WriteLine("log4net config file not found.");
 				using(StreamWriter sw = new StreamWriter("Sensorium2.exe.log4net")) {
-					sw.WriteLine("<log4net>");
-					sw.WriteLine("	<appender name=\"ForwardingAppender\" type=\"log4net.Appender.ForwardingAppender\">");
-					sw.WriteLine("	</appender>");
-					sw.WriteLine("	<root>");
-					sw.WriteLine("		<level value=\"DEBUG\" />");
-					sw.WriteLine("		<appender-ref ref=\"ForwardingAppender\" />");
-					sw.WriteLine("	</root>");
-					sw.WriteLine("</log4net>");
+					sw.Write(Resources.ResourceManager.GetString("DefaultLogConfig"));
 					sw.Close();
 				}
 				Console.WriteLine("Default config generated.");
@@ -272,32 +268,34 @@ namespace Sensorium2
 					debugMessageApp = (IAppenderAttachable)app;
 
 			if (debugMessageApp != null) {
-				//Set the colors for the various message levels
-				//TODO: Make this nicer
-				ColoredConsoleAppender.LevelColors[] consoleColors = new ColoredConsoleAppender.LevelColors[5];
-				for (int i = 0; i < 5; i++)
-					consoleColors[i] = new ColoredConsoleAppender.LevelColors();
+				//Set up level colors
+				List<ColoredConsoleAppender.LevelColors> consoleColors =
+					new List<ColoredConsoleAppender.LevelColors> {
+						new ColoredConsoleAppender.LevelColors {
+							Level = Level.Info,
+							ForeColor = ColoredConsoleAppender.Colors.White
+						},
+						new ColoredConsoleAppender.LevelColors {
+							Level = Level.Debug,
+							ForeColor = ColoredConsoleAppender.Colors.Green
+						},
+						new ColoredConsoleAppender.LevelColors {
+							Level = Level.Warn,
+							ForeColor = ColoredConsoleAppender.Colors.Yellow | ColoredConsoleAppender.Colors.HighIntensity
+						},
+						new ColoredConsoleAppender.LevelColors {
+							Level = Level.Error,
+							ForeColor = ColoredConsoleAppender.Colors.Red | ColoredConsoleAppender.Colors.HighIntensity
+						},
+						new ColoredConsoleAppender.LevelColors {
+							Level = Level.Fatal,
+							ForeColor = ColoredConsoleAppender.Colors.White | ColoredConsoleAppender.Colors.HighIntensity,
+							BackColor = ColoredConsoleAppender.Colors.Red,
+						}
+					};
 
-				consoleColors[0].Level = Level.Info;
-				consoleColors[0].ForeColor = ColoredConsoleAppender.Colors.White;
-				consoleColors[0].ActivateOptions();
-
-				consoleColors[1].Level = Level.Debug;
-				consoleColors[1].ForeColor = ColoredConsoleAppender.Colors.Green;
-				consoleColors[1].ActivateOptions();
-
-				consoleColors[2].Level = Level.Warn;
-				consoleColors[2].ForeColor = ColoredConsoleAppender.Colors.Yellow | ColoredConsoleAppender.Colors.HighIntensity;
-				consoleColors[2].ActivateOptions();
-
-				consoleColors[3].Level = Level.Error;
-				consoleColors[3].ForeColor = ColoredConsoleAppender.Colors.Red | ColoredConsoleAppender.Colors.HighIntensity;
-				consoleColors[3].ActivateOptions();
-
-				consoleColors[4].Level = Level.Fatal;
-				consoleColors[4].ForeColor = ColoredConsoleAppender.Colors.White | ColoredConsoleAppender.Colors.HighIntensity;
-				consoleColors[4].BackColor = ColoredConsoleAppender.Colors.Red;
-				consoleColors[4].ActivateOptions();
+				foreach (ColoredConsoleAppender.LevelColors lc in consoleColors)
+					lc.ActivateOptions();
 
 				ColoredConsoleAppender consoleAppender = new ColoredConsoleAppender();
 
