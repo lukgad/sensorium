@@ -13,7 +13,9 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
+using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
 namespace ConsoleControlPlugin {
@@ -33,6 +35,7 @@ namespace ConsoleControlPlugin {
 			_running = true;
 			new Thread(WaitKey).Start();
 			new Thread(Update).Start();
+			Console.WriteLine("Press K to see control keys");
 		}
 
 		public override void Stop() {
@@ -56,30 +59,49 @@ namespace ConsoleControlPlugin {
 					Thread.Sleep(1000);
 			}
 		}
-        
+
+        private enum State {IdleMenu, DisplayMenu, IdleSensors, DisplaySensors}
+
+		private State _state;
+
 		private void UpdateConsole(ConsoleKeyInfo keyPress) {
+			switch (_state) {
+				case State.DisplayMenu:
+					Console.Clear();
+					Console.WriteLine("Key	Function");
+					Console.WriteLine("K	Display keys help (this list)");
+					Console.WriteLine("S	Sensors");
+					Console.WriteLine("Q	Quit");
+					_state = State.IdleMenu;
+					break;
+				case State.DisplaySensors:
+					Console.Clear();
+					List<Sensor> tempSensors = SensoriumFactory.GetAppInterface().Sensors;
 
-			//Console.Clear();
-			//Console.WriteLine("Host ID: {0}", SensoriumFactory.GetAppInterface().HostId);
-			//Console.WriteLine("Plugins:");
-
-			//List<Sensor> tempSensors = new List<Sensor>(SensoriumFactory.GetAppInterface().Sensors);
-
-			//foreach (Type t in PluginTypes) {
-			//    foreach (IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
-			//        if (t.IsAssignableFrom(i.GetType())) {
-			//            Console.WriteLine(" {0}", i.Name);
-			//            foreach (Sensor s in tempSensors)
-			//                if(s.SourcePlugin.Equals(i.Name))
-			//                    Console.WriteLine("	{0}	{1}", s.Name, ((DataPlugin) i).SensorToString(s));
-			//        }
-			//    }
-			//}
+					foreach (Type t in PluginTypes) {
+						foreach (IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
+							if (t.IsAssignableFrom(i.GetType())) {
+								Console.WriteLine(" {0}", i.Name);
+								foreach (Sensor s in tempSensors)
+									if (s.SourcePlugin.Equals(i.Name))
+										Console.WriteLine("	{0}	{1}", s.Name, ((DataPlugin)i).SensorToString(s));
+							}
+						}
+					}
+					_state = State.IdleSensors;
+					break;
+			}
 
         	switch(keyPress.Key) {
 				case ConsoleKey.Q:
 					OnExit();
 					break;
+				case ConsoleKey.S:
+        			_state = State.DisplaySensors;
+        			break;
+				case ConsoleKey.K:
+        			_state = State.DisplayMenu;
+        			break;
 			}
 		}
 	}
