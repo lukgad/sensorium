@@ -58,7 +58,7 @@ namespace Sensorium2
         	IAppenderAttachable debugMessageApp = null;
 			
 			foreach(IAppender app in appenders) 
-				if(app.Name == "DebugForwardingAppender")
+				if(app.Name == "ForwardingAppender")
 					debugMessageApp = (IAppenderAttachable)app;
 						
         	ColoredConsoleAppender.LevelColors[] consoleColors = new ColoredConsoleAppender.LevelColors[5];
