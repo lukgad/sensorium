@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
+using log4net;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
@@ -25,6 +26,8 @@ namespace UdpPlugin{
 		private List<UdpPluginClient> _clients;
 		private bool _running;
 		private int _delay;
+
+		private readonly ILog _log = LogManager.GetLogger(typeof(CommPlugin));
 
 		public override string Name {
 			get { return "UDP Plugin"; }
@@ -47,7 +50,7 @@ namespace UdpPlugin{
 		public override void Start() {
 			foreach (UdpPluginServer s in _servers) {
 				s.Start();
-				Console.WriteLine("Starting server on {0}:{1}", s.Address, s.Port);
+				_log.Info("Starting server on " + s.Address + ":" + s.Port);
 			}
 
 			foreach (UdpPluginClient c in _clients)
@@ -122,7 +125,7 @@ namespace UdpPlugin{
 				}
 
 			} else { //Otherwise, start in client mode (default)
-				Console.WriteLine("Starting in client mode");
+				_log.Info("Starting in client mode");
 				Mode = PluginMode.Client;
 			}
 

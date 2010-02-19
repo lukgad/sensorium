@@ -34,8 +34,6 @@ namespace Sensorium.Common {
 		public string HostId {
 			get { return _hostId; }
 		}
-
-		public ILog Message { get; set; }
 		public List<MemoryAppender> Logs { get; set; }
 	}
 }

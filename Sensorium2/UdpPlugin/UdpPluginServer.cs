@@ -16,6 +16,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using log4net;
 using Sensorium.Common;
 
 namespace UdpPlugin {
@@ -24,6 +25,8 @@ namespace UdpPlugin {
 	 	public int Port { get; private set; }
 		private bool _running;
 		private int _timeout;
+
+		private readonly ILog _log = LogManager.GetLogger(typeof (UdpPluginServer));
         
 		public UdpPluginServer(IPAddress address, int port, int timeout) {
 			Address = address;
@@ -52,7 +55,7 @@ namespace UdpPlugin {
 			try {
 				listener.Bind(new IPEndPoint(address, Port));
 			} catch (SocketException se) {
-				Console.WriteLine("{0}:{1} - Socket Exception: {2}", address, Port, se.SocketErrorCode);
+				_log.Error(address + ":" + Port + " - Socket Exception: " + se.SocketErrorCode);
 				return;
 			}
 

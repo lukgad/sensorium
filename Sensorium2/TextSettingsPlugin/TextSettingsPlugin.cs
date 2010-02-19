@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using log4net;
 using Sensorium.Common.Plugins;
 
 namespace TextSettingsPlugin
@@ -23,6 +24,8 @@ namespace TextSettingsPlugin
 		private Dictionary<string, Dictionary<string, List<string>>> _settings;
 
 		private string _settingsFile;
+
+		private readonly ILog _log = LogManager.GetLogger(typeof (SettingsPlugin));
 
 		public TextSettingsPlugin(){
 			_settings = new Dictionary<string, Dictionary<string, List<string>>>();
@@ -60,8 +63,8 @@ namespace TextSettingsPlugin
 
 			if (!Directory.Exists(pluginSettingsDir)) //Create settings directory if it does not exist
 				Directory.CreateDirectory(pluginSettingsDir);
-
-			Console.WriteLine("Loading settings...");
+			
+			_log.Info("Loading settings...");
 
 			if (!File.Exists(_settingsFile))
 				return;
@@ -86,7 +89,7 @@ namespace TextSettingsPlugin
 							if (!_settings.ContainsKey(currentPlugin))
 								_settings.Add(currentPlugin, new Dictionary<string, List<string>>());
 
-							Console.WriteLine("Loaded settings for " + currentPlugin);
+							_log.Debug("Loaded settings for " + currentPlugin);
 
 							continue;
 						}

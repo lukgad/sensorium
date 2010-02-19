@@ -24,8 +24,6 @@ namespace Sensorium.Common.Plugins
 
 		bool Enabled { get; set; }
 
-		//void Init(Dictionary<string, string> settings);
-
 		void Start();
 		void Stop();
 	}
