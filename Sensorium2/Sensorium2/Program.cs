@@ -54,7 +54,7 @@ namespace Sensorium2
         static void Main(string[] args)
 		{
         	Me.Logs = Logs;
-        	
+			
 			SetUpLog();
 			
         	Log.Debug("Host ID: " + Me.HostId);
