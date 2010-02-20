@@ -56,7 +56,7 @@ namespace Sensorium.Common {
 			List<Sensor> sensorList = new List<Sensor>();
 
 			int numSensors = BitConverter.ToInt32(request, 6);
-
+			
 			for (int i = 0; i < numSensors; i++) {
 				string hostId = null, sourcePlugin = null, name = null, type = null;
 				byte[] data = null;
