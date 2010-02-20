@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensorium2", "Sensorium2\Sensorium2.csproj", "{4C4FFEA3-D1B3-4EC8-A0BF-59059A980315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{408B38F0-6C6D-43DF-A549-AE0499A9021F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensorium.Common", "Common\Sensorium.Common.csproj", "{408B38F0-6C6D-43DF-A549-AE0499A9021F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedFanPlugin", "SpeedFanPlugin\SpeedFanPlugin.csproj", "{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}"
 EndProject

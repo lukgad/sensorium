@@ -91,9 +91,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\Sensorium.Common.csproj">
       <Project>{408B38F0-6C6D-43DF-A549-AE0499A9021F}</Project>
-      <Name>Common</Name>
+      <Name>Sensorium.Common</Name>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

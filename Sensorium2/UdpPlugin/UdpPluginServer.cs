@@ -87,11 +87,7 @@ namespace UdpPlugin {
 			UdpPluginPacket ipPacket = (UdpPluginPacket) packet;
 			byte[] response;
 
-			try {
-				response = SensoriumServer.GetResponse(ipPacket.Data);
-			} catch(Exception e) { //TODO: Is any more exception handling necessary here?
-				response = null;
-			}
+			response = SensoriumServer.GetResponse(ipPacket.Data); //TODO: Exception handling here
 
 			Socket responseSocket = new Socket(ipPacket.EndPoint.AddressFamily, 
 				SocketType.Dgram, ProtocolType.Udp);
