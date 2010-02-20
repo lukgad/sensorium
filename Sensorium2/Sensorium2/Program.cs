@@ -72,14 +72,13 @@ namespace Sensorium2
 				}
 			
         	_running = true;
-			
-			new Thread(UpdateSensors).Start();
 
+			Thread sensorUpdater = new Thread(UpdateSensors);
+			sensorUpdater.Start();
+        	
 			//Workaround for log4net on mono
-			while(_running) {
-				Thread.Sleep(250);
-			}
-        }
+			sensorUpdater.Join();
+		}
 
 		private static void HandleExit(object sender, EventArgs e) {
 			_running = false;
