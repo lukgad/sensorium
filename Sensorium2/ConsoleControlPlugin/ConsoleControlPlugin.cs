@@ -78,7 +78,8 @@ namespace ConsoleControlPlugin {
 					_state = State.DisplayMenu;
 					break;
 				case ConsoleKey.L:
-					_state = State.Loggers;
+					if ((keyPress.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift)
+						_state = State.Loggers;
 					break;
 				case ConsoleKey.A:
 					_state = State.Appenders;
@@ -88,17 +89,19 @@ namespace ConsoleControlPlugin {
 			switch (_state) {
 				case State.DisplayMenu:
 					Console.Clear();
-					Console.WriteLine("Key\tFunction");
-					Console.WriteLine("K\tDisplay keys help (this list)");
-					Console.WriteLine("S\tSensors");
-					Console.WriteLine("Q\tQuit");
+					Console.WriteLine("Key".PadRight(5) + "Function");
+					Console.WriteLine("a".PadRight(5) + "(Debug) List of log4net appenders");
+					Console.WriteLine("k".PadRight(5) + "Display keys help (this list)");
+					Console.WriteLine("L".PadRight(5) + "(Debug) List of log4net loggers");
+					Console.WriteLine("s".PadRight(5) + "Sensors");
+					Console.WriteLine("q".PadRight(5) + "Quit");
 					_state = State.Idle;
 					break;
 				case State.DisplaySensors:
 					Console.Clear();
 					List<Sensor> tempSensors = SensoriumFactory.GetAppInterface().Sensors;
 				
-					Console.WriteLine(tempSensors.Capacity + " Sensors");
+					Console.WriteLine(tempSensors.Capacity + " sensors");
 					
 					foreach (Type t in PluginTypes) {
 						foreach (IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
@@ -106,7 +109,7 @@ namespace ConsoleControlPlugin {
 								Console.WriteLine(" {0}", i.Name);
 								foreach (Sensor s in tempSensors)
 									if (s.SourcePlugin.Equals(i.Name))
-										Console.WriteLine("\t{0}\t{1}", s.Name, ((DataPlugin)i).SensorToString(s));
+										Console.WriteLine("  " + s.Name.PadRight(6) + ((DataPlugin)i).SensorToString(s).PadLeft(8));
 							}
 						}
 					}
