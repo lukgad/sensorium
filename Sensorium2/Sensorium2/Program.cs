@@ -33,7 +33,8 @@ namespace Sensorium2
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 		private static readonly List<MemoryAppender> Logs = new List<MemoryAppender>();
-		
+		private static IAppenderAttachable _forwardingApp;
+
 		private static string _pluginDir = Environment.CurrentDirectory;
 		private static string _settingsDir;
 
@@ -53,27 +54,31 @@ namespace Sensorium2
         static void Main(string[] args)
 		{
         	Me.Logs = Logs;
-
+        	
 			SetUpLog();
-
+			
         	Log.Debug("Host ID: " + Me.HostId);
         	Log.Debug("OS: " + Environment.OSVersion + "(" + Environment.OSVersion.Platform + ")");
-
+			
 			ArgHandler(args);
-
+			
 			InitPlugins();
-
+			
 			//Start enabled plugins
 			Log.Info("Starting enabled plugins...");
 			foreach(IPluginInterface i in Me.Plugins)
 				if (i.Enabled) {
 					i.Start();
 				}
-
+			
         	_running = true;
-
+			
 			new Thread(UpdateSensors).Start();
-        	
+
+			//Workaround for log4net on mono
+			while(_running) {
+				Thread.Sleep(250);
+			}
         }
 
 		private static void HandleExit(object sender, EventArgs e) {
@@ -261,14 +266,13 @@ namespace Sensorium2
 
 			//Get all appenders
 			IAppender[] appenders = LogManager.GetRepository().GetAppenders();
-			IAppenderAttachable forwardingApp = null;
-
+			
 			//Find the appender we need
 			foreach (IAppender app in appenders)
 				if (app.Name == "ForwardingAppender")
-					forwardingApp = (IAppenderAttachable)app;
+					_forwardingApp = (IAppenderAttachable)app;
 
-			if (forwardingApp != null) {
+			if (_forwardingApp != null) {
 		        
 				//PatternLayout layout = new PatternLayout("%date [%thread] %-5level %logger [%property{NDC}] - %message%newline");
 				PatternLayout layout = new PatternLayout("%message%newline");
@@ -280,7 +284,7 @@ namespace Sensorium2
 					ConsoleAppender consoleAppender = new ConsoleAppender {Layout = layout};
 					consoleAppender.ActivateOptions();
 
-					forwardingApp.AddAppender(consoleAppender);
+					_forwardingApp.AddAppender(consoleAppender);
 					return;
 				}
 
@@ -323,11 +327,11 @@ namespace Sensorium2
 				colorConsoleAppender.ActivateOptions();
 
 				//Add the appender to the forwarder
-				forwardingApp.AddAppender(colorConsoleAppender);
+				_forwardingApp.AddAppender(colorConsoleAppender);
 
 				//Add a memory appender to the forwarder
 				MemoryAppender memoryAppender = new MemoryAppender();
-				forwardingApp.AddAppender(memoryAppender);
+				_forwardingApp.AddAppender(memoryAppender);
 				Logs.Add(memoryAppender);
 			}
 		}
