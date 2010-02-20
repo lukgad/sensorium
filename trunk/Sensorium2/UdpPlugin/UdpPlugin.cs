@@ -55,7 +55,7 @@ namespace UdpPlugin{
 
 			foreach (UdpPluginClient c in _clients) {
 				c.Start();
-				_log.Info("Starting client on " + c._hostName + ":" + c._port);
+				_log.Info("Starting client on " + c.HostName + ":" + c.Port);
 			}
 
 			_running = true;

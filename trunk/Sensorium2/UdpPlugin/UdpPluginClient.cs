@@ -25,8 +25,8 @@ namespace UdpPlugin {
 		private UdpClient _udpClient;
         private bool _running;
 		private int _delay;
-		public string _hostName { get; private set; }
-		public int _port { get; private set; }
+		public string HostName { get; private set; }
+		public int Port { get; private set; }
 
 		private readonly ILog _log = LogManager.GetLogger(typeof (UdpPluginClient));
 
@@ -50,8 +50,8 @@ namespace UdpPlugin {
 
 		public UdpPluginClient(string hostName, int port, int delay) {
 			_udpClient = new UdpClient();
-			_port = port;
-			_hostName = hostName;
+			Port = port;
+			HostName = hostName;
 			_running = false;
 			_delay = delay;
 			_sensors = new List<Sensor>();
@@ -71,12 +71,12 @@ namespace UdpPlugin {
 		}
 
 		private byte[] GetResponse(byte[] request) {
-			_udpClient.Send(request, request.Length, _hostName, _port);
+			_udpClient.Send(request, request.Length, HostName, Port);
 			IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
 			try {
 				return _udpClient.Receive(ref remoteEndPoint);
 			} catch (SocketException se) {
-				_log.Error(_hostName + ":" + _port + " - Socket Exception, " + se.SocketErrorCode + ": " + se.Message);
+				_log.Error(HostName + ":" + Port + " - Socket Exception, " + se.SocketErrorCode + ": " + se.Message);
 				return new byte[0];
 			}
 		}
