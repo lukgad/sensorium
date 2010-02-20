@@ -8,8 +8,8 @@
     <ProjectGuid>{408B38F0-6C6D-43DF-A549-AE0499A9021F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Common</RootNamespace>
-    <AssemblyName>Common</AssemblyName>
+    <RootNamespace>Sensorium.Common</RootNamespace>
+    <AssemblyName>Sensorium.Common</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

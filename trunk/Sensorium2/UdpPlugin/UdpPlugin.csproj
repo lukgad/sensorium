@@ -56,9 +56,9 @@
     <Compile Include="UdpPluginServer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\Sensorium.Common.csproj">
       <Project>{408B38F0-6C6D-43DF-A549-AE0499A9021F}</Project>
-      <Name>Common</Name>
+      <Name>Sensorium.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
