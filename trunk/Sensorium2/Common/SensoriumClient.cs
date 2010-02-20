@@ -49,9 +49,9 @@ namespace Sensorium.Common {
 		public static List<Sensor> GetSensors(SensorRequest requestSensor) {
 			byte[] request = requestSensor(Request(RequestType.NumSensors, -1));
 
-			if (request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || 
+			if (request.Length == 0 || request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || 
 				BitConverter.ToInt32(request, 1) != request.Length)
-				return null;
+				return new List<Sensor>();
 
 			List<Sensor> sensorList = new List<Sensor>();
 

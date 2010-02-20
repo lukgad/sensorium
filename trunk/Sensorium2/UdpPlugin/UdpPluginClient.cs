@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using log4net;
 using Sensorium.Common;
 
 namespace UdpPlugin {
@@ -26,6 +27,8 @@ namespace UdpPlugin {
 		private int _delay;
 		private string _hostName;
 		private int _port;
+
+		private readonly ILog _log = LogManager.GetLogger(typeof (UdpPluginClient));
 
 		private List<Sensor> _sensors;
 		public List<Sensor> Sensors
@@ -70,8 +73,12 @@ namespace UdpPlugin {
 		private byte[] GetResponse(byte[] request) {
 			_udpClient.Send(request, request.Length, _hostName, _port);
 			IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
-
-			return _udpClient.Receive(ref remoteEndPoint);
+			try {
+				return _udpClient.Receive(ref remoteEndPoint);
+			} catch (SocketException se) {
+				_log.Error(_hostName + ":" + _port + " - Socket Exception, " + se.SocketErrorCode + ": " + se.Message);
+				return new byte[0];
+			}
 		}
 	}
 }
