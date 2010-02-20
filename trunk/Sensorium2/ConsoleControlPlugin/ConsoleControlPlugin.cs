@@ -65,13 +65,25 @@ namespace ConsoleControlPlugin {
 		private State _state;
 
 		private void UpdateConsole(ConsoleKeyInfo keyPress) {
+			switch (keyPress.Key) {
+				case ConsoleKey.Q:
+					OnExit();
+					break;
+				case ConsoleKey.S:
+					_state = State.DisplaySensors;
+					break;
+				case ConsoleKey.K:
+					_state = State.DisplayMenu;
+					break;
+			}
+
 			switch (_state) {
 				case State.DisplayMenu:
 					Console.Clear();
-					Console.WriteLine("Key	Function");
-					Console.WriteLine("K	Display keys help (this list)");
-					Console.WriteLine("S	Sensors");
-					Console.WriteLine("Q	Quit");
+					Console.WriteLine("Key\tFunction");
+					Console.WriteLine("K\tDisplay keys help (this list)");
+					Console.WriteLine("S\tSensors");
+					Console.WriteLine("Q\tQuit");
 					_state = State.IdleMenu;
 					break;
 				case State.DisplaySensors:
@@ -84,23 +96,11 @@ namespace ConsoleControlPlugin {
 								Console.WriteLine(" {0}", i.Name);
 								foreach (Sensor s in tempSensors)
 									if (s.SourcePlugin.Equals(i.Name))
-										Console.WriteLine("	{0}	{1}", s.Name, ((DataPlugin)i).SensorToString(s));
+										Console.WriteLine("\t{0}\t{1}", s.Name, ((DataPlugin)i).SensorToString(s));
 							}
 						}
 					}
 					break;
-			}
-
-        	switch(keyPress.Key) {
-				case ConsoleKey.Q:
-					OnExit();
-					break;
-				case ConsoleKey.S:
-        			_state = State.DisplaySensors;
-        			break;
-				case ConsoleKey.K:
-        			_state = State.DisplayMenu;
-        			break;
 			}
 		}
 	}
