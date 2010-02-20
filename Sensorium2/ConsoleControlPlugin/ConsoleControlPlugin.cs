@@ -89,7 +89,9 @@ namespace ConsoleControlPlugin {
 				case State.DisplaySensors:
 					Console.Clear();
 					List<Sensor> tempSensors = SensoriumFactory.GetAppInterface().Sensors;
-
+				
+					Console.WriteLine(tempSensors.Capacity + " Sensors");
+					
 					foreach (Type t in PluginTypes) {
 						foreach (IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
 							if (t.IsAssignableFrom(i.GetType())) {

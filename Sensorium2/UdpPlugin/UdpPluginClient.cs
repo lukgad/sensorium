@@ -24,8 +24,8 @@ namespace UdpPlugin {
 		private UdpClient _udpClient;
         private bool _running;
 		private int _delay;
-		private string _hostName;
-		private int _port;
+		public string _hostName { get; private set; }
+		public int _port { get; private set; }
 
 		private readonly ILog _log = LogManager.GetLogger(typeof (UdpPluginClient));
 

@@ -53,8 +53,10 @@ namespace UdpPlugin{
 				_log.Info("Starting server on " + s.Address + ":" + s.Port);
 			}
 
-			foreach (UdpPluginClient c in _clients)
+			foreach (UdpPluginClient c in _clients) {
 				c.Start();
+				_log.Info("Starting client on " + c._hostName + ":" + c._port);
+			}
 
 			_running = true;
 			ThreadStart callback = UpdateSensors;
