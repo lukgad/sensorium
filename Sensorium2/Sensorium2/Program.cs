@@ -73,6 +73,7 @@ namespace Sensorium2
         	_running = true;
 
 			new Thread(UpdateSensors).Start();
+        	
         }
 
 		private static void HandleExit(object sender, EventArgs e) {
