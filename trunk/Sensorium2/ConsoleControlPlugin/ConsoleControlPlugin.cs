@@ -15,6 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using log4net;
+using log4net.Appender;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
@@ -60,7 +62,7 @@ namespace ConsoleControlPlugin {
 			}
 		}
 
-        private enum State {IdleMenu, DisplayMenu, DisplaySensors}
+        private enum State {Idle, DisplayMenu, DisplaySensors, Loggers, Appenders}
 
 		private State _state;
 
@@ -75,6 +77,12 @@ namespace ConsoleControlPlugin {
 				case ConsoleKey.K:
 					_state = State.DisplayMenu;
 					break;
+				case ConsoleKey.L:
+					_state = State.Loggers;
+					break;
+				case ConsoleKey.A:
+					_state = State.Appenders;
+					break;
 			}
 
 			switch (_state) {
@@ -84,7 +92,7 @@ namespace ConsoleControlPlugin {
 					Console.WriteLine("K\tDisplay keys help (this list)");
 					Console.WriteLine("S\tSensors");
 					Console.WriteLine("Q\tQuit");
-					_state = State.IdleMenu;
+					_state = State.Idle;
 					break;
 				case State.DisplaySensors:
 					Console.Clear();
@@ -102,6 +110,19 @@ namespace ConsoleControlPlugin {
 							}
 						}
 					}
+					break;
+				case State.Loggers:
+					Console.Clear();
+					foreach (ILog l in LogManager.GetCurrentLoggers()) {
+						Console.WriteLine(l.Logger.Name);
+					}
+					_state = State.Idle;
+					break;
+				case State.Appenders:
+					Console.Clear();
+					foreach(IAppender a in LogManager.GetRepository().GetAppenders())
+						Console.WriteLine(a.Name + " " + a.GetType());
+					_state = State.Idle;
 					break;
 			}
 		}
