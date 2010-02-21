@@ -7,6 +7,10 @@ TODO Page
 
 = Details =
 
- * I could have a plugin that reads sensor information from another sensorium server
- * a "sensor" would look like this: host.source.name
- * this would also eliminate the need for a separate client app because a "sensor" could include other sensorium servers
+ * libSensors support is now under development.
+ * The speedfan plugin needs more configurable options.
+   * eg. Customisable sensor names.
+ * Log4Net integrated. App is no longer dependent on presence of the Console.
+ * GTK# control plugin.
+ * WinForms control plugin.
+ * A WPF control plugin (maybe).
