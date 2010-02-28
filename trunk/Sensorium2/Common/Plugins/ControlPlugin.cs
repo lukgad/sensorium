@@ -46,8 +46,8 @@ namespace Sensorium.Common.Plugins {
 			}
 		}
 
-		public abstract void Start();
-		public abstract void Stop();
+		public virtual void Start() {}
+		public virtual void Stop() {}
 
 		public event EventHandler<EventArgs> ExitEventHandler;
 

@@ -53,8 +53,8 @@ namespace Sensorium.Common.Plugins
 			}
 		}
 
-		public abstract void Stop();
-		public abstract void Start();
+		public virtual void Stop() {}
+		public virtual void Start() {}
 
 		public abstract string SensorToString(Sensor sensor);
 	}

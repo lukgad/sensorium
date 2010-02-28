@@ -12,14 +12,6 @@ namespace libSensorsPlugin {
 			get { return 1; }
 		}
 
-		public override void Stop() {
-			
-		}
-
-		public override void Start() {
-			
-		}
-
 		public override string SensorToString(Sensor sensor) {
 			throw new NotImplementedException();
 		}
