@@ -112,14 +112,6 @@ namespace TextSettingsPlugin
 				Enabled = true;
 		}
 
-		public override void Start() {
-			
-		}
-
-		public override void Stop() {
-
-		}
-
 		public override Dictionary<string, List<string>> GetSettings(string pluginName) {
 			if (!_settings.ContainsKey(pluginName))
 				_settings.Add(pluginName, new Dictionary<string, List<string>>());

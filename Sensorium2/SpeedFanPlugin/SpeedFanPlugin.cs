@@ -96,14 +96,6 @@ namespace SpeedFanPlugin
 			get { return 1; }
 		}
 
-		public override void Start() {
-			
-		}
-
-		public override void Stop() {
-
-		}
-
 		public override string SensorToString(Sensor sensor) {
 			if (!sensor.SourcePlugin.Equals("SpeedFan"))
 				throw new Exception("Invalid Sensor");

@@ -24,8 +24,8 @@ namespace Sensorium.Common.Plugins
 		public virtual bool Enabled { get; set; }
 
 		public abstract void Init(string settingsDir);
-		public abstract void Start();
-		public abstract void Stop();
+		public virtual void Start() {}
+        public virtual void Stop() {}
 		public abstract Dictionary<string,List<string>> GetSettings(string pluginName);
 		public abstract void Save();
 	}
