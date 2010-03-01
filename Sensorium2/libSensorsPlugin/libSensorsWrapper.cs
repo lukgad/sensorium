@@ -71,7 +71,7 @@ namespace libSensorsPlugin {
 				public int mode;
 			}
 
-			[DllImport("libc.so", SetLastError = true)]
+				[DllImport("libc.so", SetLastError = true)]
 				public static extern IntPtr fopen(String filename, String mode);
 
 				[DllImport("libc.so", SetLastError = true)]
@@ -196,13 +196,9 @@ namespace libSensorsPlugin {
 
 			//Get all chip names and features
 			int nr = 0;
-			while(true) {
-				//Get chip name
-				IntPtr chipNamePtr = UnixImports.sensors_get_detected_chips(ref nr);
-
-				if (chipNamePtr == IntPtr.Zero)
-					break;
-
+			IntPtr chipNamePtr;
+			while((chipNamePtr = UnixImports.sensors_get_detected_chips(ref nr)) != IntPtr.Zero) {
+				
 				UnixImports.sensors_chip_name chipName = new UnixImports.sensors_chip_name();
 
 				Marshal.PtrToStructure(chipNamePtr, chipName);
@@ -210,18 +206,19 @@ namespace libSensorsPlugin {
 
 				//Get all chip features
 				int nr1 = 0, nr2 = 0;
-				while (true) {
-					IntPtr featurePointer = UnixImports.sensors_get_all_features(chipName, ref nr1, ref nr2);
-
-					if (featurePointer == IntPtr.Zero)
-						break;
-
+				IntPtr featurePtr;
+				while ((featurePtr = UnixImports.sensors_get_all_features(chipName, ref nr1, ref nr2)) != IntPtr.Zero) {
+				
 					UnixImports.sensors_feature_data feature = new UnixImports.sensors_feature_data();
 
-					Marshal.PtrToStructure(featurePointer, feature);
+					Marshal.PtrToStructure(featurePtr, feature);
 					_chips[chipName].Add(feature);
 				}
 			}
+
+			foreach(UnixImports.sensors_chip_name cn in _chips.Keys)
+				foreach(UnixImports.sensors_feature_data fd in _chips[cn])
+					Console.WriteLine(fd.number + " " + fd.name);
 		}
 
 		~LibSensorsWrapper() {

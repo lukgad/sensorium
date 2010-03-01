@@ -18,8 +18,7 @@ namespace libSensorsPlugin {
 
 		private LibSensorsWrapper _wrapper;
 
-		public override void Init(PluginMode mode)
-		{
+		public override void Init(PluginMode mode) {
 			base.Init(mode);
 
 			_wrapper = new LibSensorsWrapper();
