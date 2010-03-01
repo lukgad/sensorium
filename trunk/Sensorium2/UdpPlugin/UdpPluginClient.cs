@@ -26,7 +26,7 @@ namespace UdpPlugin {
 		private int _delay;
 		public string HostName { get; private set; }
 		public int Port { get; private set; }
-
+		
 		private readonly ILog _log = LogManager.GetLogger(typeof (UdpPluginClient));
 
 		private List<Sensor> _sensors;
