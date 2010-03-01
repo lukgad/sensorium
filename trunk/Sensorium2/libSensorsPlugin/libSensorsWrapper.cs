@@ -34,17 +34,17 @@ namespace libSensorsPlugin {
 			[StructLayoutAttribute(LayoutKind.Sequential)]
 			public struct sensors_chip_name
 			{
-
+			
 				/// char*
 				[MarshalAsAttribute(UnmanagedType.LPStr)]
 				public string prefix;
-
+			
 				/// sensors_bus_id
 				public sensors_bus_id bus;
-
+			
 				/// int
 				public int addr;
-
+			
 				/// char*
 				[MarshalAsAttribute(UnmanagedType.LPStr)]
 				public string path;
@@ -71,27 +71,30 @@ namespace libSensorsPlugin {
 				public int mode;
 			}
 
-				[DllImport("libc.so", SetLastError = true)]
+			private const string libc = "libc.so.6";
+			private const string libsensors = "libsensors.so.3";
+			
+				[DllImport(libc)]
 				public static extern IntPtr fopen(String filename, String mode);
 
-				[DllImport("libc.so", SetLastError = true)]
+				[DllImport(libc)]
 				public static extern Int32 fclose(IntPtr file);
 
 				/// Return Type: int
 				///input: void*
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_init")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_init")]
 				public static extern int sensors_init(IntPtr input);
 
 
 				/// Return Type: void
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_cleanup")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_cleanup")]
 				public static extern void sensors_cleanup();
 
 
 				/// Return Type: int
 				///orig_name: char*
 				///res: sensors_chip_name*
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_parse_chip_name")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_parse_chip_name")]
 				public static extern int sensors_parse_chip_name(
 					[InAttribute] [MarshalAsAttribute(UnmanagedType.LPStr)] string orig_name,
 					ref sensors_chip_name res);
@@ -100,26 +103,26 @@ namespace libSensorsPlugin {
 				/// Return Type: int
 				///chip1: sensors_chip_name
 				///chip2: sensors_chip_name
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_match_chip")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_match_chip")]
 				public static extern int sensors_match_chip(sensors_chip_name chip1, 
 					sensors_chip_name chip2);
 
 
 				/// Return Type: int
 				///chip: sensors_chip_name
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_chip_name_has_wildcards")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_chip_name_has_wildcards")]
 				public static extern int sensors_chip_name_has_wildcards(sensors_chip_name chip);
 
 
 				/// Return Type: char*
 				///bus_nr: int
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_get_adapter_name")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_get_adapter_name")]
 				public static extern IntPtr sensors_get_adapter_name(int bus_nr);
 
 
 				/// Return Type: char*
 				///bus_nr: int
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_get_algorithm_name")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_get_algorithm_name")]
 				public static extern IntPtr sensors_get_algorithm_name(int bus_nr);
 
 
@@ -127,7 +130,7 @@ namespace libSensorsPlugin {
 				///name: sensors_chip_name
 				///feature: int
 				///result: char**
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_get_label")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_get_label")]
 				public static extern int sensors_get_label(sensors_chip_name name, int feature, 
 					ref IntPtr result);
 
@@ -136,7 +139,7 @@ namespace libSensorsPlugin {
 				///name: sensors_chip_name
 				///feature: int
 				///result: double*
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_get_feature")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_get_feature")]
 				public static extern int sensors_get_feature(sensors_chip_name name, int feature, 
 					ref double result);
 
@@ -145,25 +148,25 @@ namespace libSensorsPlugin {
 				///name: sensors_chip_name
 				///feature: int
 				///value: double
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_set_feature")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_set_feature")]
 				public static extern int sensors_set_feature(sensors_chip_name name, int feature, 
 					double value);
 
 
 				/// Return Type: int
 				///name: sensors_chip_name
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_do_chip_sets")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_do_chip_sets")]
 				public static extern int sensors_do_chip_sets(sensors_chip_name name);
 
 
 				/// Return Type: int
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_do_all_sets")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_do_all_sets")]
 				public static extern int sensors_do_all_sets();
 
 
 				/// Return Type: sensors_chip_name*
 				///nr: int*
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_get_detected_chips")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_get_detected_chips")]
 				public static extern IntPtr sensors_get_detected_chips(ref int nr);
 
 
@@ -171,7 +174,7 @@ namespace libSensorsPlugin {
 				///name: sensors_chip_name
 				///nr1: int*
 				///nr2: int*
-				[DllImportAttribute("libsensors.so", EntryPoint = "sensors_get_all_features")]
+				[DllImportAttribute(libsensors, EntryPoint = "sensors_get_all_features")]
 				public static extern IntPtr sensors_get_all_features(sensors_chip_name name, 
 					ref int nr1, ref int nr2);
 		}
@@ -193,15 +196,14 @@ namespace libSensorsPlugin {
 
 			//Close config file
 			UnixImports.fclose(filePointer);
-
+			
 			//Get all chip names and features
 			int nr = 0;
 			IntPtr chipNamePtr;
 			while((chipNamePtr = UnixImports.sensors_get_detected_chips(ref nr)) != IntPtr.Zero) {
 				
-				UnixImports.sensors_chip_name chipName = new UnixImports.sensors_chip_name();
-
-				Marshal.PtrToStructure(chipNamePtr, chipName);
+				UnixImports.sensors_chip_name chipName = 
+					(UnixImports.sensors_chip_name) Marshal.PtrToStructure(chipNamePtr, typeof(UnixImports.sensors_chip_name));
 				_chips.Add(chipName, new List<UnixImports.sensors_feature_data>());
 
 				//Get all chip features
@@ -209,22 +211,29 @@ namespace libSensorsPlugin {
 				IntPtr featurePtr;
 				while ((featurePtr = UnixImports.sensors_get_all_features(chipName, ref nr1, ref nr2)) != IntPtr.Zero) {
 				
-					UnixImports.sensors_feature_data feature = new UnixImports.sensors_feature_data();
-
-					Marshal.PtrToStructure(featurePtr, feature);
+					UnixImports.sensors_feature_data feature =
+						(UnixImports.sensors_feature_data) Marshal.PtrToStructure(featurePtr, typeof(UnixImports.sensors_feature_data));
 					_chips[chipName].Add(feature);
 				}
 			}
-
-			foreach(UnixImports.sensors_chip_name cn in _chips.Keys)
-				foreach(UnixImports.sensors_feature_data fd in _chips[cn])
-					Console.WriteLine(fd.number + " " + fd.name);
+			
+			foreach(UnixImports.sensors_chip_name cn in _chips.Keys) {
+				Console.WriteLine(cn.prefix);
+				foreach(UnixImports.sensors_feature_data fd in _chips[cn]) {
+					double result = 0;
+					if(UnixImports.sensors_get_feature(cn, fd.number, ref result) != 0)
+						Console.WriteLine("Error");
+					   
+					Console.WriteLine(" " + fd.number + " " + fd.name + " " + result);
+				}
+			}
 		}
 
 		~LibSensorsWrapper() {
 			if (Environment.OSVersion.Platform != PlatformID.Unix)
 				return;
 
+			
 			UnixImports.sensors_cleanup();
 		}
 	}

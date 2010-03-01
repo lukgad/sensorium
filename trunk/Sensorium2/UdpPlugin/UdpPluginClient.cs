@@ -76,6 +76,7 @@ namespace UdpPlugin {
 				return _udpClient.Receive(ref remoteEndPoint);
 			} catch (SocketException se) {
 				_log.Error(HostName + ":" + Port + " - Socket Exception, " + se.SocketErrorCode + ": " + se.Message);
+				
 				return new byte[0];
 			}
 		}
