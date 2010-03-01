@@ -15,5 +15,14 @@ namespace libSensorsPlugin {
 		public override string SensorToString(Sensor sensor) {
 			throw new NotImplementedException();
 		}
+
+		private LibSensorsWrapper _wrapper;
+
+		public override void Init(PluginMode mode)
+		{
+			base.Init(mode);
+
+			_wrapper = new LibSensorsWrapper();
+		}
 	}
 }
