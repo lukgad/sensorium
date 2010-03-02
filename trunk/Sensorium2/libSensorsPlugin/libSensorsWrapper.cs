@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using log4net;
 
 namespace libSensorsPlugin {
 	sealed class LibSensorsWrapper
@@ -374,6 +375,8 @@ namespace libSensorsPlugin {
 // ReSharper restore UnusedMember.Local
 // ReSharper restore InconsistentNaming
 
+		private readonly ILog _log = LogManager.GetLogger(typeof (LibSensorsWrapper));
+
 		private readonly Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>> _chips = 
 			new Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>>();
 
@@ -411,20 +414,19 @@ namespace libSensorsPlugin {
 
 			//Print collected data
 			foreach (IntPtr cn in _chips.Keys) {
-				Console.WriteLine(((sensors_chip_name) 
+				_log.Debug("Detected chip: " + ((sensors_chip_name) 
 					Marshal.PtrToStructure(cn, typeof (sensors_chip_name))).prefix);
 				foreach (IntPtr f in _chips[cn].Keys) {
-					Console.WriteLine(" " + ((sensors_feature) 
+					_log.Debug("Feature: " + ((sensors_feature) 
 						Marshal.PtrToStructure(f, typeof (sensors_feature))).name);
 					foreach (IntPtr sf in _chips[cn][f]) {
 						double value = 0;
 						if (NativeMethods.sensors_get_value(cn,	((sensors_subfeature)
 							Marshal.PtrToStructure(sf, typeof (sensors_subfeature))).number,ref value) != 0)
-							Console.WriteLine("ERROR");
-						
-						Console.WriteLine("  " + ((sensors_subfeature) 
-						                          Marshal.PtrToStructure(sf, typeof (sensors_subfeature))).name + 
-						                  " " + value);
+							_log.Debug("Error retieving value for: ");
+							_log.Debug("Subfeature: " + ((sensors_subfeature) 
+										Marshal.PtrToStructure(sf, typeof (sensors_subfeature))).name + 
+										" " + value);
 					}
 				}
 			}
