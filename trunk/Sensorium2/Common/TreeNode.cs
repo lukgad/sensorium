@@ -16,9 +16,13 @@ namespace Sensorium.Common {
 
 		public TreeNode() {}
 
-		public void AddChild(TreeNode<T> node) {
+		public void Add(TreeNode<T> node) {
 			_children.Add(node);
 			node.Parent = this;
+		}
+
+		public override string ToString() {
+			return string.Format("{0} - {1} children", Contents, _children.Count);
 		}
 	}
 }
