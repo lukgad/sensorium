@@ -13,6 +13,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace libSensorsPlugin {
@@ -23,7 +25,7 @@ namespace libSensorsPlugin {
 		private const string libc = "libc.so.6";
 		private const string libsensors = "libsensors.so.4";
 		private const string libsensors_conf = "libsensors.conf.3";
-		private partial class NativeConstants
+		private static partial class NativeConstants
 		{
 
 			/// SENSORS_MODE_R -> 1
@@ -247,7 +249,7 @@ namespace libSensorsPlugin {
 			public uint flags;
 		}
 
-		private partial class NativeMethods
+		private static partial class NativeMethods
 		{
 
 			/// Return Type: int
@@ -267,13 +269,13 @@ namespace libSensorsPlugin {
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_parse_chip_name")]
 			public static extern int sensors_parse_chip_name(
 				[InAttribute] [MarshalAsAttribute(UnmanagedType.LPStr)] string orig_name, 
-				ref sensors_chip_name res);
+				IntPtr res);
 
 
 			/// Return Type: void
 			///chip: sensors_chip_name*
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_free_chip_name")]
-			public static extern void sensors_free_chip_name(ref sensors_chip_name chip);
+			public static extern void sensors_free_chip_name(IntPtr chip);
 
 
 			/// Return Type: int
@@ -284,14 +286,14 @@ namespace libSensorsPlugin {
 			public static extern int sensors_snprintf_chip_name(
 				[InAttribute] [MarshalAsAttribute(UnmanagedType.LPStr)] string str, 
 				[MarshalAsAttribute(UnmanagedType.SysUInt)] uint size, 
-				ref sensors_chip_name chip);
+				IntPtr chip);
 
 
 			/// Return Type: char*
 			///bus: sensors_bus_id*
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_get_adapter_name")]
 			[return: MarshalAs(UnmanagedType.LPStr)]
-			public static extern string sensors_get_adapter_name(ref sensors_bus_id bus);
+			public static extern string sensors_get_adapter_name(IntPtr bus);
 
 
 			/// Return Type: char*
@@ -299,8 +301,8 @@ namespace libSensorsPlugin {
 			///feature: sensors_feature*
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_get_label")]
 			[return: MarshalAs(UnmanagedType.LPStr)]
-			public static extern string sensors_get_label(ref sensors_chip_name name, 
-				ref sensors_feature feature);
+			public static extern string sensors_get_label(IntPtr name, 
+				IntPtr feature);
 
 
 			/// Return Type: int
@@ -308,7 +310,7 @@ namespace libSensorsPlugin {
 			///subfeat_nr: int
 			///value: double*
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_get_value")]
-			public static extern int sensors_get_value(ref sensors_chip_name name, 
+			public static extern int sensors_get_value(IntPtr name, 
 				int subfeat_nr, ref double value);
 
 
@@ -317,21 +319,21 @@ namespace libSensorsPlugin {
 			///subfeat_nr: int
 			///value: double
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_set_value")]
-			public static extern int sensors_set_value(ref sensors_chip_name name, 
+			public static extern int sensors_set_value(IntPtr name, 
 				int subfeat_nr, double value);
 
 
 			/// Return Type: int
 			///name: sensors_chip_name*
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_do_chip_sets")]
-			public static extern int sensors_do_chip_sets(ref sensors_chip_name name);
+			public static extern int sensors_do_chip_sets(IntPtr name);
 
 
 			/// Return Type: sensors_chip_name*
 			///match: sensors_chip_name*
 			///nr: int*
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_get_detected_chips")]
-			public static extern IntPtr sensors_get_detected_chips(ref sensors_chip_name match, 
+			public static extern IntPtr sensors_get_detected_chips(IntPtr match, 
 				ref int nr);
 
 
@@ -339,7 +341,7 @@ namespace libSensorsPlugin {
 			///name: sensors_chip_name*
 			///nr: int*
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_get_features")]
-			public static extern IntPtr sensors_get_features(ref sensors_chip_name name, 
+			public static extern IntPtr sensors_get_features(IntPtr name, 
 				ref int nr);
 
 
@@ -348,8 +350,8 @@ namespace libSensorsPlugin {
 			///feature: sensors_feature*
 			///nr: int*
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_get_all_subfeatures")]
-			public static extern IntPtr sensors_get_all_subfeatures(ref sensors_chip_name name, 
-				ref sensors_feature feature, ref int nr);
+			public static extern IntPtr sensors_get_all_subfeatures(IntPtr name, 
+				IntPtr feature, ref int nr);
 
 
 			/// Return Type: sensors_subfeature*
@@ -357,20 +359,67 @@ namespace libSensorsPlugin {
 			///feature: sensors_feature*
 			///type: sensors_subfeature_type
 			[DllImportAttribute(libsensors, EntryPoint = "sensors_get_subfeature")]
-			public static extern IntPtr sensors_get_subfeature(ref sensors_chip_name name, 
-				ref sensors_feature feature, sensors_subfeature_type type);
+			public static extern IntPtr sensors_get_subfeature(IntPtr name, 
+				IntPtr feature, sensors_subfeature_type type);
 
 		}
 
-		private partial class NativeMethods {
+		private static partial class NativeMethods {
 			[DllImport(libc)]
-			static extern IntPtr fopen(String filename, String mode);
+			public static extern IntPtr fopen(String filename, String mode);
 			
 			[DllImport(libc)]
-			static extern Int32 fclose(IntPtr file);
+			public static extern Int32 fclose(IntPtr file);
 		}
 // ReSharper restore UnusedMember.Local
 // ReSharper restore InconsistentNaming
-		
+
+		private readonly Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>> _chips;
+
+		public LibSensorsWrapper() {
+			if(Environment.OSVersion.Platform != PlatformID.Unix)
+				return;
+
+			IntPtr filePtr = NativeMethods.fopen(libsensors_conf, "r");
+			if(NativeMethods.sensors_init(filePtr) != 0)
+				throw new InvalidDataException();
+			NativeMethods.fclose(filePtr);
+
+			int cnr = 0;
+			IntPtr chipNamePtr;
+            while((chipNamePtr = NativeMethods.sensors_get_detected_chips(IntPtr.Zero, ref cnr)) != IntPtr.Zero) {
+				sensors_chip_name chipName = (sensors_chip_name)
+					Marshal.PtrToStructure(chipNamePtr, typeof(sensors_chip_name));
+				
+				_chips.Add(chipNamePtr,new Dictionary<IntPtr, List<IntPtr>>());
+
+            	int fnr = 0;
+            	IntPtr mainFeaturePtr;
+				while((mainFeaturePtr = NativeMethods.sensors_get_features(chipNamePtr, ref fnr)) != IntPtr.Zero) {
+					sensors_feature mainFeature = 
+						(sensors_feature)Marshal.PtrToStructure(mainFeaturePtr, typeof(sensors_feature));
+
+					_chips[chipNamePtr].Add(mainFeaturePtr, new List<IntPtr>());
+
+					int sfnr = 0;
+					IntPtr subFeaturePtr;
+					while ((subFeaturePtr = NativeMethods.sensors_get_all_subfeatures(IntPtr.Zero, mainFeaturePtr,
+						ref sfnr)) != IntPtr.Zero) {
+						_chips[chipNamePtr][mainFeaturePtr].Add(subFeaturePtr);
+					}
+				}
+			}
+			foreach (IntPtr cn in _chips.Keys) {
+				Console.WriteLine(((sensors_chip_name) 
+					Marshal.PtrToStructure(cn, typeof (sensors_chip_name))).prefix);
+				foreach (IntPtr f in _chips[cn].Keys) {
+					Console.WriteLine(" " + ((sensors_feature) 
+						Marshal.PtrToStructure(f, typeof (sensors_feature))).name);
+					foreach (IntPtr sf in _chips[cn][f]) {
+						Console.WriteLine("  " + ((sensors_subfeature) Marshal.PtrToStructure(sf, typeof (sensors_subfeature))).name);
+					}
+				}
+			}
+		}
 	}
 }
