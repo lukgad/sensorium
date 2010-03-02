@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using log4net;
+using Sensorium.Common;
 
 namespace libSensorsPlugin {
 	sealed class LibSensorsWrapper {
@@ -377,8 +378,10 @@ namespace libSensorsPlugin {
 		#endregion
 		private readonly ILog _log = LogManager.GetLogger(typeof (LibSensorsWrapper));
 
-		private readonly Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>> _chips = 
-			new Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>>();
+		//private readonly Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>> _chips = 
+		//	new Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>>();
+
+		private readonly TreeNode<IntPtr> _chips = new TreeNode<IntPtr>();
 
 		public LibSensorsWrapper() {
 			if(Environment.OSVersion.Platform != PlatformID.Unix)
@@ -392,38 +395,43 @@ namespace libSensorsPlugin {
 			IntPtr chipNamePtr;
             while((chipNamePtr = NativeMethods.sensors_get_detected_chips(IntPtr.Zero, ref cnr)) != IntPtr.Zero) {
 				//Add a new chip (pointer)
-				_chips.Add(chipNamePtr,new Dictionary<IntPtr, List<IntPtr>>());
+				//_chips.Add(chipNamePtr,new Dictionary<IntPtr, List<IntPtr>>());
+				TreeNode<IntPtr> chipNameNode = new TreeNode<IntPtr>(chipNamePtr);
+                _chips.AddChild(chipNameNode);
 
             	int fnr = 0;
             	IntPtr mainFeaturePtr;
 				while((mainFeaturePtr = NativeMethods.sensors_get_features(chipNamePtr, ref fnr)) != IntPtr.Zero) {
 					//Add main feature (pointer)
-					_chips[chipNamePtr].Add(mainFeaturePtr, new List<IntPtr>());
+					//_chips[chipNamePtr].Add(mainFeaturePtr, new List<IntPtr>());
+					TreeNode<IntPtr> mainFeatureNode = new TreeNode<IntPtr>(mainFeaturePtr);
+					chipNameNode.AddChild(mainFeatureNode);
 
 					int sfnr = 0;
 					IntPtr subFeaturePtr;
 					while ((subFeaturePtr = NativeMethods.sensors_get_all_subfeatures(chipNamePtr, mainFeaturePtr,
 						ref sfnr)) != IntPtr.Zero) {
 						//Add subfeature (pointer)
-						_chips[chipNamePtr][mainFeaturePtr].Add(subFeaturePtr);
+						//_chips[chipNamePtr][mainFeaturePtr].Add(subFeaturePtr);
+						mainFeatureNode.AddChild(new TreeNode<IntPtr>(subFeaturePtr));
 					}
 				}
 			}
 
 			//Print collected data
-			foreach (IntPtr cn in _chips.Keys) {
+			foreach (TreeNode<IntPtr> cn in _chips.Children) {
 				_log.Debug("Detected chip: " + ((sensors_chip_name) 
-					Marshal.PtrToStructure(cn, typeof (sensors_chip_name))).prefix);
-				foreach (IntPtr f in _chips[cn].Keys) {
+					Marshal.PtrToStructure(cn.Contents, typeof (sensors_chip_name))).prefix);
+				foreach (TreeNode<IntPtr> f in cn.Children) {
 					_log.Debug("Feature: " + ((sensors_feature) 
-						Marshal.PtrToStructure(f, typeof (sensors_feature))).name);
-					foreach (IntPtr sf in _chips[cn][f]) {
+						Marshal.PtrToStructure(f.Contents, typeof (sensors_feature))).name);
+					foreach (TreeNode<IntPtr> sf in f.Children) {
 						double value = 0;
-						if (NativeMethods.sensors_get_value(cn,	((sensors_subfeature)
-							Marshal.PtrToStructure(sf, typeof (sensors_subfeature))).number,ref value) != 0)
+						if (NativeMethods.sensors_get_value(cn.Contents, ((sensors_subfeature)
+							Marshal.PtrToStructure(sf.Contents, typeof (sensors_subfeature))).number,ref value) != 0)
 							_log.Debug("Error retrieving value for...");
 							_log.Debug("Subfeature: " + ((sensors_subfeature) 
-										Marshal.PtrToStructure(sf, typeof (sensors_subfeature))).name + 
+										Marshal.PtrToStructure(sf.Contents, typeof (sensors_subfeature))).name + 
 										" " + value);
 					}
 				}
