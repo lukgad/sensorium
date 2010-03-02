@@ -19,8 +19,8 @@ using System.Runtime.InteropServices;
 using log4net;
 
 namespace libSensorsPlugin {
-	sealed class LibSensorsWrapper
-	{
+	sealed class LibSensorsWrapper {
+		#region Imports
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Local
 		private const string libc = "libc.so.6";
@@ -374,7 +374,7 @@ namespace libSensorsPlugin {
 		}
 // ReSharper restore UnusedMember.Local
 // ReSharper restore InconsistentNaming
-
+		#endregion
 		private readonly ILog _log = LogManager.GetLogger(typeof (LibSensorsWrapper));
 
 		private readonly Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>> _chips = 
