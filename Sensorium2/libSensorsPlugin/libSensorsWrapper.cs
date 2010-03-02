@@ -386,30 +386,30 @@ namespace libSensorsPlugin {
 				throw new InvalidDataException();
 			//NativeMethods.fclose(filePtr);
 
+			//Incredibly messy process of getting all chips, features and subfeatures
 			int cnr = 0;
 			IntPtr chipNamePtr;
             while((chipNamePtr = NativeMethods.sensors_get_detected_chips(IntPtr.Zero, ref cnr)) != IntPtr.Zero) {
-				//sensors_chip_name chipName = (sensors_chip_name)
-				//	Marshal.PtrToStructure(chipNamePtr, typeof(sensors_chip_name));
-				
+				//Add a new chip (pointer)
 				_chips.Add(chipNamePtr,new Dictionary<IntPtr, List<IntPtr>>());
 
             	int fnr = 0;
             	IntPtr mainFeaturePtr;
 				while((mainFeaturePtr = NativeMethods.sensors_get_features(chipNamePtr, ref fnr)) != IntPtr.Zero) {
-					//sensors_feature mainFeature = 
-					//	(sensors_feature)Marshal.PtrToStructure(mainFeaturePtr, typeof(sensors_feature));
-					
+					//Add main feature (pointer)
 					_chips[chipNamePtr].Add(mainFeaturePtr, new List<IntPtr>());
 
 					int sfnr = 0;
 					IntPtr subFeaturePtr;
 					while ((subFeaturePtr = NativeMethods.sensors_get_all_subfeatures(chipNamePtr, mainFeaturePtr,
 						ref sfnr)) != IntPtr.Zero) {
+						//Add subfeature (pointer)
 						_chips[chipNamePtr][mainFeaturePtr].Add(subFeaturePtr);
 					}
 				}
 			}
+
+			//Print collected data
 			foreach (IntPtr cn in _chips.Keys) {
 				Console.WriteLine(((sensors_chip_name) 
 					Marshal.PtrToStructure(cn, typeof (sensors_chip_name))).prefix);
