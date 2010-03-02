@@ -384,11 +384,9 @@ namespace libSensorsPlugin {
 			if(Environment.OSVersion.Platform != PlatformID.Unix)
 				return;
 
-			IntPtr filePtr = NativeMethods.fopen(libsensors_conf, "r");
-			if(NativeMethods.sensors_init(filePtr) != 0)
+			if(NativeMethods.sensors_init(NativeMethods.fopen(libsensors_conf, "r")) != 0)
 				throw new InvalidDataException();
-			//NativeMethods.fclose(filePtr);
-
+			
 			//Incredibly messy process of getting all chips, features and subfeatures
 			int cnr = 0;
 			IntPtr chipNamePtr;
@@ -423,7 +421,7 @@ namespace libSensorsPlugin {
 						double value = 0;
 						if (NativeMethods.sensors_get_value(cn,	((sensors_subfeature)
 							Marshal.PtrToStructure(sf, typeof (sensors_subfeature))).number,ref value) != 0)
-							_log.Debug("Error retieving value for: ");
+							_log.Debug("Error retrieving value for...");
 							_log.Debug("Subfeature: " + ((sensors_subfeature) 
 										Marshal.PtrToStructure(sf, typeof (sensors_subfeature))).name + 
 										" " + value);
