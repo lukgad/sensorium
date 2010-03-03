@@ -378,9 +378,6 @@ namespace libSensorsPlugin {
 		#endregion
 		private readonly ILog _log = LogManager.GetLogger(typeof (LibSensorsWrapper));
 
-		//private readonly Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>> _chips = 
-		//	new Dictionary<IntPtr, Dictionary<IntPtr, List<IntPtr>>>();
-
 		private readonly TreeNode<IntPtr> _chips = new TreeNode<IntPtr>();
 
 		public LibSensorsWrapper() {
@@ -427,6 +424,7 @@ namespace libSensorsPlugin {
 						if (NativeMethods.sensors_get_value(cn.Contents, ((sensors_subfeature)
 							Marshal.PtrToStructure(sf.Contents, typeof (sensors_subfeature))).number,ref value) != 0)
 							_log.Debug("Error retrieving value for...");
+
 							_log.Debug("Subfeature: " + ((sensors_subfeature) 
 										Marshal.PtrToStructure(sf.Contents, typeof (sensors_subfeature))).name + 
 										" " + value);
