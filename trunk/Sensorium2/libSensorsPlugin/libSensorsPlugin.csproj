@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="libSensorsPlugin.cs" />
+    <Compile Include="LibSensorsTreeNode.cs" />
     <Compile Include="libSensorsWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

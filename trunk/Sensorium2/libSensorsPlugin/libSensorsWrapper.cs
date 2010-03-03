@@ -391,14 +391,14 @@ namespace libSensorsPlugin {
 			IntPtr chipNamePtr;
             while((chipNamePtr = NativeMethods.sensors_get_detected_chips(IntPtr.Zero, ref cnr)) != IntPtr.Zero) {
 				//Add a new chip (pointer)
-				TreeNode<IntPtr> chipNameNode = new TreeNode<IntPtr>(chipNamePtr);
+				TreeNode<IntPtr> chipNameNode = new LibSensorsTreeNode(chipNamePtr, NodeType.Chip);
                 _chips.Add(chipNameNode);
 
             	int fnr = 0;
             	IntPtr mainFeaturePtr;
 				while((mainFeaturePtr = NativeMethods.sensors_get_features(chipNamePtr, ref fnr)) != IntPtr.Zero) {
 					//Add main feature (pointer)
-					TreeNode<IntPtr> mainFeatureNode = new TreeNode<IntPtr>(mainFeaturePtr);
+					TreeNode<IntPtr> mainFeatureNode = new LibSensorsTreeNode(mainFeaturePtr, NodeType.Feature);
 					chipNameNode.Add(mainFeatureNode);
 
 					int sfnr = 0;
@@ -406,7 +406,7 @@ namespace libSensorsPlugin {
 					while ((subFeaturePtr = NativeMethods.sensors_get_all_subfeatures(chipNamePtr, mainFeaturePtr,
 						ref sfnr)) != IntPtr.Zero) {
 						//Add subfeature (pointer)
-						mainFeatureNode.Add(new TreeNode<IntPtr>(subFeaturePtr));
+							mainFeatureNode.Add(new LibSensorsTreeNode(subFeaturePtr, NodeType.SubFeature));
 					}
 				}
 			}
