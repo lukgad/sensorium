@@ -25,7 +25,7 @@ namespace Sensorium.Common {
 			return string.Format("{0} - {1} children", Contents, _children.Count);
 		}
 
-		public void Traverse(IVisitor v) {
+		public void Traverse(IVisitor<TreeNode<T>> v) {
 			v.Visit(this);
 			foreach(TreeNode<T> t in _children)
 				t.Traverse(v);

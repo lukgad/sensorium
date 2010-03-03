@@ -1,7 +1,7 @@
 ﻿namespace Sensorium.Common
 {
-	public interface IVisitor
+	public interface IVisitor<T>
 	{
-		void Visit(object o);
+		void Visit(T t);
 	}
 }
