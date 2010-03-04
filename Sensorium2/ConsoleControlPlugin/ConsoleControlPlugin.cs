@@ -99,18 +99,16 @@ namespace ConsoleControlPlugin {
 					break;
 				case State.DisplaySensors:
 					Console.Clear();
-					List<Sensor> tempSensors = SensoriumFactory.GetAppInterface().Sensors;
-				
-					Console.WriteLine(tempSensors.Capacity + " sensors");
+					Console.WriteLine(SensoriumFactory.GetAppInterface().Sensors.Count + " sensors");
 					
-					foreach (Type t in PluginTypes) {
-						foreach (IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
-							if (t.IsAssignableFrom(i.GetType())) {
-								Console.WriteLine(" {0}", i.Name);
-								foreach (Sensor s in tempSensors)
-									if (s.SourcePlugin.Equals(i.Name))
-										Console.WriteLine("  " + s.Name.PadRight(6) + ((DataPlugin)i).SensorToString(s).PadLeft(8));
-							}
+					foreach (IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
+						if (typeof(CommPlugin).IsAssignableFrom(i.GetType()) || 
+							typeof(DataPlugin).IsAssignableFrom(i.GetType())) {
+							Console.WriteLine(" {0}", i.Name);
+
+							foreach (Sensor s in SensoriumFactory.GetAppInterface().Sensors)
+								if (s.SourcePlugin.Equals(i.Name))
+									Console.WriteLine("  " + s.Name.PadRight(6) + ((DataPlugin)i).SensorToString(s).PadLeft(8));
 						}
 					}
 					break;
