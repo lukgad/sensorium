@@ -23,6 +23,7 @@ namespace libSensorsPlugin {
 		#region Imports
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedMember.Local
 		private const string libc = "libc.so.6";
 		private const string libsensors = "libsensors.so.4";
 		private const string libsensors_conf = "libsensors.conf.3";
@@ -250,7 +251,7 @@ namespace libSensorsPlugin {
 			public uint flags;
 		}
 
-		internal static partial class NativeMethods
+		private static partial class NativeMethods
 		{
 
 			/// Return Type: int
@@ -365,13 +366,15 @@ namespace libSensorsPlugin {
 
 		}
 
-		internal static partial class NativeMethods {
+		private static partial class NativeMethods {
 			[DllImport(libc)]
 			public static extern IntPtr fopen(String filename, String mode);
 			
 			[DllImport(libc)]
 			public static extern Int32 fclose(IntPtr file);
+
 		}
+// ReSharper restore UnusedMember.Local
 // ReSharper restore UnusedMember.Global
 // ReSharper restore InconsistentNaming
 		#endregion
@@ -446,11 +449,26 @@ namespace libSensorsPlugin {
 			return (sensors_feature) Marshal.PtrToStructure(feature.Contents, typeof (sensors_feature));
 		}
 
-		internal static sensors_subfeature GetSubfeatureStruct(LibSensorsTreeNode subFeature) {
-			if (subFeature.NodeType != NodeType.SubFeature)
+		internal static sensors_subfeature GetSubfeatureStruct(LibSensorsTreeNode subfeature) {
+			if (subfeature.NodeType != NodeType.SubFeature)
 				throw new ArgumentException();
 
-			return (sensors_subfeature) Marshal.PtrToStructure(subFeature.Contents, typeof (sensors_subfeature));
+			return (sensors_subfeature) Marshal.PtrToStructure(subfeature.Contents, typeof (sensors_subfeature));
+		}
+
+		internal static double GetSubfeatureValue(LibSensorsTreeNode subfeature) {
+			if (subfeature.NodeType != NodeType.SubFeature)
+				throw new ArgumentException();
+
+			double value = 0;
+            if (NativeMethods.sensors_get_value(subfeature.Parent.Parent.Contents, GetSubfeatureStruct(subfeature).number,ref value) != 0)
+				throw new Exception();
+
+			return value;
+		}
+
+		~LibSensorsWrapper() {
+			NativeMethods.sensors_cleanup();
 		}
 	}
 }
