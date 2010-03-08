@@ -19,7 +19,7 @@ using log4net;
 using Sensorium.Common;
 
 namespace libSensorsPlugin {
-	sealed class LibSensorsWrapper {
+	internal sealed class LibSensorsWrapper {
 		#region Imports
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Local

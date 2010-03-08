@@ -25,7 +25,7 @@ namespace Sensorium.Common {
 			set { _sensors = value; }
 		}
 
-		public List<IPluginInterface> Plugins { get; set; }
+		public Dictionary<string, IPluginInterface> Plugins { get; set; }
 
 		public SettingsPlugin EnabledSettingsPlugin { get; set; }
 
