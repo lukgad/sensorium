@@ -91,8 +91,7 @@ namespace SpeedFanPlugin
 			get { return "SpeedFan"; }
 		}
 
-		public override int Version
-		{
+		public override int Version {
 			get { return 1; }
 		}
 
