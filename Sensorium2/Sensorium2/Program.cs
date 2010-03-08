@@ -66,9 +66,9 @@ namespace Sensorium2
 			
 			//Start enabled plugins
 			Log.Info("Starting enabled plugins...");
-			foreach(IPluginInterface i in Me.Plugins)
-				if (i.Enabled) {
-					i.Start();
+			foreach(string p in Me.Plugins.Keys)
+				if (Me.Plugins[p].Enabled) {
+					Me.Plugins[p].Start();
 				}
 			
         	_running = true;
@@ -83,9 +83,9 @@ namespace Sensorium2
 		private static void HandleExit(object sender, EventArgs e) {
 			_running = false;
 
-			foreach (IPluginInterface i in Me.Plugins) {
-				if (i.Enabled)
-					i.Stop();
+			foreach (string p in Me.Plugins.Keys) {
+				if (Me.Plugins[p].Enabled)
+					Me.Plugins[p].Stop();
 			}
 		}
 
@@ -147,7 +147,11 @@ namespace Sensorium2
 		private static void InitPlugins()
 		{
 			//Get all plugins
-			Me.Plugins = PluginLoader.GetPlugins(_pluginDir, _recursive);
+			//Me.Plugins = PluginLoader.GetPlugins(_pluginDir, _recursive);
+			Me.Plugins = new Dictionary<string, IPluginInterface>();
+			foreach (IPluginInterface i in PluginLoader.GetPlugins(_pluginDir, _recursive))
+				Me.Plugins.Add(i.Name, i);
+
 			_allPluginsD = new Dictionary<string, IPluginInterface>();
 
 			_settingsPlugins = new List<SettingsPlugin>();
@@ -161,32 +165,32 @@ namespace Sensorium2
 			Log.Info("Initializing Plugins...");
 
 			//Add plugins to correct lists
-			foreach (IPluginInterface i in Me.Plugins) {
-				_allPluginsD.Add(i.Name, i);
+			foreach (string p in Me.Plugins.Keys) {
+				_allPluginsD.Add(Me.Plugins[p].Name, Me.Plugins[p]);
 
-				if (i is DataPlugin) {
-					_dataPlugins.Add((DataPlugin) i);
-				} else if (i is CommPlugin) {
-					_commPlugins.Add((CommPlugin) i);
-				} else if (i is ControlPlugin) {
-					_controlPlugins.Add((ControlPlugin) i);
-				} else if (i is SettingsPlugin) {
-					_settingsPlugins.Add((SettingsPlugin)i);
+				if (Me.Plugins[p] is DataPlugin) {
+					_dataPlugins.Add((DataPlugin)Me.Plugins[p]);
+				} else if (Me.Plugins[p] is CommPlugin) {
+					_commPlugins.Add((CommPlugin)Me.Plugins[p]);
+				} else if (Me.Plugins[p] is ControlPlugin) {
+					_controlPlugins.Add((ControlPlugin)Me.Plugins[p]);
+				} else if (Me.Plugins[p] is SettingsPlugin) {
+					_settingsPlugins.Add((SettingsPlugin)Me.Plugins[p]);
 
 					//Settings plugins have to init first
-					Log.Info(i.Name + ", Ver. " + i.Version + " initializing...");
-					((SettingsPlugin) i).Init(_settingsDir);
+					Log.Info(Me.Plugins[p].Name + ", Ver. " + Me.Plugins[p].Version + " initializing...");
+					((SettingsPlugin)Me.Plugins[p]).Init(_settingsDir);
 
-					if (!i.Enabled)
+					if (!Me.Plugins[p].Enabled)
 						Log.Info("Disabled");
 
-					if (i.Enabled) //Only 1 settings plugin can be enabled
+					if (Me.Plugins[p].Enabled) //Only 1 settings plugin can be enabled
 						if (Me.EnabledSettingsPlugin == null)
-							Me.EnabledSettingsPlugin = (SettingsPlugin)i;
+							Me.EnabledSettingsPlugin = (SettingsPlugin)Me.Plugins[p];
 						else
-							i.Enabled = false;
-				} else if (i.Enabled) {
-					_genericPlugins.Add(i);
+							Me.Plugins[p].Enabled = false;
+				} else if (Me.Plugins[p].Enabled) {
+					_genericPlugins.Add(Me.Plugins[p]);
 				}
 			}
 

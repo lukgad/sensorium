@@ -14,6 +14,7 @@
 
 using System;
 using Sensorium.Common;
+using Sensorium.Common.Plugins;
 
 namespace SpeedFanPlugin
 {
@@ -41,6 +42,11 @@ namespace SpeedFanPlugin
 
 		public override void SetData(byte[] data) {
 			
+		}
+
+		public override string ToString()
+		{
+			return ((DataPlugin) SensoriumFactory.GetAppInterface().Plugins["SpeedFan"]).SensorToString(this);
 		}
 	}
 }

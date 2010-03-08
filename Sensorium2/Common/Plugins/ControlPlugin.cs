@@ -64,15 +64,15 @@ namespace Sensorium.Common.Plugins {
 			DataPlugins = new List<DataPlugin>();
 			SettingsPlugins = new List<SettingsPlugin>();
 
-			foreach(IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
-				if (i is CommPlugin)
-					CommPlugins.Add((CommPlugin) i);
-				else if (i is ControlPlugin)
-					ControlPlugins.Add((ControlPlugin) i);
-				else if (i is DataPlugin)
-					DataPlugins.Add((DataPlugin) i);
-				else if (i is SettingsPlugin)
-					SettingsPlugins.Add((SettingsPlugin) i);
+			foreach(string s in SensoriumFactory.GetAppInterface().Plugins.Keys) {
+				if (SensoriumFactory.GetAppInterface().Plugins[s] is CommPlugin)
+					CommPlugins.Add((CommPlugin) SensoriumFactory.GetAppInterface().Plugins[s]);
+				else if (SensoriumFactory.GetAppInterface().Plugins[s] is ControlPlugin)
+					ControlPlugins.Add((ControlPlugin)SensoriumFactory.GetAppInterface().Plugins[s]);
+				else if (SensoriumFactory.GetAppInterface().Plugins[s] is DataPlugin)
+					DataPlugins.Add((DataPlugin) SensoriumFactory.GetAppInterface().Plugins[s]);
+				else if (SensoriumFactory.GetAppInterface().Plugins[s] is SettingsPlugin)
+					SettingsPlugins.Add((SettingsPlugin)SensoriumFactory.GetAppInterface().Plugins[s]);
 			}
 
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);

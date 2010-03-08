@@ -19,7 +19,7 @@ using Sensorium.Common.Plugins;
 namespace Sensorium.Common {
 	public interface IAppInterface {
 		List<Sensor> Sensors { get; }
-		List<IPluginInterface> Plugins { get; }
+		Dictionary<string, IPluginInterface> Plugins { get; }
 		SettingsPlugin EnabledSettingsPlugin { get; }
 		string HostId { get; }
 		List<MemoryAppender> Logs { get; }

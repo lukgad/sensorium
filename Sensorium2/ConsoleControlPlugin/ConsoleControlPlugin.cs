@@ -13,7 +13,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using log4net;
 using log4net.Appender;
@@ -101,14 +100,18 @@ namespace ConsoleControlPlugin {
 					Console.Clear();
 					Console.WriteLine(SensoriumFactory.GetAppInterface().Sensors.Count + " sensors");
 					
-					foreach (IPluginInterface i in SensoriumFactory.GetAppInterface().Plugins) {
-						if (typeof(CommPlugin).IsAssignableFrom(i.GetType()) || 
-							typeof(DataPlugin).IsAssignableFrom(i.GetType())) {
-							Console.WriteLine(" {0}", i.Name);
+					foreach (string p in SensoriumFactory.GetAppInterface().Plugins.Keys) {
+						if (typeof(CommPlugin).IsAssignableFrom(
+							SensoriumFactory.GetAppInterface().Plugins[p].GetType()) ||
+							typeof(DataPlugin).IsAssignableFrom(
+							SensoriumFactory.GetAppInterface().Plugins[p].GetType()))
+						{
+							Console.WriteLine(" {0}", SensoriumFactory.GetAppInterface().Plugins[p].Name);
 
 							foreach (Sensor s in SensoriumFactory.GetAppInterface().Sensors)
-								if (s.SourcePlugin.Equals(i.Name))
-									Console.WriteLine("  " + s.Name.PadRight(6) + ((DataPlugin)i).SensorToString(s).PadLeft(8));
+								if (s.SourcePlugin.Equals(SensoriumFactory.GetAppInterface().Plugins[p].Name))
+									Console.WriteLine("  " + s.Name.PadRight(6) +
+										((DataPlugin)SensoriumFactory.GetAppInterface().Plugins[p]).SensorToString(s).PadLeft(8));
 						}
 					}
 					break;
