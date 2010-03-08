@@ -22,11 +22,11 @@ namespace libSensorsPlugin {
 	internal sealed class LibSensorsWrapper {
 		#region Imports
 // ReSharper disable InconsistentNaming
-// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedMember.Global
 		private const string libc = "libc.so.6";
 		private const string libsensors = "libsensors.so.4";
 		private const string libsensors_conf = "libsensors.conf.3";
-		private static partial class NativeConstants
+		internal static class NativeConstants
 		{
 
 			/// SENSORS_MODE_R -> 1
@@ -40,7 +40,7 @@ namespace libSensorsPlugin {
 		}
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
-		private struct sensors_bus_id
+		internal struct sensors_bus_id
 		{
 
 			/// short
@@ -51,7 +51,7 @@ namespace libSensorsPlugin {
 		}
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
-		private struct sensors_chip_name
+		internal struct sensors_chip_name
 		{
 
 			/// char*
@@ -69,7 +69,7 @@ namespace libSensorsPlugin {
 			public string path;
 		}
 
-		private enum sensors_feature_type
+		internal enum sensors_feature_type
 		{
 
 			/// SENSORS_FEATURE_IN -> 0x00
@@ -100,7 +100,7 @@ namespace libSensorsPlugin {
 			SENSORS_FEATURE_UNKNOWN = 2147483647,
 		}
 
-		private enum sensors_subfeature_type
+		internal enum sensors_subfeature_type
 		{
 
 			/// SENSORS_SUBFEATURE_IN_INPUT -> SENSORS_FEATURE_IN<<8
@@ -209,7 +209,7 @@ namespace libSensorsPlugin {
 		}
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
-		private struct sensors_feature
+		internal struct sensors_feature
 		{
 
 			/// char*
@@ -230,7 +230,7 @@ namespace libSensorsPlugin {
 		}
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
-		private struct sensors_subfeature
+		internal struct sensors_subfeature
 		{
 
 			/// char*
@@ -250,7 +250,7 @@ namespace libSensorsPlugin {
 			public uint flags;
 		}
 
-		private static partial class NativeMethods
+		internal static partial class NativeMethods
 		{
 
 			/// Return Type: int
@@ -365,14 +365,14 @@ namespace libSensorsPlugin {
 
 		}
 
-		private static partial class NativeMethods {
+		internal static partial class NativeMethods {
 			[DllImport(libc)]
 			public static extern IntPtr fopen(String filename, String mode);
 			
 			[DllImport(libc)]
 			public static extern Int32 fclose(IntPtr file);
 		}
-// ReSharper restore UnusedMember.Local
+// ReSharper restore UnusedMember.Global
 // ReSharper restore InconsistentNaming
 		#endregion
 		private readonly ILog _log = LogManager.GetLogger(typeof (LibSensorsWrapper));
@@ -386,7 +386,7 @@ namespace libSensorsPlugin {
 			if(NativeMethods.sensors_init(NativeMethods.fopen(libsensors_conf, "r")) != 0)
 				throw new InvalidDataException();
 			
-			//Incredibly messy process of getting all chips, features and subfeatures
+			//Unavoidably messy process of getting all chips, features and subfeatures
 			int cnr = 0;
 			IntPtr chipNamePtr;
             while((chipNamePtr = NativeMethods.sensors_get_detected_chips(IntPtr.Zero, ref cnr)) != IntPtr.Zero) {
@@ -430,6 +430,27 @@ namespace libSensorsPlugin {
 					}
 				}
 			}
+		}
+		internal static sensors_chip_name GetChipNameStruct(LibSensorsTreeNode chip)
+		{
+			if (chip.NodeType != NodeType.Chip)
+				throw new ArgumentException();
+
+			return (sensors_chip_name) Marshal.PtrToStructure(chip.Contents, typeof (sensors_chip_name));
+		}
+
+		internal static sensors_feature GetFeatureStruct(LibSensorsTreeNode feature) {
+			if (feature.NodeType != NodeType.Feature)
+				throw new ArgumentException();
+
+			return (sensors_feature) Marshal.PtrToStructure(feature.Contents, typeof (sensors_feature));
+		}
+
+		internal static sensors_subfeature GetSubfeatureStruct(LibSensorsTreeNode subFeature) {
+			if (subFeature.NodeType != NodeType.SubFeature)
+				throw new ArgumentException();
+
+			return (sensors_subfeature) Marshal.PtrToStructure(subFeature.Contents, typeof (sensors_subfeature));
 		}
 	}
 }

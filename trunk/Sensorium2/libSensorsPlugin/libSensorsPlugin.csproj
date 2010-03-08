@@ -49,9 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="libSensorsPlugin.cs" />
-    <Compile Include="LibSensorsTreeNode.cs" />
-    <Compile Include="libSensorsWrapper.cs" />
+    <Compile Include="libsensorsPlugin.cs" />
+    <Compile Include="libsensorsSensor.cs" />
+    <Compile Include="llibsensorsTreeNode.cs" />
+    <Compile Include="libsensorsWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
