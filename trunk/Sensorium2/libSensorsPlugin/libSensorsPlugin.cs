@@ -28,16 +28,25 @@ namespace libSensorsPlugin {
 			get { return 1; }
 		}
 
+		private LibSensorsWrapper _wrapper;
+
+		public override void Init(PluginMode mode) {
+			base.Init(mode);
+
+			_wrapper = new LibSensorsWrapper();
+		}
+
 		public override string SensorToString(Sensor sensor) {
 			if (sensor.SourcePlugin != Name)
 				throw new ArgumentException("Invalid Sensor");
 
 			List<string> subfeatureNames = new List<string>();
 			List<double> subfeatureValues = new List<double>();
+
 			for (int i = 0; i < sensor.Data.Length; i += 8) {
-				//Get the string (name)
+				//Get the name (string)
 				List<byte> nameBytes = new List<byte>();
-				while(sensor.Data[i] != 0x00) {
+				while (sensor.Data[i] != 0x00) {
 					nameBytes.Add(sensor.Data[i]);
 					i++;
 				}
@@ -49,14 +58,6 @@ namespace libSensorsPlugin {
 			}
 
 			return null;
-		}
-
-		private LibSensorsWrapper _wrapper;
-
-		public override void Init(PluginMode mode) {
-			base.Init(mode);
-
-			_wrapper = new LibSensorsWrapper();
 		}
 	}
 }
