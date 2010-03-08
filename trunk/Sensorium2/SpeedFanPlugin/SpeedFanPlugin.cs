@@ -97,8 +97,8 @@ namespace SpeedFanPlugin
 		}
 
 		public override string SensorToString(Sensor sensor) {
-			if (!sensor.SourcePlugin.Equals("SpeedFan"))
-				throw new Exception("Invalid Sensor");
+			if (!sensor.SourcePlugin.Equals(Name))
+				throw new ArgumentException("Invalid Sensor");
 
 			if(sensor.Type.Equals("Temp"))
 				return (BitConverter.ToInt32(sensor.Data, 0) * TempMult) + "°";

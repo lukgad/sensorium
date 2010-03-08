@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
@@ -13,7 +14,10 @@ namespace libSensorsPlugin {
 		}
 
 		public override string SensorToString(Sensor sensor) {
-			throw new NotImplementedException();
+			if (sensor.SourcePlugin != Name)
+				throw new ArgumentException("Invalid Sensor");
+            
+			return null;
 		}
 
 		private LibSensorsWrapper _wrapper;
