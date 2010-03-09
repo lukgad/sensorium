@@ -33,6 +33,6 @@ namespace Sensorium.Common {
 		public string HostId {
 			get { return _hostId; }
 		}
-		public List<MemoryAppender> Logs { get; set; }
+		public MemoryAppender Log { get; set; }
 	}
 }

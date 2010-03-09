@@ -115,12 +115,10 @@ namespace ConsoleControlPlugin {
 
 				case State.DisplayLog:
 					Console.Clear();
-					foreach(MemoryAppender ma in SensoriumFactory.GetAppInterface().Logs) {
-						Console.WriteLine(ma.Name);
-						foreach (LoggingEvent le in ma.GetEvents()) {
-							Console.WriteLine("[{0}] {1} - {2}", le.GetLoggingEventData().TimeStamp, 
-								le.GetLoggingEventData().Level, le.GetLoggingEventData().Message);
-						}
+
+					foreach (LoggingEvent le in SensoriumFactory.GetAppInterface().Log.GetEvents()) {
+						Console.WriteLine("[{0}] {1} - {2}", le.GetLoggingEventData().TimeStamp, 
+							le.GetLoggingEventData().Level, le.GetLoggingEventData().Message);
 					}
 
 					_state = State.Idle;

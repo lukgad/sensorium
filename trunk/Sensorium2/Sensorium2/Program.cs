@@ -32,7 +32,7 @@ namespace Sensorium2
 	static class Program
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
-		private static readonly List<MemoryAppender> Logs = new List<MemoryAppender>();
+		private static MemoryAppender _memLog;
 		private static IAppenderAttachable _forwardingApp;
 
 		private static string _pluginDir = Environment.CurrentDirectory;
@@ -53,7 +53,9 @@ namespace Sensorium2
 
         static void Main(string[] args)
 		{
-        	Me.Logs = Logs;
+			_memLog = new MemoryAppender();
+
+        	Me.Log = _memLog;
 			
 			SetUpLog();
 			
@@ -333,9 +335,7 @@ namespace Sensorium2
 				_forwardingApp.AddAppender(colorConsoleAppender);
 
 				//Add a memory appender to the forwarder
-				MemoryAppender memoryAppender = new MemoryAppender();
-				_forwardingApp.AddAppender(memoryAppender);
-				Logs.Add(memoryAppender);
+				_forwardingApp.AddAppender(_memLog);
 			}
 		}
 	}
