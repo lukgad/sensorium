@@ -474,7 +474,8 @@ namespace libSensorsPlugin {
 		}
 
 		~LibSensorsWrapper() {
-			NativeMethods.sensors_cleanup();
+			if(Environment.OSVersion.Platform == PlatformID.Unix)
+				NativeMethods.sensors_cleanup();
 		}
 	}
 }
