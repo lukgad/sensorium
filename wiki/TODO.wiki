@@ -7,10 +7,9 @@ TODO Page
 
 = Details =
 
- * libSensors support is now under development.
  * The speedfan plugin needs more configurable options.
    * eg. Customisable sensor names.
- * Log4Net integrated. App is no longer dependent on presence of the Console.
+ * Log4Net integrated. App is no longer dependent on presence of the console.
+   * On Windows, hide the console after the startup if no plugin requires it.
  * GTK# control plugin.
  * WinForms control plugin.
- * A WPF control plugin (maybe).
