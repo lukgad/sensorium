@@ -16,6 +16,7 @@ using System;
 using System.Threading;
 using log4net;
 using log4net.Appender;
+using log4net.Core;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
@@ -23,6 +24,7 @@ namespace ConsoleControlPlugin {
 	public class ConsoleControlPlugin : ControlPlugin {
 
 		private bool _running;
+		private bool _paused;
 
 		public override string Name {
 			get { return "Console Control Plugin"; }
@@ -34,6 +36,7 @@ namespace ConsoleControlPlugin {
 	
 		public override void Start() {
 			_running = true;
+			_paused = false;
 			new Thread(WaitKey).Start();
 			new Thread(Update).Start();
 			Console.WriteLine("Press K to see control keys");
@@ -51,6 +54,11 @@ namespace ConsoleControlPlugin {
 
 		private void Update() {
 			while(_running) {
+				if (_paused) {
+					Thread.Sleep(1000);
+					continue;
+				}
+
 				UpdateConsole(new ConsoleKeyInfo());
 
 				int delay;
@@ -61,11 +69,14 @@ namespace ConsoleControlPlugin {
 			}
 		}
 
-        private enum State {Idle, DisplayMenu, DisplaySensors, Loggers, Appenders}
+        private enum State {Idle, DisplayMenu, DisplaySensors, Loggers, Appenders, DisplayLog}
 
-		private State _state;
+		private State _state = State.Idle;
 
 		private void UpdateConsole(ConsoleKeyInfo keyPress) {
+			Console.CursorVisible = false;
+
+			//Handle global keypresses
 			switch (keyPress.Key) {
 				case ConsoleKey.Q:
 					OnExit();
@@ -77,42 +88,60 @@ namespace ConsoleControlPlugin {
 					_state = State.DisplayMenu;
 					break;
 				case ConsoleKey.L:
-					if ((keyPress.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift)
-						_state = State.Loggers;
+					_state = (keyPress.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift ? State.Loggers : State.DisplayLog;
 					break;
 				case ConsoleKey.A:
 					_state = State.Appenders;
 					break;
+				case ConsoleKey.P:
+					_paused = !_paused;
+					break;
 			}
 
+			//Do the correct action for the current state
 			switch (_state) {
 				case State.DisplayMenu:
 					Console.Clear();
 					Console.WriteLine("Key".PadRight(5) + "Function");
 					Console.WriteLine("a".PadRight(5) + "(Debug) List of log4net appenders");
 					Console.WriteLine("k".PadRight(5) + "Display keys help (this list)");
+					Console.WriteLine("l".PadRight(5) + "Display current logs");
 					Console.WriteLine("L".PadRight(5) + "(Debug) List of log4net loggers");
+					Console.WriteLine("p".PadRight(5) + "Pause screen updates");
 					Console.WriteLine("s".PadRight(5) + "Sensors");
 					Console.WriteLine("q".PadRight(5) + "Quit");
 					_state = State.Idle;
 					break;
+
+				case State.DisplayLog:
+					Console.Clear();
+					foreach(MemoryAppender ma in SensoriumFactory.GetAppInterface().Logs) {
+						Console.WriteLine(ma.Name);
+						foreach (LoggingEvent le in ma.GetEvents()) {
+							Console.WriteLine("[{0}] {1} - {2}", le.GetLoggingEventData().TimeStamp, 
+								le.GetLoggingEventData().Level, le.GetLoggingEventData().Message);
+						}
+					}
+
+					_state = State.Idle;
+					break;
+
 				case State.DisplaySensors:
 					Console.Clear();
 					Console.WriteLine(SensoriumFactory.GetAppInterface().Sensors.Count + " sensors");
 					
+					//Get all sensor-exporting plugins (comm plugins and data plugins), print all sensor data
 					foreach (string p in SensoriumFactory.GetAppInterface().Plugins.Keys) {
-						if (typeof(CommPlugin).IsAssignableFrom(
-							SensoriumFactory.GetAppInterface().Plugins[p].GetType()) ||
-							typeof(DataPlugin).IsAssignableFrom(
-							SensoriumFactory.GetAppInterface().Plugins[p].GetType()))
-						{
-							Console.WriteLine(" {0}", SensoriumFactory.GetAppInterface().Plugins[p].Name);
+						if (!typeof (CommPlugin).IsAssignableFrom(SensoriumFactory.GetAppInterface().Plugins[p].GetType()) &&
+							!typeof (DataPlugin).IsAssignableFrom(SensoriumFactory.GetAppInterface().Plugins[p].GetType()))
+							continue;
 
-							foreach (Sensor s in SensoriumFactory.GetAppInterface().Sensors)
-								if (s.SourcePlugin.Equals(SensoriumFactory.GetAppInterface().Plugins[p].Name))
-									Console.WriteLine("  " + s.Name.PadRight(6) +
-										((DataPlugin)SensoriumFactory.GetAppInterface().Plugins[p]).SensorToString(s).PadLeft(8));
-						}
+						Console.WriteLine(" {0}", SensoriumFactory.GetAppInterface().Plugins[p].Name);
+
+						foreach (Sensor s in SensoriumFactory.GetAppInterface().Sensors)
+							if (s.SourcePlugin.Equals(SensoriumFactory.GetAppInterface().Plugins[p].Name))
+								Console.WriteLine("  " + s.Name.PadRight(6) +
+								                  ((DataPlugin)SensoriumFactory.GetAppInterface().Plugins[p]).SensorToString(s).PadLeft(8));
 					}
 					break;
 				case State.Loggers:
