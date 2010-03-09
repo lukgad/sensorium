@@ -67,6 +67,7 @@ namespace ConsoleControlPlugin {
 				else 
 					Thread.Sleep(1000);
 			}
+			Console.CursorVisible = true;
 		}
 
         private enum State {Idle, DisplayMenu, DisplaySensors, Loggers, Appenders, DisplayLog}

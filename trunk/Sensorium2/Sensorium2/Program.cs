@@ -283,6 +283,8 @@ namespace Sensorium2
 				PatternLayout layout = new PatternLayout("%message%newline");
 				layout.ActivateOptions();
 
+				//Add a memory appender to the forwarder
+				_forwardingApp.AddAppender(_memLog);
 
 				//Workaround for mono (no colored console support)
 				if (Environment.OSVersion.Platform != PlatformID.Win32NT) {
@@ -333,9 +335,6 @@ namespace Sensorium2
 
 				//Add the appender to the forwarder
 				_forwardingApp.AddAppender(colorConsoleAppender);
-
-				//Add a memory appender to the forwarder
-				_forwardingApp.AddAppender(_memLog);
 			}
 		}
 	}
