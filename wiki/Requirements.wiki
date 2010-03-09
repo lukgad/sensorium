@@ -1,0 +1,18 @@
+#summary What you will need to run Sensorium2
+
+= Requirements =
+
+== Windows ==
+
+You will need:
+ * Windows XP or later.
+ * .NET framework 2.0
+
+If you want to access local sensors, you will also need [http://www.almico.com/sfdownload.php SpeedFan], which must be running whenever you run Sensorium2. If you forget, the plugin will disable itself and you'll have to enable it in the [TextFileConfig config file].
+
+== Linux ==
+
+You will need:
+ * mono 2.0
+
+If you want to access local sensors you will also need [http://www.lm-sensors.org/ lm-sensors] v3.x and a kernel that supports it. If you don't need this, you will need to disable the libsensors plugin in the [TextFileConfig config file] (add -c on the command line, then re-enable the plugins you want)
