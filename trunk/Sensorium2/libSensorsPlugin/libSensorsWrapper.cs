@@ -27,7 +27,7 @@ namespace libSensorsPlugin {
 		private const string libc = "libc.so.6";
 		private const string libsensors = "libsensors.so.4";
 		private const string libsensors_conf = "libsensors.conf.3";
-		internal static class NativeConstants
+		public static class NativeConstants
 		{
 
 			/// SENSORS_MODE_R -> 1
@@ -41,7 +41,7 @@ namespace libSensorsPlugin {
 		}
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
-		internal struct sensors_bus_id
+		public struct sensors_bus_id
 		{
 
 			/// short
@@ -52,7 +52,7 @@ namespace libSensorsPlugin {
 		}
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
-		internal struct sensors_chip_name
+		public struct sensors_chip_name
 		{
 
 			/// char*
@@ -70,7 +70,7 @@ namespace libSensorsPlugin {
 			public string path;
 		}
 
-		internal enum sensors_feature_type
+		public enum sensors_feature_type
 		{
 
 			/// SENSORS_FEATURE_IN -> 0x00
@@ -101,7 +101,7 @@ namespace libSensorsPlugin {
 			SENSORS_FEATURE_UNKNOWN = 2147483647,
 		}
 
-		internal enum sensors_subfeature_type
+		public enum sensors_subfeature_type
 		{
 
 			/// SENSORS_SUBFEATURE_IN_INPUT -> SENSORS_FEATURE_IN<<8
@@ -210,7 +210,7 @@ namespace libSensorsPlugin {
 		}
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
-		internal struct sensors_feature
+		public struct sensors_feature
 		{
 
 			/// char*
@@ -231,7 +231,7 @@ namespace libSensorsPlugin {
 		}
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
-		internal struct sensors_subfeature
+		public struct sensors_subfeature
 		{
 
 			/// char*
@@ -380,7 +380,7 @@ namespace libSensorsPlugin {
 		#endregion
 		private readonly ILog _log = LogManager.GetLogger(typeof (LibSensorsWrapper));
 
-		private readonly TreeNode<IntPtr> _chips = new TreeNode<IntPtr>();
+		internal readonly TreeNode<IntPtr> Chips = new TreeNode<IntPtr>();
 
 		public LibSensorsWrapper() {
 			if(Environment.OSVersion.Platform != PlatformID.Unix)
@@ -395,7 +395,7 @@ namespace libSensorsPlugin {
             while((chipNamePtr = NativeMethods.sensors_get_detected_chips(IntPtr.Zero, ref cnr)) != IntPtr.Zero) {
 				//Add a new chip (pointer)
 				TreeNode<IntPtr> chipNameNode = new LibSensorsTreeNode(chipNamePtr, NodeType.Chip);
-                _chips.Add(chipNameNode);
+                Chips.Add(chipNameNode);
 
             	int fnr = 0;
             	IntPtr mainFeaturePtr;
@@ -415,7 +415,7 @@ namespace libSensorsPlugin {
 			}
 
 			//Print collected data
-			foreach (TreeNode<IntPtr> cn in _chips.Children) {
+			foreach (TreeNode<IntPtr> cn in Chips.Children) {
 				_log.Debug("Detected chip: " + ((sensors_chip_name) 
 					Marshal.PtrToStructure(cn.Contents, typeof (sensors_chip_name))).prefix);
 				foreach (TreeNode<IntPtr> f in cn.Children) {
@@ -433,7 +433,7 @@ namespace libSensorsPlugin {
 				}
 			}
 		}
-		internal static sensors_chip_name GetChipNameStruct(LibSensorsTreeNode chip)
+		public static sensors_chip_name GetChipNameStruct(LibSensorsTreeNode chip)
 		{
 			if (chip.NodeType != NodeType.Chip)
 				throw new ArgumentException();
@@ -441,21 +441,21 @@ namespace libSensorsPlugin {
 			return (sensors_chip_name) Marshal.PtrToStructure(chip.Contents, typeof (sensors_chip_name));
 		}
 
-		internal static sensors_feature GetFeatureStruct(LibSensorsTreeNode feature) {
+		public static sensors_feature GetFeatureStruct(LibSensorsTreeNode feature) {
 			if (feature.NodeType != NodeType.Feature)
 				throw new ArgumentException();
 
 			return (sensors_feature) Marshal.PtrToStructure(feature.Contents, typeof (sensors_feature));
 		}
 
-		internal static sensors_subfeature GetSubfeatureStruct(LibSensorsTreeNode subfeature) {
+		public static sensors_subfeature GetSubfeatureStruct(LibSensorsTreeNode subfeature) {
 			if (subfeature.NodeType != NodeType.SubFeature)
 				throw new ArgumentException();
 
 			return (sensors_subfeature) Marshal.PtrToStructure(subfeature.Contents, typeof (sensors_subfeature));
 		}
 
-		internal static double GetSubfeatureValue(LibSensorsTreeNode subfeature) {
+		public static double GetSubfeatureValue(LibSensorsTreeNode subfeature) {
 			if (subfeature.NodeType != NodeType.SubFeature)
 				throw new ArgumentException();
 
@@ -464,6 +464,13 @@ namespace libSensorsPlugin {
 				throw new Exception();
 
 			return value;
+		}
+		
+		public static string GetFeatureName(LibSensorsTreeNode feature) {
+			if(feature.NodeType != NodeType.Feature)
+				throw new ArgumentException();
+			
+			return NativeMethods.sensors_get_label(feature.Parent.Contents, feature.Contents);
 		}
 
 		~LibSensorsWrapper() {

@@ -27,7 +27,7 @@ namespace libSensorsPlugin
 
 		public LibsensorsSensor(string name, string type, string hostId, string sourcePlugin,
 			LibSensorsTreeNode feature) : base(name, type, hostId, sourcePlugin) {
-			if(feature.NodeType != NodeType.SubFeature)
+			if(feature.NodeType != NodeType.Feature)
 				throw new ArgumentException();
 
 			_feature = feature;
@@ -38,9 +38,6 @@ namespace libSensorsPlugin
 		public override byte[] Data {
 			get {
 				List<byte> data = new List<byte>();
-
-				data.AddRange(Encoding.UTF8.GetBytes(ChipPrefix));
-				data.Add(0x00);
 
 				//Add all subfeatures and values to data array
 				foreach(LibSensorsTreeNode sf in _feature.Children) {
