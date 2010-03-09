@@ -34,6 +34,11 @@ namespace libSensorsPlugin {
 			base.Init(mode);
 
 			_wrapper = new LibSensorsWrapper();
+			
+			foreach(LibSensorsTreeNode cn in _wrapper.Chips.Children)
+				foreach(LibSensorsTreeNode f in cn.Children)
+					_Sensors.Add(new LibsensorsSensor(LibSensorsWrapper.GetFeatureName(f), 
+						"libsensors", SensoriumFactory.GetAppInterface().HostId, this.Name,f));
 		}
 
 		public override string SensorToString(Sensor sensor) {
@@ -46,6 +51,7 @@ namespace libSensorsPlugin {
 			for (int i = 0; i < sensor.Data.Length; i += 8) {
 				//Get the name (string)
 				List<byte> nameBytes = new List<byte>();
+				
 				while (sensor.Data[i] != 0x00) {
 					nameBytes.Add(sensor.Data[i]);
 					i++;
@@ -56,8 +62,21 @@ namespace libSensorsPlugin {
 				//Get the value (double)
 				subfeatureValues.Add(BitConverter.ToDouble(sensor.Data, i));
 			}
-
-			return null;
+			
+			if(subfeatureNames.Count != subfeatureValues.Count)
+				throw new Exception();
+			
+			string output = "(";
+			
+			for (int i = 0; i < subfeatureNames.Count; i++) {
+				output += subfeatureNames[i] + ": " + subfeatureValues[i];
+				if (i < subfeatureNames.Count -1)
+					output += " ";
+			}
+			
+			output += ")";
+			
+			return output;
 		}
 	}
 }
