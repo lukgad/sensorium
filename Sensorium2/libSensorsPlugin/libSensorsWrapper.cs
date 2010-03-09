@@ -419,8 +419,7 @@ namespace libSensorsPlugin {
 				_log.Debug("Detected chip: " + ((sensors_chip_name) 
 					Marshal.PtrToStructure(cn.Contents, typeof (sensors_chip_name))).prefix);
 				foreach (TreeNode<IntPtr> f in cn.Children) {
-					_log.Debug("Feature: " + ((sensors_feature) 
-						Marshal.PtrToStructure(f.Contents, typeof (sensors_feature))).name);
+					_log.Debug("Feature: " + NativeMethods.sensors_get_label(cn.Contents, f.Contents));
 					foreach (TreeNode<IntPtr> sf in f.Children) {
 						double value = 0;
 						if (NativeMethods.sensors_get_value(cn.Contents, ((sensors_subfeature)
