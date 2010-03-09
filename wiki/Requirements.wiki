@@ -15,4 +15,4 @@ If you want to access local sensors, you will also need [http://www.almico.com/s
 You will need:
  * mono 2.0
 
-If you want to access local sensors you will also need [http://www.lm-sensors.org/ lm-sensors] v3.x and a kernel that supports it. If you don't need this, you will need to disable the libsensors plugin in the [TextConfigFile config file] (add -c on the command line, then re-enable the plugins you want)
+If you want to access local sensors you will also need [http://www.lm-sensors.org/ lm-sensors] v3.x and a kernel that supports it. If you don't need this, you will need to disable the libsensors plugin in the [TextConfigFile config file] (or add -c on the command line, then re-enable the plugins you want)
