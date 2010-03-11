@@ -12,12 +12,18 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using Sensorium.Common.Plugins;
+
 namespace Sensorium.Common
 {
 	public class Sensor
 	{
 		public string Type { get; protected set; }
 		private byte[] _data;
+
+		/// <summary>
+		/// Encoded sensor data. Use creating data plugin's SensorToString method to decode.
+		/// </summary>
 		public virtual byte[] Data
 		{
 			get { return _data; }
@@ -25,7 +31,15 @@ namespace Sensorium.Common
 		}
 
 		public string Name { get; protected set; }
+		
+		/// <summary>
+		/// ID of the app instance that created this sensor
+		/// </summary>
 		public string HostId { get; protected set; }
+		
+		/// <summary>
+		/// Data plugin associated with this sensor
+		/// </summary>
 		public string SourcePlugin { get; protected set; }
 
 		public Sensor(string name, string type, string hostId, string sourcePlugin) {
@@ -38,10 +52,10 @@ namespace Sensorium.Common
 		public virtual void SetData(byte[] data) {
 			_data = data;
 		}
-
-		public override string ToString()
-		{
-			return string.Format("{0} - {1}", Name);
+        
+		public override string ToString() {
+			return string.Format("{0} - {1}", Name, 
+				((DataPlugin)SensoriumFactory.GetAppInterface().Plugins[SourcePlugin]).SensorToString(this));
 		}
 	}
 }

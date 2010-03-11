@@ -18,10 +18,29 @@ using Sensorium.Common.Plugins;
 
 namespace Sensorium.Common {
 	public interface IAppInterface {
+		/// <summary>
+		/// All sensors exported by all plugins
+		/// </summary>
 		List<Sensor> Sensors { get; }
+
+		/// <summary>
+		/// All plugins, key is the plugin's name
+		/// </summary>
 		Dictionary<string, IPluginInterface> Plugins { get; }
+
+		/// <summary>
+		/// The enabled settings plugin
+		/// </summary>
 		SettingsPlugin EnabledSettingsPlugin { get; }
+
+		/// <summary>
+		/// This app instance's unique ID
+		/// </summary>
 		string HostId { get; }
+
+		/// <summary>
+		/// Contains every logged event since program start
+		/// </summary>
 		MemoryAppender Log { get; }
 	}
 }

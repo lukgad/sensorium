@@ -23,10 +23,24 @@ namespace Sensorium.Common.Plugins
 
 		public virtual bool Enabled { get; set; }
 
+		/// <summary>
+		/// Initialize the plugin
+		/// </summary>
+		/// <param name="settingsDir">Prefered settings file directory</param>
 		public abstract void Init(string settingsDir);
 		public virtual void Start() {}
         public virtual void Stop() {}
+
+		/// <summary>
+		/// Retrieves settings for specified plugin.
+		/// </summary>
+		/// <param name="pluginName">Name of plugin</param>
+		/// <returns>Specified plugin's settings</returns>
 		public abstract Dictionary<string,List<string>> GetSettings(string pluginName);
+
+		/// <summary>
+		/// Save all settings
+		/// </summary>
 		public abstract void Save();
 	}
 }
