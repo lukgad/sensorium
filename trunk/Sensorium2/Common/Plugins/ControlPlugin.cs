@@ -49,6 +49,9 @@ namespace Sensorium.Common.Plugins {
 		public virtual void Start() {}
 		public virtual void Stop() {}
 
+		/// <summary>
+		/// EventHandler for exiting the app.
+		/// </summary>
 		public event EventHandler<EventArgs> ExitEventHandler;
 
 		protected virtual void OnExit() {
@@ -58,6 +61,9 @@ namespace Sensorium.Common.Plugins {
 			}
 		}
 
+		/// <summary>
+		/// Initialize the plugin
+		/// </summary>
 		public virtual void Init(){
 			CommPlugins = new List<CommPlugin>();
 			ControlPlugins = new List<ControlPlugin>();

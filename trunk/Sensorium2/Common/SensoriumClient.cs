@@ -18,7 +18,6 @@ using System.Text;
 
 namespace Sensorium.Common {
 	public static class SensoriumClient {
-		
 		private static byte[] Request(RequestType requestType, int sensorId) {
 			List<byte> request = new List<byte> { 3, (byte) requestType };
 
@@ -39,6 +38,11 @@ namespace Sensorium.Common {
 			return request.ToArray();
 		}
 
+		/// <summary>
+		/// Sends a request
+		/// </summary>
+		/// <param name="request">Request data</param>
+		/// <returns>Response data</returns>
 		public delegate byte[] SensorRequest(byte[] request);
 
 		/// <summary>

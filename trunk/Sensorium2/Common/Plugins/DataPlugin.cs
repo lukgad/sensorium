@@ -31,6 +31,10 @@ namespace Sensorium.Common.Plugins
 			Sensors = new List<Sensor>();
 		}
 
+		/// <summary>
+		/// Initialize the plugin.
+		/// </summary>
+		/// <param name="mode"></param>
 		public virtual void Init(PluginMode mode) {
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 
