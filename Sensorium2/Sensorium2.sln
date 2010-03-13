@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleControlPlugin", "Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libSensorsPlugin", "libSensorsPlugin\libSensorsPlugin.csproj", "{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsControlPlugin", "WinFormsControlPlugin\WinFormsControlPlugin.csproj", "{5D201635-1488-421F-B258-680974D6720C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,18 +27,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|x64.ActiveCfg = Debug|x64
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|x64.Build.0 = Debug|x64
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|x86.ActiveCfg = Debug|x86
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|x86.Build.0 = Debug|x86
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x64.ActiveCfg = Release|x64
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x64.Build.0 = Release|x64
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x86.ActiveCfg = Release|x86
-		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x86.Build.0 = Release|x86
 		{4C4FFEA3-D1B3-4EC8-A0BF-59059A980315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C4FFEA3-D1B3-4EC8-A0BF-59059A980315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C4FFEA3-D1B3-4EC8-A0BF-59059A980315}.Debug|x64.ActiveCfg = Debug|x64
@@ -49,6 +39,38 @@ Global
 		{4C4FFEA3-D1B3-4EC8-A0BF-59059A980315}.Release|x64.Build.0 = Release|x64
 		{4C4FFEA3-D1B3-4EC8-A0BF-59059A980315}.Release|x86.ActiveCfg = Release|x86
 		{4C4FFEA3-D1B3-4EC8-A0BF-59059A980315}.Release|x86.Build.0 = Release|x86
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|x64.ActiveCfg = Debug|x64
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|x64.Build.0 = Debug|x64
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|x86.ActiveCfg = Debug|x86
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Debug|x86.Build.0 = Debug|x86
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x64.ActiveCfg = Release|x64
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x64.Build.0 = Release|x64
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x86.ActiveCfg = Release|x86
+		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x86.Build.0 = Release|x86
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|x64.ActiveCfg = Debug|x64
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|x64.Build.0 = Debug|x64
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|x86.ActiveCfg = Debug|x86
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|x86.Build.0 = Debug|x86
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|x64.ActiveCfg = Release|x64
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|x64.Build.0 = Release|x64
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|x86.ActiveCfg = Release|x86
+		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|x86.Build.0 = Release|x86
+		{8251A822-589A-44C0-B19F-B8464448F0BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8251A822-589A-44C0-B19F-B8464448F0BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8251A822-589A-44C0-B19F-B8464448F0BD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8251A822-589A-44C0-B19F-B8464448F0BD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|x64.ActiveCfg = Release|Any CPU
+		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|x86.ActiveCfg = Release|Any CPU
 		{4E044E72-2745-4A45-AB0D-87F20288132A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E044E72-2745-4A45-AB0D-87F20288132A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E044E72-2745-4A45-AB0D-87F20288132A}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -65,26 +87,6 @@ Global
 		{7F844E87-CD7D-4785-AC2A-08B2D409717D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F844E87-CD7D-4785-AC2A-08B2D409717D}.Release|x64.ActiveCfg = Release|Any CPU
 		{7F844E87-CD7D-4785-AC2A-08B2D409717D}.Release|x86.ActiveCfg = Release|Any CPU
-		{8251A822-589A-44C0-B19F-B8464448F0BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8251A822-589A-44C0-B19F-B8464448F0BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8251A822-589A-44C0-B19F-B8464448F0BD}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8251A822-589A-44C0-B19F-B8464448F0BD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|x64.ActiveCfg = Release|Any CPU
-		{8251A822-589A-44C0-B19F-B8464448F0BD}.Release|x86.ActiveCfg = Release|Any CPU
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|x64.ActiveCfg = Debug|x64
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|x64.Build.0 = Debug|x64
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|x86.ActiveCfg = Debug|x86
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Debug|x86.Build.0 = Debug|x86
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|x64.ActiveCfg = Release|x64
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|x64.Build.0 = Release|x64
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|x86.ActiveCfg = Release|x86
-		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044}.Release|x86.Build.0 = Release|x86
 		{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -93,11 +95,19 @@ Global
 		{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3}.Release|x64.ActiveCfg = Release|Any CPU
 		{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3}.Release|x86.ActiveCfg = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Sensorium2\Sensorium2.csproj
+		{5D201635-1488-421F-B258-680974D6720C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D201635-1488-421F-B258-680974D6720C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D201635-1488-421F-B258-680974D6720C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5D201635-1488-421F-B258-680974D6720C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D201635-1488-421F-B258-680974D6720C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D201635-1488-421F-B258-680974D6720C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D201635-1488-421F-B258-680974D6720C}.Release|x64.ActiveCfg = Release|Any CPU
+		{5D201635-1488-421F-B258-680974D6720C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Sensorium2\Sensorium2.csproj
 	EndGlobalSection
 EndGlobal
