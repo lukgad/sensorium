@@ -31,8 +31,9 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(298, 240);
 			this.Name = "MainWindow";
-			this.Text = "MainWindow";
+			this.Text = "Sensorium2";
 			this.Load += new System.EventHandler(this.MainWindow_Load);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
 			this.ResumeLayout(false);
 
 		}

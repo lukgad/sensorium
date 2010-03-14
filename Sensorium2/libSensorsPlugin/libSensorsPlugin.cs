@@ -21,7 +21,7 @@ using Sensorium.Common.Plugins;
 namespace libSensorsPlugin {
 	public class LibSensorsPlugin : DataPlugin {
 		public override string Name {
-			get { return "libSensorsPlugin"; }
+			get { return "libsensors"; }
 		}
 
 		public override int Version {

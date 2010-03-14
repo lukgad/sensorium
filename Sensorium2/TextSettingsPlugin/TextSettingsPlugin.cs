@@ -31,7 +31,7 @@ namespace TextSettingsPlugin
 		}
 
 		public override string Name {
-			get { return "TextFileSettings"; }
+			get { return "Text File Settings"; }
 		}
 
 		public override int Version {
