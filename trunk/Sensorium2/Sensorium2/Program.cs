@@ -53,6 +53,8 @@ namespace Sensorium2
 
         static void Main(string[] args)
 		{
+        	Me.Version = "0.0.1 Trunk";
+
 			_memLog = new MemoryAppender();
 
         	Me.Log = _memLog;

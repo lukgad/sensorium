@@ -27,29 +27,32 @@ namespace ConsoleControlPlugin {
 		private bool _paused;
 
 		public override string Name {
-			get { return "Console Control Plugin"; }
+			get { return "Console Control"; }
 		}
 
 		public override int Version {
 			get { return 1; }
 		}
-	
+
 		public override void Start() {
 			_running = true;
 			_paused = false;
 			new Thread(WaitKey).Start();
 			new Thread(Update).Start();
+			Console.CursorVisible = false;
 			Console.WriteLine("Press K to see control keys");
 		}
 
 		public override void Stop() {
 			_running = false;
+			Console.WriteLine("Press any key to exit...");
 		}
 
 		private void WaitKey() {
 			while (_running) {
 				UpdateConsole(Console.ReadKey(true));
 			}
+			Console.CursorVisible = true;
 		}
 
 		private void Update() {
@@ -75,7 +78,8 @@ namespace ConsoleControlPlugin {
 		private State _state = State.Idle;
 
 		private void UpdateConsole(ConsoleKeyInfo keyPress) {
-			Console.CursorVisible = false;
+			if (!_running)
+				return;
 
 			//Handle global keypresses
 			switch (keyPress.Key) {

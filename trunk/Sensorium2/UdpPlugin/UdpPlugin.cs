@@ -30,7 +30,7 @@ namespace UdpPlugin{
 		private readonly ILog _log = LogManager.GetLogger(typeof(CommPlugin));
 
 		public override string Name {
-			get { return "UDP Plugin"; }
+			get { return "UDP Communications"; }
 		}
 
 		public override int Version {

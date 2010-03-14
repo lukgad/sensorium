@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using Sensorium.Common.Plugins;
 
@@ -12,13 +13,34 @@ namespace WinFormsControlPlugin {
 			get { return 1; }
 		}
 
+		private static MainWindow _mainWindow;
+		private bool _closing = false;
+
 		public override void Init() {
 			base.Init();
-			(new Thread(ShowWindow)).Start();
+			_mainWindow = new MainWindow();
+			_mainWindow.Closed += MainWindowClosedHandler;
+		}
+
+		private void MainWindowClosedHandler(object sender, EventArgs e) {
+			_closing = true;
+			OnExit();
 		}
 
 		private static void ShowWindow() {
-			Application.Run(new MainWindow());
+			Application.Run(_mainWindow);
+		}
+
+		public override void Start() {
+			_closing = false;
+			(new Thread(ShowWindow)).Start();
+		}
+
+		public override void Stop() {
+			if(_closing)
+				return;
+
+			_mainWindow.Close();
 		}
 	}
 }

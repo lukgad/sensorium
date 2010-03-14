@@ -39,6 +39,11 @@ namespace Sensorium.Common {
 		string HostId { get; }
 
 		/// <summary>
+		/// Current app version
+		/// </summary>
+		string Version { get; }
+
+		/// <summary>
 		/// Contains every logged event since program start
 		/// </summary>
 		MemoryAppender Log { get; }
