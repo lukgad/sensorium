@@ -45,7 +45,7 @@ namespace Sensorium.Common.Plugins
 		public abstract string Name { get; }
 		public abstract int Version { get; }
 
-		private bool _enabled = true;
+		protected bool _enabled = true;
 		public virtual bool Enabled
 		{
 			get {

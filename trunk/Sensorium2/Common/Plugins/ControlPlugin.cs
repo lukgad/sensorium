@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Sensorium.Common.Plugins {
 	public abstract class ControlPlugin : IPluginInterface {
@@ -46,8 +47,17 @@ namespace Sensorium.Common.Plugins {
 			}
 		}
 
-		public virtual void Start() {}
-		public virtual void Stop() {}
+		public virtual void Start() {
+			SensoriumFactory.GetAppInterface().HideConsoleEventHandler += HandleHideConsole;
+		}
+
+		public virtual void Stop() {
+			SensoriumFactory.GetAppInterface().HideConsoleEventHandler -= HandleHideConsole;
+		}
+
+		protected virtual void HandleHideConsole(object sender, CancelEventArgs e) {
+			
+		}
 
 		/// <summary>
 		/// EventHandler for exiting the app.
@@ -70,6 +80,14 @@ namespace Sensorium.Common.Plugins {
 			DataPlugins = new List<DataPlugin>();
 			SettingsPlugins = new List<SettingsPlugin>();
 
+			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
+
+			if (!Settings.ContainsKey("Enabled"))
+				Settings.Add("Enabled", new List<string> { true.ToString() });
+
+			if (!(Enabled = Boolean.Parse(Settings["Enabled"][0])))
+				return;
+
 			foreach(string s in SensoriumFactory.GetAppInterface().Plugins.Keys) {
 				if (SensoriumFactory.GetAppInterface().Plugins[s] is CommPlugin)
 					CommPlugins.Add((CommPlugin) SensoriumFactory.GetAppInterface().Plugins[s]);
@@ -80,8 +98,6 @@ namespace Sensorium.Common.Plugins {
 				else if (SensoriumFactory.GetAppInterface().Plugins[s] is SettingsPlugin)
 					SettingsPlugins.Add((SettingsPlugin)SensoriumFactory.GetAppInterface().Plugins[s]);
 			}
-
-			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 		}
 	}
 }

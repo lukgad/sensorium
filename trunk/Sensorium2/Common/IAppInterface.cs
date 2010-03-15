@@ -12,7 +12,9 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using log4net.Appender;
 using Sensorium.Common.Plugins;
 
@@ -47,5 +49,7 @@ namespace Sensorium.Common {
 		/// Contains every logged event since program start
 		/// </summary>
 		MemoryAppender Log { get; }
+
+		event EventHandler<CancelEventArgs> HideConsoleEventHandler;
 	}
 }

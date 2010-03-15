@@ -13,6 +13,7 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Threading;
 using log4net;
 using log4net.Appender;
@@ -41,11 +42,19 @@ namespace ConsoleControlPlugin {
 			new Thread(Update).Start();
 			Console.CursorVisible = false;
 			Console.WriteLine("Press K to see control keys");
+
+			base.Start();
 		}
 
 		public override void Stop() {
 			_running = false;
 			Console.WriteLine("Press any key to exit...");
+
+			base.Stop();
+		}
+
+		protected override void HandleHideConsole(object sender, CancelEventArgs e) {
+			e.Cancel = true;
 		}
 
 		private void WaitKey() {

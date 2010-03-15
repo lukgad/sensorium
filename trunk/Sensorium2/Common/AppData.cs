@@ -14,6 +14,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 using log4net.Appender;
 using Sensorium.Common.Plugins;
 
@@ -32,9 +34,37 @@ namespace Sensorium.Common {
 		public string Version { get; set; }
 
 		private readonly string _hostId = Guid.NewGuid().ToString();
-		public string HostId {
+        public string HostId {
 			get { return _hostId; }
 		}
+
 		public MemoryAppender Log { get; set; }
+
+		public event EventHandler<CancelEventArgs> HideConsoleEventHandler;
+
+		public void OnHideConsole() {
+			EventHandler<CancelEventArgs> handler = HideConsoleEventHandler;
+			
+			CancelEventArgs e = new CancelEventArgs(false);
+
+			if (handler != null)
+				handler(this, e);
+
+			if(e.Cancel)
+				return;
+
+			Console.Title = _hostId;
+			IntPtr hWnd = FindWindow(null, Console.Title);
+
+			if (hWnd != IntPtr.Zero)
+				//Hide the window
+				ShowWindow(hWnd, 0); // 0 = SW_HIDE
+		}
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+		[DllImport("user32.dll")]
+		private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 	}
 }
