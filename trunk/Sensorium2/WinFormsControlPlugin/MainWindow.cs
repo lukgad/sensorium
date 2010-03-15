@@ -36,16 +36,16 @@ namespace WinFormsControlPlugin {
 			base.Close();
 		}
 
-		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e) {
-
+		private void mainTabs_SelectedIndexChanged(object sender, EventArgs e) {
+			refreshButton.Visible = logTab.Visible;
 		}
 
-		private void refreshLog_Click(object sender, EventArgs e) {
+		private void refreshButton_Click(object sender, EventArgs e) {
 			logListBox.BeginUpdate();
 			logListBox.Items.Clear();
 
 			foreach (LoggingEvent le in SensoriumFactory.GetAppInterface().Log.GetEvents()) {
-				logListBox.Items.Add(String.Format("[{0}] {1} {2} - {3}", le.GetLoggingEventData().TimeStamp, 
+				logListBox.Items.Add(String.Format("[{0}] {1} {2} - {3}", le.GetLoggingEventData().TimeStamp,
 					le.GetLoggingEventData().Level, le.GetLoggingEventData().LoggerName, le.GetLoggingEventData().Message));
 			}
 
