@@ -18,11 +18,19 @@ using System.Text;
 
 namespace Sensorium.Common {
 	public static class SensoriumClient {
-		private static byte[] Request(RequestType requestType, int sensorId) {
-			List<byte> request = new List<byte> { 3, (byte) requestType };
+		/// <summary>
+		/// Generates a request for a sensor
+		/// </summary>
+		/// <param name="requestType"></param>
+		/// <param name="sensorId">ID of sensor to request</param>
+		/// <returns>Sensor request packet payload</returns>
+		private static byte[] Request(RequestType requestType, int sensorId)
+		{
+			List<byte> request = new List<byte> {3, (byte) requestType};
 
-			switch (requestType) {
-				case RequestType.NumSensors: //Not strictly necessary
+			switch (requestType)
+			{
+				case RequestType.NumSensors:
 					break;
 				case RequestType.HostId:
 				case RequestType.SourcePlugin:
@@ -31,6 +39,8 @@ namespace Sensorium.Common {
 				case RequestType.Data:
 					request.AddRange(BitConverter.GetBytes(sensorId));
 					break;
+				default:
+					throw new ArgumentException();
 			}
 
 			request.InsertRange(1, BitConverter.GetBytes(request.Count));
@@ -38,66 +48,101 @@ namespace Sensorium.Common {
 			return request.ToArray();
 		}
 
+		public static Sensor GetSensor(SendRequest requestSend, int sensorId) {
+			Sensor sensor = null;
+			string hostId = null, sourcePlugin = null, name = null, type = null;
+			byte[] data = null;
+
+			for (byte i = 1; i <= 5; i++)
+			{
+				byte[] response = requestSend(Request((RequestType) i, sensorId));
+
+				if (response[0] != 3 || response[5] != i || BitConverter.ToInt32(response, 1) != response.Length)
+					break;
+
+				switch ((RequestType) i)
+				{
+					case RequestType.HostId:
+						hostId = Encoding.UTF8.GetString(response, 10, response.Length - 10);
+						break;
+					case RequestType.SourcePlugin:
+						sourcePlugin = Encoding.UTF8.GetString(response, 10, response.Length - 10);
+						break;
+					case RequestType.Name:
+						name = Encoding.UTF8.GetString(response, 10, response.Length - 10);
+						break;
+					case RequestType.Type:
+						type = Encoding.UTF8.GetString(response, 10, response.Length - 10);
+						break;
+					case RequestType.Data:
+						data = new byte[response.Length - 10];
+						for (int p = 10; p < response.Length; p++)
+							data[p - 10] = response[p];
+						break;
+				}
+
+				if (hostId == null || sourcePlugin == null || name == null || type == null || data == null)
+					continue;
+
+				sensor = new Sensor(name, type, hostId, sourcePlugin);
+				sensor.SetData(data);
+			}
+
+			return sensor;
+		}
+
+		public static byte[] GetSensorData(SendRequest requestSend, int sensorId) {
+			byte[] data, response;
+			response = requestSend(Request(RequestType.Data, sensorId));
+
+			if (response[0] != 3 || response[5] != sensorId || BitConverter.ToInt32(response, 1) != response.Length)
+				return null;
+
+			data = new byte[response.Length - 10];
+			for (int p = 10; p < response.Length; p++)
+				data[p - 10] = response[p];
+
+			return data;
+		}
+
+		public static int GetNumSensors(SendRequest requestSend) {
+			byte[] request = requestSend(Request(RequestType.NumSensors, -1));
+
+			if (request.Length == 0 || request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || 
+				BitConverter.ToInt32(request, 1) != request.Length)
+				return 0;
+
+			return BitConverter.ToInt32(request, 6);
+		}
+
 		/// <summary>
 		/// Sends a request
 		/// </summary>
 		/// <param name="request">Request data</param>
 		/// <returns>Response data</returns>
-		public delegate byte[] SensorRequest(byte[] request);
+		public delegate byte[] SendRequest(byte[] request);
 
 		/// <summary>
 		/// Gets a list of Sensors using delegate.
 		/// </summary>
-		/// <param name="requestSensor">SensorRequest delegate function</param>
+		/// <param name="requestSend">SensorRequest delegate function</param>
 		/// <returns>List of Sensors retrieved</returns>
-		public static List<Sensor> GetSensors(SensorRequest requestSensor) {
-			byte[] request = requestSensor(Request(RequestType.NumSensors, -1));
+		public static List<Sensor> GetSensors(SendRequest requestSend) {
+			int numSensors = GetNumSensors(requestSend);
 
-			if (request.Length == 0 || request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || 
-				BitConverter.ToInt32(request, 1) != request.Length)
+			if (numSensors <= 0)
 				return new List<Sensor>();
 
 			List<Sensor> sensorList = new List<Sensor>();
-
-			int numSensors = BitConverter.ToInt32(request, 6);
 			
 			for (int i = 0; i < numSensors; i++) {
-				string hostId = null, sourcePlugin = null, name = null, type = null;
-				byte[] data = null;
-
-				for (byte j = 1; j <= 5; j++) {
-					byte[] response = requestSensor(Request((RequestType)j, i));
-
-					if (response[0] != 3 || response[5] != j || BitConverter.ToInt32(response, 1) != response.Length)
-						break;
-
-                    switch ((RequestType) j) {
-						case RequestType.HostId:
-                    		hostId = Encoding.UTF8.GetString(response, 10, response.Length - 10);
-							break;
-						case RequestType.SourcePlugin:
-							sourcePlugin = Encoding.UTF8.GetString(response, 10, response.Length - 10);
-							break;
-						case RequestType.Name:
-							name = Encoding.UTF8.GetString(response, 10, response.Length - 10);
-							break;
-						case RequestType.Type:
-							type = Encoding.UTF8.GetString(response, 10, response.Length - 10);
-							break;
-						case RequestType.Data:
-                    		data = new byte[response.Length - 10];
-							for (int p = 10; p < response.Length; p++)
-								data[p - 10] = response[p];
-							break;
+					Sensor newSensor = GetSensor(requestSend, i);
+					
+					if(newSensor == null) {
+						sensorList.Add(new Sensor("Unknown", "Unknown", "Unknown", "Unknown"));
 					}
 
-					if(hostId == null || sourcePlugin == null || name == null || type == null || data == null)
-						continue;
-
-					Sensor newSensor = new Sensor(name, type, hostId, sourcePlugin);
-					newSensor.SetData(data);
-					sensorList.Add(newSensor);
-				}
+				sensorList.Add(newSensor);
 			}
 
 			return sensorList;

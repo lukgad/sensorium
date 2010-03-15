@@ -50,6 +50,11 @@ namespace Sensorium.Common {
 		/// </summary>
 		MemoryAppender Log { get; }
 
+
+		/// <summary>
+		/// Event is triggered after all plugins are loaded. 
+		/// If no plugin cancels it, the Console window will be hidden
+		/// </summary>
 		event EventHandler<CancelEventArgs> HideConsoleEventHandler;
 	}
 }
