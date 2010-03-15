@@ -80,6 +80,9 @@ namespace Sensorium2
 			Thread sensorUpdater = new Thread(UpdateSensors);
 			sensorUpdater.Start();
         	
+			if(Environment.OSVersion.Platform == PlatformID.Win32NT)
+				Me.OnHideConsole();
+
 			//Workaround for log4net on mono
 			sensorUpdater.Join();
 		}
