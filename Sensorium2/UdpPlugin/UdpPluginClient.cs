@@ -61,7 +61,11 @@ namespace UdpPlugin {
 		private void UpdateSensors() {
 
 			while (_running) {
-				_sensors = SensoriumClient.GetSensors(GetResponse);
+				if(_sensors.Count != SensoriumClient.GetNumSensors(GetResponse))
+                    _sensors = SensoriumClient.GetSensors(GetResponse);
+				else
+					for(int i = 0; i < _sensors.Count; i++)
+						_sensors[i].SetData(SensoriumClient.GetSensorData(GetResponse,i));
 
 				Thread.Sleep(_delay);
 			}
