@@ -92,13 +92,12 @@ namespace Sensorium.Common {
 		}
 
 		public static byte[] GetSensorData(SendRequest requestSend, int sensorId) {
-			byte[] data, response;
-			response = requestSend(Request(RequestType.Data, sensorId));
+			byte[] response = requestSend(Request(RequestType.Data, sensorId));
 
-			if (response[0] != 3 || response[5] != sensorId || BitConverter.ToInt32(response, 1) != response.Length)
+			if (response[0] != 3 || response[5] != (byte) RequestType.Data || BitConverter.ToInt32(response, 1) != response.Length)
 				return null;
 
-			data = new byte[response.Length - 10];
+			byte[] data = new byte[response.Length - 10];
 			for (int p = 10; p < response.Length; p++)
 				data[p - 10] = response[p];
 
