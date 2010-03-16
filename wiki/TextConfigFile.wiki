@@ -38,5 +38,7 @@ Currently, only the UDP plugin has customisable settings beyond these
 
 ===UDP Plugin===
 ||*Name*||*Possible values*||*Example*||
-||Server||A space-separated list of IP addresses and ports to bind the server to. Only has any effect if Mode is set to "server"||`Server|0.0.0.0 12345 192.168.1.2 8924`||
-||Client||A space-separated list of IP addresses and ports to recieve data from. Will work regardless of Mode||`Client|127.0.0.1 12345 192.168.1.2 8924`||
+||Server||IP address and port to bind to. Space separated. Can be used multiple times.||`Server|0.0.0.0 12345 
+Server|192.168.1.2 8924`||
+||Client||IP address and port to get data from. Space separated. Can be used multiple times. Will work regardless of Mode||`Client|127.0.0.1 12345
+Client|192.168.1.2 8924`||
