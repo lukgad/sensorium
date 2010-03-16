@@ -33,7 +33,8 @@ namespace libSensorsPlugin {
 		public override void Init(PluginMode mode) {
 			base.Init(mode);
 			
-			if(mode == PluginMode.Client || (Settings.ContainsKey("Enabled")) && Settings["Enabled"][0].ToLower() == "true") {
+			if(mode == PluginMode.Client || (Settings.ContainsKey("Enabled")) && 
+				Settings["Enabled"][0].ToLower() == "true") {
 				if (Settings.ContainsKey("Enabled"))
 					Settings["Enabled"][0] = "False";
 				else
@@ -51,7 +52,8 @@ namespace libSensorsPlugin {
 			foreach(LibSensorsTreeNode cn in _wrapper.Chips.Children)
 				foreach(LibSensorsTreeNode f in cn.Children)
 					_Sensors.Add(new LibsensorsSensor(LibSensorsWrapper.GetFeatureName(f), 
-						"libsensors", SensoriumFactory.GetAppInterface().HostId, Name, f));
+						LibSensorsWrapper.GetFeatureType(f).ToString(), SensoriumFactory.GetAppInterface().HostId, 
+						Name, f));
 		}
 
 		public override string SensorToString(Sensor sensor) {
