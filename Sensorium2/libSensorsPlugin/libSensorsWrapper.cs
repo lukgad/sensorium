@@ -473,6 +473,13 @@ namespace libSensorsPlugin {
 			return NativeMethods.sensors_get_label(feature.Parent.Contents, feature.Contents);
 		}
 
+		public static sensors_feature_type GetFeatureType(LibSensorsTreeNode feature) {
+			if (feature.NodeType != NodeType.Feature)
+				throw new ArgumentException();
+
+			return ((sensors_feature) Marshal.PtrToStructure(feature.Contents, typeof (sensors_feature))).type;
+		}
+
 		~LibSensorsWrapper() {
 			if(Environment.OSVersion.Platform == PlatformID.Unix)
 				NativeMethods.sensors_cleanup();
