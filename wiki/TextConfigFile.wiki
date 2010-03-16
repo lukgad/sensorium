@@ -6,7 +6,7 @@ The text config file is a placeholder with only the most basic functionality unt
 
 
 = Details =
-A default text file will be generated - settings\TextFileSettings\config.ini (under the directory the main executable is in) - when you run Sensorium2 for the second time (after log4net generates its own config). It will look like this:
+A default text file will be generated - `settings\TextFileSettings\config.ini` (under the directory the main executable is in) - when you run Sensorium2 for the second time (after log4net generates its own config). It will look like this:
 
 {{{
 Plugin|TextFileSettings
