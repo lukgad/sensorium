@@ -22,7 +22,7 @@ using Sensorium.Common.Plugins;
 
 namespace Sensorium2
 {
-	static class PluginLoader {
+	public static class PluginLoader {
 		private static readonly ILog Log = LogManager.GetLogger(typeof (PluginLoader));
 
 		/// <summary>
@@ -31,13 +31,13 @@ namespace Sensorium2
 		/// <param name="pluginDirectory">Directory to search</param>
 		/// <param name="recursive">Search recursively?</param>
 		/// <returns>Collection containing instances of all compatible plugins</returns>
-		public static List<IPluginInterface> GetPlugins(String pluginDirectory, bool recursive) {
+		public static List<IPluginInterface> GetPlugins(string pluginDirectory, bool recursive) {
 			Log.Debug("Plugin Directory: " + pluginDirectory);
 
 			List<IPluginInterface> plugins = new List<IPluginInterface>();
 
 			if (!Directory.Exists(pluginDirectory))
-				throw new DirectoryNotFoundException("Plugin directory does not exist");
+				throw new DirectoryNotFoundException();
 
 			DirectoryInfo dir = new DirectoryInfo(pluginDirectory);
 
