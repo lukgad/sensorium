@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Threading;
 using log4net.Appender;
 using Sensorium.Common.Plugins;
 
@@ -54,6 +55,7 @@ namespace Sensorium.Common {
 				return;
 
 			Console.Title = _hostId;
+			Thread.Sleep(200);
 			IntPtr hWnd = FindWindow(null, Console.Title);
 
 			if (hWnd != IntPtr.Zero)
