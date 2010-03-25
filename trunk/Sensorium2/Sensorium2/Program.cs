@@ -29,7 +29,7 @@ using Sensorium2.Properties;
 
 namespace Sensorium2
 {
-	static class Program
+	public static class Program
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 		private static MemoryAppender _memLog;
