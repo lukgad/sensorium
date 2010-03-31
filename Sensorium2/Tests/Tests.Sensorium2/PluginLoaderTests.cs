@@ -6,16 +6,17 @@ namespace Tests.Sensorium2 {
 	using NUnit.Framework;
 
 	[TestFixture]
-	class PluginLoaderTests {
+	public class PluginLoaderTests {
 		
 		[Test]
+		[ExpectedException(typeof(DirectoryNotFoundException))]
 		public void ThrowsExceptionOnNonexistantDirectory() {
 			//Nonexistent directory. Ensure this dir does not exist
 			const string pluginDirectory = "Nonexistent";
 
 			Console.WriteLine((new DirectoryInfo(pluginDirectory)).FullName);
 
-			Assert.Throws<DirectoryNotFoundException>(delegate { PluginLoader.GetPlugins(pluginDirectory, false); });
+			PluginLoader.GetPlugins(pluginDirectory, false);
 		}
 
 		[Test]
@@ -25,7 +26,7 @@ namespace Tests.Sensorium2 {
 
 			Console.WriteLine((new DirectoryInfo(pathToInvalidDLL)).FullName);
 
-			Assert.DoesNotThrow(delegate { PluginLoader.GetPlugins(pathToInvalidDLL, false); });
+			PluginLoader.GetPlugins(pathToInvalidDLL, false);
 		}
 	}
 }
