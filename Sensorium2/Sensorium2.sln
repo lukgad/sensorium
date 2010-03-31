@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedFanPlugin", "SpeedFanP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextSettingsPlugin", "TextSettingsPlugin\TextSettingsPlugin.csproj", "{8251A822-589A-44C0-B19F-B8464448F0BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdpPlugin", "UdpPlugin\UdpPlugin.csproj", "{4E044E72-2745-4A45-AB0D-87F20288132A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPPlugin", "UdpPlugin\UDPPlugin.csproj", "{4E044E72-2745-4A45-AB0D-87F20288132A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleControlPlugin", "ConsoleControlPlugin\ConsoleControlPlugin.csproj", "{7F844E87-CD7D-4785-AC2A-08B2D409717D}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{D03A6A9C-CA7C-4DEC-B4F3-3C22E3E27545}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Sensorium2", "Tests\Tests.Sensorium2\Tests.Sensorium2.csproj", "{99DE9357-7319-4DBA-B3EB-A70E85A2FE6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.UDPPlugin", "Tests\Tests.UDPPlugin\Tests.UDPPlugin.csproj", "{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -175,6 +177,18 @@ Global
 		{99DE9357-7319-4DBA-B3EB-A70E85A2FE6C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{99DE9357-7319-4DBA-B3EB-A70E85A2FE6C}.Release|x64.ActiveCfg = Release|Any CPU
 		{99DE9357-7319-4DBA-B3EB-A70E85A2FE6C}.Release|x86.ActiveCfg = Release|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Release|x64.ActiveCfg = Release|Any CPU
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -188,6 +202,7 @@ Global
 		{8495EE9F-D6DC-4298-9B16-08107003F6AE} = {D03A6A9C-CA7C-4DEC-B4F3-3C22E3E27545}
 		{A51B2C7B-7FCE-467A-B2E1-BD39E5E35044} = {D03A6A9C-CA7C-4DEC-B4F3-3C22E3E27545}
 		{99DE9357-7319-4DBA-B3EB-A70E85A2FE6C} = {3509D088-F7F1-4C4F-A8F5-95AEF6A7F382}
+		{EE2C69AD-694E-4B51-AACD-7D43C15E4D0E} = {3509D088-F7F1-4C4F-A8F5-95AEF6A7F382}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Sensorium2\Sensorium2.csproj

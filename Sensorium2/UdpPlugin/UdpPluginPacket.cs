@@ -15,11 +15,11 @@
 using System.Net;
 
 namespace UdpPlugin {
-	class UdpPluginPacket {
+	class UDPPluginPacket {
         public byte[] Data { get; private set; }
 		public IPEndPoint EndPoint { get; private set; }
 
-		public UdpPluginPacket(byte[] data, IPEndPoint endpoint) {
+		public UDPPluginPacket(byte[] data, IPEndPoint endpoint) {
 			Data = data;
 			EndPoint = endpoint;
 		}

@@ -19,15 +19,15 @@ using log4net;
 using Sensorium.Common;
 
 namespace UdpPlugin {
-	class UdpPluginServer {
+	class UDPPluginServer {
 	 	public IPAddress Address { get; private set;}
 	 	public int Port { get; private set; }
 		private bool _running;
 		private int _timeout;
 
-		private readonly ILog _log = LogManager.GetLogger(typeof (UdpPluginServer));
+		private readonly ILog _log = LogManager.GetLogger(typeof (UDPPluginServer));
         
-		public UdpPluginServer(IPAddress address, int port, int timeout) {
+		public UDPPluginServer(IPAddress address, int port, int timeout) {
 			Address = address;
 			Port = port;
 			_timeout = timeout;
@@ -76,14 +76,14 @@ namespace UdpPlugin {
 				}
 
 				//Queue a new responder task
-				ThreadPool.QueueUserWorkItem(callBack, new UdpPluginPacket( data, (IPEndPoint) sender));
+				ThreadPool.QueueUserWorkItem(callBack, new UDPPluginPacket( data, (IPEndPoint) sender));
 			}
 
 			listener.Close();
 		}
 		
 		private void Responder(object packet) {
-			UdpPluginPacket ipPacket = (UdpPluginPacket) packet;
+			UDPPluginPacket ipPacket = (UDPPluginPacket) packet;
 			byte[] response;
 
 			response = SensoriumServer.GetResponse(ipPacket.Data); //TODO: Exception handling here
