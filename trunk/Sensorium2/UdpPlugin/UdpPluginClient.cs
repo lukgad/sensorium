@@ -20,14 +20,14 @@ using log4net;
 using Sensorium.Common;
 
 namespace UdpPlugin {
-	class UdpPluginClient {
+	class UDPPluginClient {
 		private UdpClient _udpClient;
         private bool _running;
 		private int _delay;
 		public string HostName { get; private set; }
 		public int Port { get; private set; }
 		
-		private readonly ILog _log = LogManager.GetLogger(typeof (UdpPluginClient));
+		private readonly ILog _log = LogManager.GetLogger(typeof (UDPPluginClient));
 
 		private List<Sensor> _sensors;
 		public List<Sensor> Sensors
@@ -47,7 +47,7 @@ namespace UdpPlugin {
 			_running = false;
 		}
 
-		public UdpPluginClient(string hostName, int port, int delay) {
+		public UDPPluginClient(string hostName, int port, int delay) {
 			_udpClient = new UdpClient();
 			Port = port;
 			HostName = hostName;

@@ -21,9 +21,9 @@ using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
 namespace UdpPlugin{
-	public class UdpPlugin : CommPlugin {
-		private List<UdpPluginServer> _servers;
-		private List<UdpPluginClient> _clients;
+	public class UDPPlugin : CommPlugin {
+		private List<UDPPluginServer> _servers;
+		private List<UDPPluginClient> _clients;
 		private bool _running;
 		private int _delay;
 
@@ -38,22 +38,22 @@ namespace UdpPlugin{
 		}
 
 		public override void Stop() {
-			foreach(UdpPluginServer s in _servers)
+			foreach(UDPPluginServer s in _servers)
 				s.Stop();
 
-			foreach(UdpPluginClient c in _clients)
+			foreach(UDPPluginClient c in _clients)
 				c.Stop();
 
 			_running = false;
 		}
 
 		public override void Start() {
-			foreach (UdpPluginServer s in _servers) {
+			foreach (UDPPluginServer s in _servers) {
 				s.Start();
 				_log.Info("Starting server on " + s.Address + ":" + s.Port);
 			}
 
-			foreach (UdpPluginClient c in _clients) {
+			foreach (UDPPluginClient c in _clients) {
 				c.Start();
 				_log.Info("Starting client on " + c.HostName + ":" + c.Port);
 			}
@@ -66,7 +66,7 @@ namespace UdpPlugin{
 		private void UpdateSensors() {
 			while(_running) {
 				List<Sensor> s = new List<Sensor>();
-				foreach(UdpPluginClient c in _clients) {
+				foreach(UDPPluginClient c in _clients) {
 					s.AddRange(c.Sensors);
 				}
 				Sensors = s;
@@ -78,8 +78,8 @@ namespace UdpPlugin{
 		{
 			base.Init(mode);
 
-			_servers = new List<UdpPluginServer>();
-			_clients = new List<UdpPluginClient>();
+			_servers = new List<UDPPluginServer>();
+			_clients = new List<UDPPluginClient>();
 
 			Mode = mode;
 
@@ -123,7 +123,7 @@ namespace UdpPlugin{
 
 				foreach (string s in Settings["Server"]) {
 					string[] servers = s.Trim().Split(new char[] { ' ', '	' });
-					_servers.Add(new UdpPluginServer(IPAddress.Parse(servers[0]), Int32.Parse(servers[1]), _delay));
+					_servers.Add(new UDPPluginServer(IPAddress.Parse(servers[0]), Int32.Parse(servers[1]), _delay));
 				}
 
 			} else { //Otherwise, start in client mode (default)
@@ -138,7 +138,7 @@ namespace UdpPlugin{
 					throw new Exception("Malformed address/port pair");
 
 				for (int i = 0; i < clients.Length; i += 2) {
-					_clients.Add(new UdpPluginClient(clients[i], Int32.Parse(clients[i + 1]), 1000));
+					_clients.Add(new UDPPluginClient(clients[i], Int32.Parse(clients[i + 1]), 1000));
 				}
 			}
 		}

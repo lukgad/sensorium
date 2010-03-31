@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Tests.Sensorium2")]
+[assembly: AssemblyTitle("Tests.UDPPlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Tests.Sensorium2")]
+[assembly: AssemblyProduct("Tests.UDPPlugin")]
 [assembly: AssemblyCopyright("Copyright © Aaron Maslen 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a082af31-6af9-48ca-9fe5-fad9c3f05556")]
+[assembly: Guid("390fc1a6-b383-4632-8418-3c5c5f476596")]
 
 // Version information for an assembly consists of the following four values:
 //
