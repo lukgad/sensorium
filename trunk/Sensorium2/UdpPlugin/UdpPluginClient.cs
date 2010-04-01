@@ -19,7 +19,7 @@ using System.Threading;
 using log4net;
 using Sensorium.Common;
 
-namespace UdpPlugin {
+namespace UDPPlugin {
 	class UDPPluginClient {
 		private UdpClient _udpClient;
         private bool _running;
