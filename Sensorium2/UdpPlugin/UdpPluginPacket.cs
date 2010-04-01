@@ -10,11 +10,11 @@
  *	A PARTICULAR PURPOSE. See the GNU General Public License 
  *	for more details. You should have received a copy of the GNU General 
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
-*/
+ */
 
 using System.Net;
 
-namespace UdpPlugin {
+namespace UDPPlugin {
 	class UDPPluginPacket {
         public byte[] Data { get; private set; }
 		public IPEndPoint EndPoint { get; private set; }

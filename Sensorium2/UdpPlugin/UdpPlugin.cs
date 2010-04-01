@@ -20,7 +20,7 @@ using log4net;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
-namespace UdpPlugin{
+namespace UDPPlugin{
 	public class UDPPlugin : CommPlugin {
 		private List<UDPPluginServer> _servers;
 		private List<UDPPluginClient> _clients;
