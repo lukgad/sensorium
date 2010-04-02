@@ -8,8 +8,8 @@
     <ProjectGuid>{4E044E72-2745-4A45-AB0D-87F20288132A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UdpPlugin</RootNamespace>
-    <AssemblyName>UdpPlugin</AssemblyName>
+    <RootNamespace>UDPPlugin</RootNamespace>
+    <AssemblyName>UDPPlugin</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
