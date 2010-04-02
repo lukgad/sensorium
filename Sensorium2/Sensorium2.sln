@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPPlugin", "UDPPlugin\UDPP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleControlPlugin", "ConsoleControlPlugin\ConsoleControlPlugin.csproj", "{7F844E87-CD7D-4785-AC2A-08B2D409717D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libSensorsPlugin", "libSensorsPlugin\libSensorsPlugin.csproj", "{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libsensorsPlugin", "libsensorsPlugin\libsensorsPlugin.csproj", "{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsControlPlugin", "WinFormsControlPlugin\WinFormsControlPlugin.csproj", "{5D201635-1488-421F-B258-680974D6720C}"
 EndProject
