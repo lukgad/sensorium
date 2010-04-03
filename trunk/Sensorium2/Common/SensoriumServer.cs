@@ -44,7 +44,7 @@ namespace Sensorium.Common {
 		/// </summary>
 		/// <param name="requestPacket">Request data</param>
 		/// <returns>Response data</returns>
-		public byte[] GetResponse(byte[] requestPacket) {
+		protected static byte[] GetResponse(byte[] requestPacket) {
 			if (requestPacket[0] != 3)
 				return null;
 
