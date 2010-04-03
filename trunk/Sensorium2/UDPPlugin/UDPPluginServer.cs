@@ -19,7 +19,7 @@ using log4net;
 using Sensorium.Common;
 
 namespace UDPPlugin {
-	class UDPPluginServer {
+	class UDPPluginServer : SensoriumServer {
 	 	public IPAddress Address { get; private set;}
 	 	public int Port { get; private set; }
 		private bool _running;
@@ -85,7 +85,7 @@ namespace UDPPlugin {
 		private void Responder(object packet) {
 			UDPPluginPacket ipPacket = (UDPPluginPacket) packet;
 
-			byte[] response = SensoriumServer.GetResponse(ipPacket.Data);
+			byte[] response = GetResponse(ipPacket.Data);
 
 			Socket responseSocket = new Socket(ipPacket.EndPoint.AddressFamily, 
 				SocketType.Dgram, ProtocolType.Udp);

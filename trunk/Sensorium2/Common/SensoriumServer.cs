@@ -37,14 +37,14 @@ namespace Sensorium.Common {
 	/// 
 	/// Data: String for Host ID, Plugin Name, Name, Type requests; byte[] for Data requests
 	/// </summary>
-	public static class SensoriumServer {
+	public abstract class SensoriumServer {
 		
 		/// <summary>
 		/// Get the response for a recieved request
 		/// </summary>
 		/// <param name="requestPacket">Request data</param>
 		/// <returns>Response data</returns>
-		public static byte[] GetResponse(byte[] requestPacket) {
+		public byte[] GetResponse(byte[] requestPacket) {
 			if (requestPacket[0] != 3)
 				return null;
 
