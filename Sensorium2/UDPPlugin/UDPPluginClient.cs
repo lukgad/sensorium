@@ -20,7 +20,7 @@ using log4net;
 using Sensorium.Common;
 
 namespace UDPPlugin {
-	class UDPPluginClient {
+	class UDPPluginClient : SensoriumClient {
 		private UdpClient _udpClient;
         private bool _running;
 		private int _delay;
@@ -61,11 +61,11 @@ namespace UDPPlugin {
 		private void UpdateSensors() {
 
 			while (_running) {
-				if(_sensors.Count != SensoriumClient.GetNumSensors(GetResponse))
-                    _sensors = SensoriumClient.GetSensors(GetResponse);
+				if(_sensors.Count != GetNumSensors())
+                    _sensors = GetSensors();
 				else
 					for(int i = 0; i < _sensors.Count; i++)
-						_sensors[i].SetData(SensoriumClient.GetSensorData(GetResponse,i));
+						_sensors[i].SetData(GetSensorData(i));
 
 				Thread.Sleep(_delay);
 			}
@@ -73,7 +73,7 @@ namespace UDPPlugin {
 			_udpClient.Close();
 		}
 
-		private byte[] GetResponse(byte[] request) {
+		protected override byte[] SendRequest(byte[] request) {
 			_udpClient.Send(request, request.Length, HostName, Port);
 			IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
 			try {

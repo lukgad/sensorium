@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Sensorium.Common {
-	public static class SensoriumClient {
+	public abstract class SensoriumClient {
 		/// <summary>
 		/// Generates a request for a sensor
 		/// </summary>
@@ -48,14 +48,14 @@ namespace Sensorium.Common {
 			return request.ToArray();
 		}
 
-		public static Sensor GetSensor(SendRequest requestSend, int sensorId) {
+		private Sensor GetSensor(int sensorId) {
 			Sensor sensor = null;
 			string hostId = null, sourcePlugin = null, name = null, type = null;
 			byte[] data = null;
 
 			for (byte i = 1; i <= 5; i++)
 			{
-				byte[] response = requestSend(Request((RequestType) i, sensorId));
+				byte[] response = SendRequest(Request((RequestType)i, sensorId));
 
 				if (response[0] != 3 || response[5] != i || BitConverter.ToInt32(response, 1) != response.Length)
 					break;
@@ -91,8 +91,8 @@ namespace Sensorium.Common {
 			return sensor;
 		}
 
-		public static byte[] GetSensorData(SendRequest requestSend, int sensorId) {
-			byte[] response = requestSend(Request(RequestType.Data, sensorId));
+		protected byte[] GetSensorData(int sensorId) {
+			byte[] response = SendRequest(Request(RequestType.Data, sensorId));
 
 			if (response[0] != 3 || response[5] != (byte) RequestType.Data || BitConverter.ToInt32(response, 1) != response.Length)
 				return null;
@@ -104,8 +104,8 @@ namespace Sensorium.Common {
 			return data;
 		}
 
-		public static int GetNumSensors(SendRequest requestSend) {
-			byte[] request = requestSend(Request(RequestType.NumSensors, -1));
+		protected int GetNumSensors() {
+			byte[] request = SendRequest(Request(RequestType.NumSensors, -1));
 
 			if (request.Length == 0 || request[0] != 3 || request[5] != ((byte) RequestType.NumSensors) || 
 				BitConverter.ToInt32(request, 1) != request.Length)
@@ -119,15 +119,14 @@ namespace Sensorium.Common {
 		/// </summary>
 		/// <param name="request">Request data</param>
 		/// <returns>Response data</returns>
-		public delegate byte[] SendRequest(byte[] request);
+		protected abstract byte[] SendRequest(byte[] request);
 
 		/// <summary>
 		/// Gets a list of Sensors using delegate.
 		/// </summary>
-		/// <param name="requestSend">SensorRequest delegate function</param>
 		/// <returns>List of Sensors retrieved</returns>
-		public static List<Sensor> GetSensors(SendRequest requestSend) {
-			int numSensors = GetNumSensors(requestSend);
+		protected List<Sensor> GetSensors() {
+			int numSensors = GetNumSensors();
 
 			if (numSensors <= 0)
 				return new List<Sensor>();
@@ -135,7 +134,7 @@ namespace Sensorium.Common {
 			List<Sensor> sensorList = new List<Sensor>();
 			
 			for (int i = 0; i < numSensors; i++) {
-					Sensor newSensor = GetSensor(requestSend, i);
+					Sensor newSensor = GetSensor(i);
 					
 					if(newSensor == null) {
 						sensorList.Add(new Sensor("Unknown", "Unknown", "Unknown", "Unknown"));
