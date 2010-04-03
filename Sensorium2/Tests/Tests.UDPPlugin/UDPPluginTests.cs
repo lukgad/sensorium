@@ -12,48 +12,63 @@ namespace Tests.UDPPlugin {
 	[TestFixture]
 	public class UDPPluginTests {
 		private readonly AppData _testData = (AppData) SensoriumFactory.GetAppInterface();
-		
-        private static readonly IPAddress ServerIP = IPAddress.Parse("127.0.0.1");
-		private const int Port = 54321;
-		private const int Timeout = 1000;
 
-		private static readonly UDPPluginServer TestServer = new UDPPluginServer(ServerIP, Port, Timeout);
-		private static readonly UDPPluginClient TestClient = new UDPPluginClient("127.0.0.1", Port, Timeout);
+		private IPAddress _serverIP;
+		private int _port;
+		private int _timeout;
 
-		private static Sensor _testSensor;
+		readonly Sensor _testSensor = new Sensor("TestName", "TestType", SensoriumFactory.GetAppInterface().HostId, "TestSource");
 
-		public UDPPluginTests() {
-			_testSensor = new Sensor("TestName", "TestType", _testData.HostId, "TestPlugin");
-			_testData.Sensors = new List<Sensor> {_testSensor};
-			_testData.Sensors[0].SetData(Encoding.UTF8.GetBytes("TestData"));
-		}
+		private UDPPluginServer _testServer;
+		private UDPPluginClient _testClient;
 
-		[SetUp]
+		[TestFixtureSetUp]
 		public void Init() {
-			TestServer.Start();
-			TestClient.Start();
-			
-			Thread.Sleep(Timeout * 2);
-		}
-
-		[TearDown]
-		public void Dispose() {
-			TestServer.Stop();
-			TestClient.Stop();
+			_testSensor.SetData(Encoding.UTF8.GetBytes("TestData"));
+			((AppData) SensoriumFactory.GetAppInterface()).Sensors = new List<Sensor> {_testSensor};
 		}
 
 		[Test]
 		public void CorrectlyRetrieveTestSensor() {
-			Assert.That(TestClient.Sensors[0].Name, Is.EqualTo(_testSensor.Name), 
-				"Recieved: " + TestClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
-			Assert.That(TestClient.Sensors[0].Type, Is.EqualTo(_testSensor.Type), 
-				"Recieved: " + TestClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
-			Assert.That(TestClient.Sensors[0].HostId, Is.EqualTo(_testSensor.HostId), 
-				"Recieved: " + TestClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
-			Assert.That(TestClient.Sensors[0].SourcePlugin, Is.EqualTo(_testSensor.SourcePlugin), 
-				"Recieved: " + TestClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
-			Assert.That(TestClient.Sensors[0].Data, Is.EqualTo(_testSensor.Data), 
-				"Recieved: " + TestClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
+			_serverIP = IPAddress.Parse("127.0.0.1");
+			_port = 54321;
+			_timeout = 1000;
+
+            _testServer = new UDPPluginServer(_serverIP, _port, _timeout);
+			_testClient = new UDPPluginClient("127.0.0.1", _port, _timeout);
+
+			_testServer.Start();
+			_testClient.Start();
+			Thread.Sleep(_timeout * 2);
+
+			Assert.That(_testClient.Sensors[0].Name, Is.EqualTo(_testSensor.Name), 
+				"Recieved: " + _testClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
+			Assert.That(_testClient.Sensors[0].Type, Is.EqualTo(_testSensor.Type), 
+				"Recieved: " + _testClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
+			Assert.That(_testClient.Sensors[0].HostId, Is.EqualTo(_testSensor.HostId), 
+				"Recieved: " + _testClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
+			Assert.That(_testClient.Sensors[0].SourcePlugin, Is.EqualTo(_testSensor.SourcePlugin), 
+				"Recieved: " + _testClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
+			Assert.That(_testClient.Sensors[0].Data, Is.EqualTo(_testSensor.Data), 
+				"Recieved: " + _testClient.Sensors[0].Name + " Expected: " + _testSensor.Name);
+
+			_testServer.Stop();
+			_testClient.Stop();
+		}
+
+		[Test]
+		public void CorrectlyHandlesSocketExceptions() {
+			_port = 8765;
+			_timeout = 1000;
+
+			_testClient = new UDPPluginClient("123.231.132.213", _port, _timeout);
+
+			_testClient.Start();
+			Thread.Sleep(_timeout * 2);
+
+			Assert.That(_testClient.Sensors, Is.Empty);
+
+			_testClient.Stop();
 		}
 	}
 }

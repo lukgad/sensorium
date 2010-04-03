@@ -30,8 +30,7 @@ namespace UDPPlugin {
 		private readonly ILog _log = LogManager.GetLogger(typeof (UDPPluginClient));
 
 		private List<Sensor> _sensors;
-		public List<Sensor> Sensors
-		{
+		public List<Sensor> Sensors {
 			get { return new List<Sensor>(_sensors); }
 		}
 
