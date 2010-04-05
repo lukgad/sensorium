@@ -251,12 +251,12 @@ namespace Sensorium2
 				foreach (DataPlugin d in _dataPlugins)
 					s.AddRange(d.Sensors);
 				foreach (CommPlugin c in _commPlugins) {
-					s.AddRange(c.Sensors);
-					continue;
+					//s.AddRange(c.Sensors);
+					//continue;
 
 					foreach (Sensor cs in c.Sensors) {
 						if (cs.HostId == Me.HostId)
-							break;
+							continue;
 
 						s.Add(cs);
 					}
