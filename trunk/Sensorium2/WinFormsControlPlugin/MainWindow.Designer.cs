@@ -60,10 +60,10 @@ namespace WinFormsControlPlugin {
 			// 
 			// refreshButton
 			// 
-			this.refreshButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.refreshButton.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh_small;
 			this.refreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(50, 22);
+			this.refreshButton.Size = new System.Drawing.Size(66, 22);
 			this.refreshButton.Text = "Refresh";
 			this.refreshButton.ToolTipText = "Refresh";
 			this.refreshButton.Visible = false;
