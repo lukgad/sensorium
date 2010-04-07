@@ -143,9 +143,9 @@ namespace ConsoleControlPlugin {
 					Console.Clear();
 					Console.WriteLine(SensoriumFactory.GetAppInterface().Sensors.Count + " sensors");
 					
-					//Get all sensor-exporting plugins (comm plugins and data plugins), print all sensor data
+					//Get all data plugins, print all sensor data
 					foreach (string p in SensoriumFactory.GetAppInterface().Plugins.Keys) {
-						if (!typeof (CommPlugin).IsAssignableFrom(SensoriumFactory.GetAppInterface().Plugins[p].GetType()) &&
+						if (/*!typeof (CommPlugin).IsAssignableFrom(SensoriumFactory.GetAppInterface().Plugins[p].GetType()) &&*/
 							!typeof (DataPlugin).IsAssignableFrom(SensoriumFactory.GetAppInterface().Plugins[p].GetType()))
 							continue;
 
