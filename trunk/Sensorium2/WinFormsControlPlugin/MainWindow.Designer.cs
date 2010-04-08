@@ -44,19 +44,23 @@ namespace WinFormsControlPlugin {
 			this.tabSensors = new System.Windows.Forms.TabPage();
 			this.tabsMain = new System.Windows.Forms.TabControl();
 			this.tabPlugins = new System.Windows.Forms.TabPage();
-			this.buttonDisable = new System.Windows.Forms.Button();
-			this.buttonEnable = new System.Windows.Forms.Button();
 			this.listViewPlugins = new System.Windows.Forms.ListView();
 			this.nameColumnHeader = new System.Windows.Forms.ColumnHeader();
 			this.enabledColumnHeader = new System.Windows.Forms.ColumnHeader();
 			this.imageListPluginView = new System.Windows.Forms.ImageList(this.components);
 			this.toolStripMainWindow = new System.Windows.Forms.ToolStrip();
-			this.buttonRefresh = new System.Windows.Forms.ToolStripButton();
 			this.buttonAbout = new System.Windows.Forms.ToolStripButton();
+			this.buttonRefresh = new System.Windows.Forms.ToolStripButton();
+			this.buttonEnable = new System.Windows.Forms.ToolStripButton();
+			this.buttonDisable = new System.Windows.Forms.ToolStripButton();
+			this.tableLayoutPanelPluginsTab = new System.Windows.Forms.TableLayoutPanel();
+			this.labelPluginName = new System.Windows.Forms.Label();
+			this.labelPluginVersion = new System.Windows.Forms.Label();
 			this.tabLog.SuspendLayout();
 			this.tabsMain.SuspendLayout();
 			this.tabPlugins.SuspendLayout();
 			this.toolStripMainWindow.SuspendLayout();
+			this.tableLayoutPanelPluginsTab.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabLog
@@ -108,9 +112,7 @@ namespace WinFormsControlPlugin {
 			// 
 			// tabPlugins
 			// 
-			this.tabPlugins.Controls.Add(this.buttonDisable);
-			this.tabPlugins.Controls.Add(this.buttonEnable);
-			this.tabPlugins.Controls.Add(this.listViewPlugins);
+			this.tabPlugins.Controls.Add(this.tableLayoutPanelPluginsTab);
 			this.tabPlugins.Location = new System.Drawing.Point(4, 22);
 			this.tabPlugins.Name = "tabPlugins";
 			this.tabPlugins.Padding = new System.Windows.Forms.Padding(3);
@@ -118,30 +120,6 @@ namespace WinFormsControlPlugin {
 			this.tabPlugins.TabIndex = 2;
 			this.tabPlugins.Text = "Plugins";
 			this.tabPlugins.UseVisualStyleBackColor = true;
-			// 
-			// buttonDisable
-			// 
-			this.buttonDisable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonDisable.Enabled = false;
-			this.buttonDisable.Location = new System.Drawing.Point(378, 35);
-			this.buttonDisable.Name = "buttonDisable";
-			this.buttonDisable.Size = new System.Drawing.Size(123, 23);
-			this.buttonDisable.TabIndex = 2;
-			this.buttonDisable.Text = "&Disable";
-			this.buttonDisable.UseVisualStyleBackColor = true;
-			this.buttonDisable.Click += new System.EventHandler(this.buttonDisable_Click);
-			// 
-			// buttonEnable
-			// 
-			this.buttonEnable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonEnable.Enabled = false;
-			this.buttonEnable.Location = new System.Drawing.Point(378, 6);
-			this.buttonEnable.Name = "buttonEnable";
-			this.buttonEnable.Size = new System.Drawing.Size(123, 23);
-			this.buttonEnable.TabIndex = 1;
-			this.buttonEnable.Text = "&Enable";
-			this.buttonEnable.UseVisualStyleBackColor = true;
-			this.buttonEnable.Click += new System.EventHandler(this.buttonEnable_Click);
 			// 
 			// listViewPlugins
 			// 
@@ -152,10 +130,11 @@ namespace WinFormsControlPlugin {
             this.nameColumnHeader,
             this.enabledColumnHeader});
 			this.listViewPlugins.FullRowSelect = true;
-			this.listViewPlugins.Location = new System.Drawing.Point(8, 6);
+			this.listViewPlugins.Location = new System.Drawing.Point(3, 3);
 			this.listViewPlugins.Name = "listViewPlugins";
+			this.tableLayoutPanelPluginsTab.SetRowSpan(this.listViewPlugins, 3);
 			this.listViewPlugins.ShowGroups = false;
-			this.listViewPlugins.Size = new System.Drawing.Size(364, 349);
+			this.listViewPlugins.Size = new System.Drawing.Size(295, 351);
 			this.listViewPlugins.SmallImageList = this.imageListPluginView;
 			this.listViewPlugins.TabIndex = 0;
 			this.listViewPlugins.UseCompatibleStateImageBehavior = false;
@@ -182,22 +161,14 @@ namespace WinFormsControlPlugin {
 			// 
 			this.toolStripMainWindow.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStripMainWindow.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buttonAbout,
             this.buttonRefresh,
-            this.buttonAbout});
+            this.buttonEnable,
+            this.buttonDisable});
 			this.toolStripMainWindow.Location = new System.Drawing.Point(0, 0);
 			this.toolStripMainWindow.Name = "toolStripMainWindow";
 			this.toolStripMainWindow.Size = new System.Drawing.Size(517, 25);
 			this.toolStripMainWindow.TabIndex = 0;
-			// 
-			// buttonRefresh
-			// 
-			this.buttonRefresh.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh_small;
-			this.buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.buttonRefresh.Name = "buttonRefresh";
-			this.buttonRefresh.Size = new System.Drawing.Size(66, 22);
-			this.buttonRefresh.Text = "Refresh";
-			this.buttonRefresh.Visible = false;
-			this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
 			// 
 			// buttonAbout
 			// 
@@ -209,6 +180,74 @@ namespace WinFormsControlPlugin {
 			this.buttonAbout.Size = new System.Drawing.Size(53, 22);
 			this.buttonAbout.Text = "About...";
 			this.buttonAbout.Click += new System.EventHandler(this.buttonAbout_Click);
+			// 
+			// buttonRefresh
+			// 
+			this.buttonRefresh.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh_small;
+			this.buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonRefresh.Name = "buttonRefresh";
+			this.buttonRefresh.Size = new System.Drawing.Size(66, 22);
+			this.buttonRefresh.Text = "Refresh";
+			this.buttonRefresh.Visible = false;
+			this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+			// 
+			// buttonEnable
+			// 
+			this.buttonEnable.Image = ((System.Drawing.Image)(resources.GetObject("buttonEnable.Image")));
+			this.buttonEnable.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonEnable.Name = "buttonEnable";
+			this.buttonEnable.Size = new System.Drawing.Size(62, 22);
+			this.buttonEnable.Text = "Enable";
+			this.buttonEnable.Visible = false;
+			this.buttonEnable.Click += new System.EventHandler(this.buttonEnable_Click);
+			// 
+			// buttonDisable
+			// 
+			this.buttonDisable.Image = global::WinFormsControlPlugin.Properties.Resources.plugin_disabled;
+			this.buttonDisable.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.buttonDisable.Name = "buttonDisable";
+			this.buttonDisable.Size = new System.Drawing.Size(65, 22);
+			this.buttonDisable.Text = "Disable";
+			this.buttonDisable.Visible = false;
+			this.buttonDisable.Click += new System.EventHandler(this.buttonDisable_Click);
+			// 
+			// tableLayoutPanelPluginsTab
+			// 
+			this.tableLayoutPanelPluginsTab.ColumnCount = 2;
+			this.tableLayoutPanelPluginsTab.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+			this.tableLayoutPanelPluginsTab.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+			this.tableLayoutPanelPluginsTab.Controls.Add(this.listViewPlugins, 0, 0);
+			this.tableLayoutPanelPluginsTab.Controls.Add(this.labelPluginName, 1, 0);
+			this.tableLayoutPanelPluginsTab.Controls.Add(this.labelPluginVersion, 1, 1);
+			this.tableLayoutPanelPluginsTab.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanelPluginsTab.Location = new System.Drawing.Point(3, 3);
+			this.tableLayoutPanelPluginsTab.Name = "tableLayoutPanelPluginsTab";
+			this.tableLayoutPanelPluginsTab.RowCount = 3;
+			this.tableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelPluginsTab.Size = new System.Drawing.Size(503, 357);
+			this.tableLayoutPanelPluginsTab.TabIndex = 1;
+			// 
+			// labelPluginName
+			// 
+			this.labelPluginName.AutoSize = true;
+			this.labelPluginName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelPluginName.Location = new System.Drawing.Point(304, 0);
+			this.labelPluginName.Name = "labelPluginName";
+			this.labelPluginName.Size = new System.Drawing.Size(196, 20);
+			this.labelPluginName.TabIndex = 1;
+			this.labelPluginName.Text = "Name:";
+			// 
+			// labelPluginVersion
+			// 
+			this.labelPluginVersion.AutoSize = true;
+			this.labelPluginVersion.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelPluginVersion.Location = new System.Drawing.Point(304, 20);
+			this.labelPluginVersion.Name = "labelPluginVersion";
+			this.labelPluginVersion.Size = new System.Drawing.Size(196, 20);
+			this.labelPluginVersion.TabIndex = 2;
+			this.labelPluginVersion.Text = "Version:";
 			// 
 			// MainWindow
 			// 
@@ -225,6 +264,8 @@ namespace WinFormsControlPlugin {
 			this.tabPlugins.ResumeLayout(false);
 			this.toolStripMainWindow.ResumeLayout(false);
 			this.toolStripMainWindow.PerformLayout();
+			this.tableLayoutPanelPluginsTab.ResumeLayout(false);
+			this.tableLayoutPanelPluginsTab.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -242,11 +283,14 @@ namespace WinFormsControlPlugin {
 		private System.Windows.Forms.ColumnHeader nameColumnHeader;
 		private System.Windows.Forms.ImageList imageListPluginView;
 		private System.Windows.Forms.ColumnHeader enabledColumnHeader;
-		private System.Windows.Forms.Button buttonEnable;
 		private System.Windows.Forms.ToolStrip toolStripMainWindow;
 		private System.Windows.Forms.ToolStripButton buttonRefresh;
-		private System.Windows.Forms.Button buttonDisable;
 		private System.Windows.Forms.ToolStripButton buttonAbout;
+		private System.Windows.Forms.ToolStripButton buttonEnable;
+		private System.Windows.Forms.ToolStripButton buttonDisable;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelPluginsTab;
+		private System.Windows.Forms.Label labelPluginName;
+		private System.Windows.Forms.Label labelPluginVersion;
 
 
 

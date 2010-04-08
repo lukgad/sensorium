@@ -26,5 +26,7 @@ namespace Sensorium.Common.Plugins
 
 		void Start();
 		void Stop();
+
+		void ReInit();
 	}
 }

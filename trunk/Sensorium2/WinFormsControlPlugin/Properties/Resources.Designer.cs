@@ -66,5 +66,19 @@ namespace WinFormsControlPlugin.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap plugin {
+            get {
+                object obj = ResourceManager.GetObject("plugin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap plugin_disabled {
+            get {
+                object obj = ResourceManager.GetObject("plugin_disabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
