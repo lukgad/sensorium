@@ -104,7 +104,7 @@ namespace WinFormsControlPlugin {
 			this.tabsMain.SelectedIndex = 0;
 			this.tabsMain.Size = new System.Drawing.Size(517, 389);
 			this.tabsMain.TabIndex = 1;
-			this.tabsMain.SelectedIndexChanged += new System.EventHandler(this.mainTabs_SelectedIndexChanged);
+			this.tabsMain.SelectedIndexChanged += new System.EventHandler(this.tabsMain_SelectedIndexChanged);
 			// 
 			// tabPlugins
 			// 
@@ -129,7 +129,7 @@ namespace WinFormsControlPlugin {
 			this.buttonDisable.TabIndex = 2;
 			this.buttonDisable.Text = "&Disable";
 			this.buttonDisable.UseVisualStyleBackColor = true;
-			this.buttonDisable.Click += new System.EventHandler(this.disableButton_Click);
+			this.buttonDisable.Click += new System.EventHandler(this.buttonDisable_Click);
 			// 
 			// buttonEnable
 			// 
@@ -141,7 +141,7 @@ namespace WinFormsControlPlugin {
 			this.buttonEnable.TabIndex = 1;
 			this.buttonEnable.Text = "&Enable";
 			this.buttonEnable.UseVisualStyleBackColor = true;
-			this.buttonEnable.Click += new System.EventHandler(this.enableButton_Click);
+			this.buttonEnable.Click += new System.EventHandler(this.buttonEnable_Click);
 			// 
 			// listViewPlugins
 			// 
@@ -160,7 +160,7 @@ namespace WinFormsControlPlugin {
 			this.listViewPlugins.TabIndex = 0;
 			this.listViewPlugins.UseCompatibleStateImageBehavior = false;
 			this.listViewPlugins.View = System.Windows.Forms.View.Details;
-			this.listViewPlugins.SelectedIndexChanged += new System.EventHandler(this.pluginsListView_SelectedIndexChanged);
+			this.listViewPlugins.SelectedIndexChanged += new System.EventHandler(this.listViewPlugins_SelectedIndexChanged);
 			// 
 			// nameColumnHeader
 			// 
@@ -197,7 +197,7 @@ namespace WinFormsControlPlugin {
 			this.buttonRefresh.Size = new System.Drawing.Size(66, 22);
 			this.buttonRefresh.Text = "Refresh";
 			this.buttonRefresh.Visible = false;
-			this.buttonRefresh.Click += new System.EventHandler(this.refreshButton_Click);
+			this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
 			// 
 			// buttonAbout
 			// 

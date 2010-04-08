@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WinFormsControlPlugin")]
-[assembly: AssemblyDescription("Uses silks icons by famfamfam: www.famfamfam.com")]
+[assembly: AssemblyDescription("Uses silk icons: http://www.famfamfam.com/lab/icons/silk/")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WinFormsControlPlugin")]
