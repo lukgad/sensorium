@@ -28,15 +28,15 @@
 		private void InitializeComponent()
 		{
 			this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+			this.textBoxAppDescription = new System.Windows.Forms.TextBox();
+			this.labelAppCopyright = new System.Windows.Forms.Label();
+			this.labelAppVersion = new System.Windows.Forms.Label();
+			this.labelAppProductName = new System.Windows.Forms.Label();
 			this.labelProductName = new System.Windows.Forms.Label();
 			this.labelVersion = new System.Windows.Forms.Label();
 			this.labelCopyright = new System.Windows.Forms.Label();
 			this.textBoxDescription = new System.Windows.Forms.TextBox();
 			this.okButton = new System.Windows.Forms.Button();
-			this.labelAppProductName = new System.Windows.Forms.Label();
-			this.labelAppVersion = new System.Windows.Forms.Label();
-			this.labelAppCopyright = new System.Windows.Forms.Label();
-			this.textBoxAppDescription = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -66,6 +66,53 @@
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel.Size = new System.Drawing.Size(334, 253);
 			this.tableLayoutPanel.TabIndex = 0;
+			// 
+			// textBoxAppDescription
+			// 
+			this.textBoxAppDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textBoxAppDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBoxAppDescription.Location = new System.Drawing.Point(6, 103);
+			this.textBoxAppDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+			this.textBoxAppDescription.Multiline = true;
+			this.textBoxAppDescription.Name = "textBoxAppDescription";
+			this.textBoxAppDescription.ReadOnly = true;
+			this.textBoxAppDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.textBoxAppDescription.Size = new System.Drawing.Size(158, 120);
+			this.textBoxAppDescription.TabIndex = 28;
+			this.textBoxAppDescription.TabStop = false;
+			this.textBoxAppDescription.Text = "Description";
+			// 
+			// labelAppCopyright
+			// 
+			this.labelAppCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelAppCopyright.Location = new System.Drawing.Point(6, 50);
+			this.labelAppCopyright.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
+			this.labelAppCopyright.Name = "labelAppCopyright";
+			this.labelAppCopyright.Size = new System.Drawing.Size(158, 50);
+			this.labelAppCopyright.TabIndex = 27;
+			this.labelAppCopyright.Text = "Copyright";
+			// 
+			// labelAppVersion
+			// 
+			this.labelAppVersion.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelAppVersion.Location = new System.Drawing.Point(6, 25);
+			this.labelAppVersion.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
+			this.labelAppVersion.MaximumSize = new System.Drawing.Size(0, 17);
+			this.labelAppVersion.Name = "labelAppVersion";
+			this.labelAppVersion.Size = new System.Drawing.Size(158, 17);
+			this.labelAppVersion.TabIndex = 26;
+			this.labelAppVersion.Text = "Version";
+			// 
+			// labelAppProductName
+			// 
+			this.labelAppProductName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelAppProductName.Location = new System.Drawing.Point(6, 0);
+			this.labelAppProductName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
+			this.labelAppProductName.MaximumSize = new System.Drawing.Size(0, 17);
+			this.labelAppProductName.Name = "labelAppProductName";
+			this.labelAppProductName.Size = new System.Drawing.Size(158, 17);
+			this.labelAppProductName.TabIndex = 25;
+			this.labelAppProductName.Text = "Product Name";
 			// 
 			// labelProductName
 			// 
@@ -124,53 +171,6 @@
 			this.okButton.TabIndex = 24;
 			this.okButton.Text = "&OK";
 			this.okButton.Click += new System.EventHandler(this.okButton_Click);
-			// 
-			// labelAppProductName
-			// 
-			this.labelAppProductName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelAppProductName.Location = new System.Drawing.Point(6, 0);
-			this.labelAppProductName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
-			this.labelAppProductName.MaximumSize = new System.Drawing.Size(0, 17);
-			this.labelAppProductName.Name = "labelAppProductName";
-			this.labelAppProductName.Size = new System.Drawing.Size(158, 17);
-			this.labelAppProductName.TabIndex = 25;
-			this.labelAppProductName.Text = "Product Name";
-			// 
-			// labelAppVersion
-			// 
-			this.labelAppVersion.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelAppVersion.Location = new System.Drawing.Point(6, 25);
-			this.labelAppVersion.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
-			this.labelAppVersion.MaximumSize = new System.Drawing.Size(0, 17);
-			this.labelAppVersion.Name = "labelAppVersion";
-			this.labelAppVersion.Size = new System.Drawing.Size(158, 17);
-			this.labelAppVersion.TabIndex = 26;
-			this.labelAppVersion.Text = "Version";
-			// 
-			// labelAppCopyright
-			// 
-			this.labelAppCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelAppCopyright.Location = new System.Drawing.Point(6, 50);
-			this.labelAppCopyright.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
-			this.labelAppCopyright.Name = "labelAppCopyright";
-			this.labelAppCopyright.Size = new System.Drawing.Size(158, 50);
-			this.labelAppCopyright.TabIndex = 27;
-			this.labelAppCopyright.Text = "Copyright";
-			// 
-			// textBoxAppDescription
-			// 
-			this.textBoxAppDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBoxAppDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxAppDescription.Location = new System.Drawing.Point(6, 103);
-			this.textBoxAppDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-			this.textBoxAppDescription.Multiline = true;
-			this.textBoxAppDescription.Name = "textBoxAppDescription";
-			this.textBoxAppDescription.ReadOnly = true;
-			this.textBoxAppDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBoxAppDescription.Size = new System.Drawing.Size(158, 120);
-			this.textBoxAppDescription.TabIndex = 28;
-			this.textBoxAppDescription.TabStop = false;
-			this.textBoxAppDescription.Text = "Description";
 			// 
 			// AboutBox
 			// 
