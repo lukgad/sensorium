@@ -55,6 +55,10 @@ namespace Sensorium.Common.Plugins {
 			SensoriumFactory.GetAppInterface().HideConsoleEventHandler -= HandleHideConsole;
 		}
 
+		public virtual void ReInit() {
+			Init();
+		}
+
 		protected virtual void HandleHideConsole(object sender, CancelEventArgs e) {
 			
 		}

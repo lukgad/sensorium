@@ -47,8 +47,11 @@ namespace Sensorium.Common.Plugins
 		//public abstract void Init(Dictionary<string, string> settings);
 
 		public virtual void Stop() {}
+		public virtual void ReInit() {
+			Init(Mode);
+		}
 
-        public virtual void Start() {}
+		public virtual void Start() {}
 
 		protected CommPlugin() {
 			_Sensors = new List<Sensor>();

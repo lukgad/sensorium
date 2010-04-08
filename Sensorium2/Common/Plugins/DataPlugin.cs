@@ -59,6 +59,9 @@ namespace Sensorium.Common.Plugins
 
 		public virtual void Stop() {}
 		public virtual void Start() {}
+		public virtual void ReInit() {
+			Init(Enabled ? PluginMode.Server : PluginMode.Client);
+		}
 
 		public abstract string SensorToString(Sensor sensor);
 	}

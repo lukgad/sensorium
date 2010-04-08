@@ -18,6 +18,8 @@ namespace Sensorium.Common.Plugins
 {
 	public abstract class SettingsPlugin : IPluginInterface
 	{
+		protected string SettingsDir;
+
 		public abstract string Name { get; }
 		public abstract int Version { get; }
 
@@ -27,9 +29,15 @@ namespace Sensorium.Common.Plugins
 		/// Initialize the plugin
 		/// </summary>
 		/// <param name="settingsDir">Prefered settings file directory</param>
-		public abstract void Init(string settingsDir);
+		public virtual void Init(string settingsDir) {
+			SettingsDir = settingsDir;
+		}
+
 		public virtual void Start() {}
         public virtual void Stop() {}
+		public virtual void ReInit() {
+			Init(SettingsDir);
+		}
 
 		/// <summary>
 		/// Retrieves settings for specified plugin.

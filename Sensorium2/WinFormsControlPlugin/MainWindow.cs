@@ -56,6 +56,7 @@ namespace WinFormsControlPlugin {
 
 		private void tabsMain_SelectedIndexChanged(object sender, EventArgs e) {
 			buttonRefresh.Visible = tabLog.Visible || tabPlugins.Visible;
+			buttonEnable.Visible = buttonDisable.Visible = tabPlugins.Visible;
 		}
 
 		private void buttonRefresh_Click(object sender, EventArgs e) {
@@ -85,16 +86,30 @@ namespace WinFormsControlPlugin {
 			if (listViewPlugins.SelectedItems.Count == 1) {
 				buttonEnable.Enabled = !SensoriumFactory.GetAppInterface().Plugins[listViewPlugins.SelectedItems[0].Text].Enabled;
 				buttonDisable.Enabled = SensoriumFactory.GetAppInterface().Plugins[listViewPlugins.SelectedItems[0].Text].Enabled;
+
+				labelPluginName.Text = String.Format("Name: {0}", 
+					SensoriumFactory.GetAppInterface().Plugins[listViewPlugins.SelectedItems[0].Text].Name);
+				labelPluginVersion.Text = String.Format("Version: {0}",
+					(double) SensoriumFactory.GetAppInterface().Plugins[listViewPlugins.SelectedItems[0].Text].Version / 10);
+			} else {
+				if (listViewPlugins.SelectedItems.Count == 0) 
+					buttonEnable.Enabled = buttonDisable.Enabled = false;
+				else buttonEnable.Enabled = buttonDisable.Enabled = true;
+
+				labelPluginName.Text = "Name:";
+				labelPluginVersion.Text = "Version:";
 			}
-			else if (listViewPlugins.SelectedItems.Count == 0) 
-				buttonEnable.Enabled = buttonDisable.Enabled = false;
-			else buttonEnable.Enabled = buttonDisable.Enabled = true;
 		}
 
 		private void buttonEnable_Click(object sender, EventArgs e) {
 			foreach(ListViewItem i in listViewPlugins.SelectedItems) {
 				if(SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled)
 					continue;
+				
+				SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled = true;
+
+				SensoriumFactory.GetAppInterface().Plugins[i.Text].ReInit();
+				SensoriumFactory.GetAppInterface().Plugins[i.Text].Start();
 			}
 
 			ListViewPluginRefresh(sender, e);
@@ -121,6 +136,8 @@ namespace WinFormsControlPlugin {
 				i.ImageKey = SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled
 				             	? "plugin"
 				             	: "plugin_disabled";
+
+				i.SubItems[1].Text = SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled.ToString();
 			}
 
 			listViewPlugins_SelectedIndexChanged(sender, e);
