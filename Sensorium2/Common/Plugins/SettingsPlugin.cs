@@ -34,8 +34,16 @@ namespace Sensorium.Common.Plugins
 			SettingsDir = settingsDir;
 		}
 
-		public virtual void Start() {}
-        public virtual void Stop() {}
+		public virtual void Start() {
+			Running = true;
+		}
+
+		public virtual void Stop() {
+			Running = false;
+		}
+
+		public bool Running { get; private set; }
+
 		public virtual PluginType Type
 		{
 			get { return PluginType.Settings; }

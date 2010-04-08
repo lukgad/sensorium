@@ -33,6 +33,8 @@ namespace Sensorium.Common {
 		public SettingsPlugin EnabledSettingsPlugin { get; set; }
 
 		public string Version { get; set; }
+		public string FileVersion { get; set; }
+
 		public string Copyright { get; set; }
 		public string Description { get; set; }
 
