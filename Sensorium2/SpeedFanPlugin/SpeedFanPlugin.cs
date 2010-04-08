@@ -27,7 +27,7 @@ namespace SpeedFanPlugin
 
 		private readonly ILog _log = LogManager.GetLogger(typeof (SpeedFanPlugin));
 
-		public override void Init(PluginMode mode){
+		public override void Init(PluginMode mode) {
 			base.Init(mode);
 
 			if (Settings.ContainsKey("Enabled"))
