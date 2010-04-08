@@ -45,6 +45,8 @@ namespace Sensorium.Common {
 		/// </summary>
 		string Version { get; }
 
+		string FileVersion { get; }
+
 		string Copyright { get; }
 		string Description { get; }
 

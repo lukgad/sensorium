@@ -58,13 +58,22 @@ namespace Sensorium.Common.Plugins
 			}
 		}
 
-		public virtual void Stop() {}
+		public virtual void Start() {
+			Running = true;
+		}
+
+		public virtual void Stop() {
+			Running = false;
+		}
+
+		public bool Running { get; private set; }
+
 		public virtual PluginType Type
 		{
 			get { return PluginType.Data; }
 		}
 
-		public virtual void Start() {}
+		
 		public virtual void ReInit() {
 			Init(Enabled ? PluginMode.Server : PluginMode.Client);
 		}

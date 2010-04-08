@@ -48,12 +48,16 @@ namespace Sensorium.Common.Plugins {
 		}
 
 		public virtual void Start() {
+			Running = true;
 			SensoriumFactory.GetAppInterface().HideConsoleEventHandler += HandleHideConsole;
 		}
 
 		public virtual void Stop() {
+			Running = false;
 			SensoriumFactory.GetAppInterface().HideConsoleEventHandler -= HandleHideConsole;
 		}
+
+		public bool Running { get; private set; }
 
 		public virtual PluginType Type
 		{

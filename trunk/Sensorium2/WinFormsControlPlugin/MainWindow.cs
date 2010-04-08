@@ -32,7 +32,7 @@ namespace WinFormsControlPlugin {
 		}
 		
 		private void MainWindow_Load(object sender, EventArgs e) {
-			Text = "Sensorium2 v" + SensoriumFactory.GetAppInterface().Version;
+			Text = "Sensorium2 " + SensoriumFactory.GetAppInterface().Version;
 
 			//Add all plugins to the ListView. Only needs to be done once, as the available plugins probably won't change while running.
             foreach (string p in SensoriumFactory.GetAppInterface().Plugins.Keys)
@@ -167,7 +167,7 @@ namespace WinFormsControlPlugin {
 			foreach (ListViewItem i in listViewPlugins.Items) {
 				i.SubItems[1].Text = SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled.ToString();
 
-				if (i.ImageKey == "arrow_refresh_small")
+				if (SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled != SensoriumFactory.GetAppInterface().Plugins[i.Text].Running)
 					continue;
 
 				i.ImageKey = SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled

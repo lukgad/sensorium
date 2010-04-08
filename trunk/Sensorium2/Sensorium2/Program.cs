@@ -54,20 +54,27 @@ namespace Sensorium2
 
         static void Main(string[] args)
 		{
-			Me.Version = "0.0.1 Trunk";
+			object[] copyrightAttributes = 
+				Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
+        	Me.Copyright = copyrightAttributes.Length != 0
+				? ((AssemblyCopyrightAttribute) copyrightAttributes[0]).Copyright
+				: "";
 
-        	object[] copyrightAttributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute),
-				false);
-			object[] descriptionAttributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute),
-				false);
-        	
+        	object[] descriptionAttributes = 
+				Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
+			Me.Description = descriptionAttributes.Length != 0 
+				? ((AssemblyDescriptionAttribute) descriptionAttributes[0]).Description 
+				: "";
 
-			if(copyrightAttributes.Length != 0) {
-				Me.Copyright = ((AssemblyCopyrightAttribute)copyrightAttributes[0]).Copyright;
-				Me.Description = ((AssemblyDescriptionAttribute) descriptionAttributes[0]).Description;
-			} else {
-				Me.Description = Me.Copyright = "";
-			}
+			Me.Version = String.Format("{0} Trunk", Assembly.GetExecutingAssembly().GetName().Version);
+
+        	object[] fileVersionAttributes =
+        		Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyFileVersionAttribute), false);
+        	string fileVersionNo = fileVersionAttributes.Length != 0 
+				? ((AssemblyFileVersionAttribute) fileVersionAttributes[0]).Version 
+				: "";
+
+        	Me.FileVersion = fileVersionNo;
 
         	_memLog = new MemoryAppender();
 
@@ -105,7 +112,7 @@ namespace Sensorium2
 			_running = false;
 
 			foreach (string p in Me.Plugins.Keys) {
-				if (Me.Plugins[p].Enabled)
+				if (Me.Plugins[p].Running)
 					Me.Plugins[p].Stop();
 			}
 		}

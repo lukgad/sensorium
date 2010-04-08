@@ -24,7 +24,6 @@ namespace UDPPlugin{
 	public class UDPPlugin : CommPlugin {
 		private List<UDPPluginServer> _servers;
 		private List<UDPPluginClient> _clients;
-		private bool _running;
 		private int _delay;
 
 		private readonly ILog _log = LogManager.GetLogger(typeof(CommPlugin));
@@ -44,7 +43,7 @@ namespace UDPPlugin{
 			foreach(UDPPluginClient c in _clients)
 				c.Stop();
 
-			_running = false;
+			base.Stop();
 		}
 
 		public override void Start() {
@@ -58,13 +57,14 @@ namespace UDPPlugin{
 				_log.Info("Starting client on " + c.HostName + ":" + c.Port);
 			}
 
-			_running = true;
 			ThreadStart callback = UpdateSensors;
             new Thread(callback).Start();
+
+			base.Start();
 		}
 
 		private void UpdateSensors() {
-			while(_running) {
+			while(Running) {
 				List<Sensor> s = new List<Sensor>();
 				foreach(UDPPluginClient c in _clients) {
 					s.AddRange(c.Sensors);

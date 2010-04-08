@@ -61,11 +61,11 @@ namespace WinFormsControlPlugin {
 		}
 
 		public override void Stop() {
-			base.Stop();
-
 			_closing = true;
 
 			_mainWindow.Close();
+
+			base.Stop();
 		}
 	}
 }

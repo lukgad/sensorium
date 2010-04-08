@@ -29,6 +29,8 @@ namespace Sensorium.Common.Plugins
 		void Start();
 		void Stop();
 
+		bool Running { get; }
+
 		PluginType Type { get; }
 
 		void ReInit();
