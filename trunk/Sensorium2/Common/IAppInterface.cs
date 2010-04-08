@@ -45,6 +45,9 @@ namespace Sensorium.Common {
 		/// </summary>
 		string Version { get; }
 
+		string Copyright { get; }
+		string Description { get; }
+
 		/// <summary>
 		/// Contains every logged event since program start
 		/// </summary>

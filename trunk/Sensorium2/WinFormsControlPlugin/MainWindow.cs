@@ -19,8 +19,12 @@ using Sensorium.Common;
 
 namespace WinFormsControlPlugin {
 	public partial class MainWindow : Form {
+		private readonly AboutBox _aboutBox;
+
 		public MainWindow() {
 			InitializeComponent();
+
+			_aboutBox = new AboutBox();
 		}
 
 		private void MainWindow_Load(object sender, EventArgs e) {
@@ -39,25 +43,25 @@ namespace WinFormsControlPlugin {
 		}
 
 		private void mainTabs_SelectedIndexChanged(object sender, EventArgs e) {
-			refreshButton.Visible = logTab.Visible || pluginsTab.Visible;
+			buttonRefresh.Visible = tabLog.Visible || tabPlugins.Visible;
 		}
 
 		private void refreshButton_Click(object sender, EventArgs e) {
-			if (logTab.Visible) {
-				logListBox.BeginUpdate();
-				logListBox.Items.Clear();
+			if (tabLog.Visible) {
+				listBoxLog.BeginUpdate();
+				listBoxLog.Items.Clear();
 
 				foreach (LoggingEvent le in SensoriumFactory.GetAppInterface().Log.GetEvents()) {
-					logListBox.Items.Add(String.Format("[{0}] {1} {2} - {3}", le.GetLoggingEventData().TimeStamp,
+					listBoxLog.Items.Add(String.Format("[{0}] {1} {2} - {3}", le.GetLoggingEventData().TimeStamp,
 													   le.GetLoggingEventData().Level, le.GetLoggingEventData().LoggerName,
 													   le.GetLoggingEventData().Message));
 				}
 
-				logListBox.EndUpdate();
+				listBoxLog.EndUpdate();
 			} else {
-				pluginsListView.BeginUpdate();
+				listViewPlugins.BeginUpdate();
 
-				pluginsListView.Items.Clear();
+				listViewPlugins.Items.Clear();
 
 				foreach (string p in SensoriumFactory.GetAppInterface().Plugins.Keys)
 				{
@@ -68,38 +72,42 @@ namespace WinFormsControlPlugin {
 					listItem.SubItems.Add(new ListViewItem.ListViewSubItem(listItem,
 					                                                       SensoriumFactory.GetAppInterface().Plugins[p].Enabled.
 					                                                       	ToString()));
-					pluginsListView.Items.Add(listItem);
+					listViewPlugins.Items.Add(listItem);
 				}
 
-				pluginsListView.EndUpdate();
+				listViewPlugins.EndUpdate();
 			}
 		}
 
 		private void pluginsListView_SelectedIndexChanged(object sender, EventArgs e) {
-			if (pluginsListView.SelectedItems.Count == 1) {
-				enableButton.Enabled = !SensoriumFactory.GetAppInterface().Plugins[pluginsListView.SelectedItems[0].Text].Enabled;
-				disableButton.Enabled = SensoriumFactory.GetAppInterface().Plugins[pluginsListView.SelectedItems[0].Text].Enabled;
+			if (listViewPlugins.SelectedItems.Count == 1) {
+				buttonEnable.Enabled = !SensoriumFactory.GetAppInterface().Plugins[listViewPlugins.SelectedItems[0].Text].Enabled;
+				buttonDisable.Enabled = SensoriumFactory.GetAppInterface().Plugins[listViewPlugins.SelectedItems[0].Text].Enabled;
 			}
-			else if (pluginsListView.SelectedItems.Count == 0) 
-				enableButton.Enabled = disableButton.Enabled = false;
-			else enableButton.Enabled = disableButton.Enabled = true;
+			else if (listViewPlugins.SelectedItems.Count == 0) 
+				buttonEnable.Enabled = buttonDisable.Enabled = false;
+			else buttonEnable.Enabled = buttonDisable.Enabled = true;
 		}
 
 		private void enableButton_Click(object sender, EventArgs e) {
-			foreach(ListViewItem i in pluginsListView.SelectedItems) {
+			foreach(ListViewItem i in listViewPlugins.SelectedItems) {
 				if(SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled)
 					continue;
 			}
 		}
 
 		private void disableButton_Click(object sender, EventArgs e) {
-			foreach (ListViewItem i in pluginsListView.SelectedItems) {
+			foreach (ListViewItem i in listViewPlugins.SelectedItems) {
 				if (!SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled)
 					continue;
 
 				SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled = false;
 				SensoriumFactory.GetAppInterface().Plugins[i.Text].Stop();
 			}
+		}
+
+		private void buttonAbout_Click(object sender, EventArgs e) {
+			_aboutBox.ShowDialog();
 		}
 	}
 }

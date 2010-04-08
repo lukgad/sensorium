@@ -32,9 +32,9 @@ namespace libSensorsPlugin {
 
 		public override void Init(PluginMode mode) {
 			base.Init(mode);
-			
-			if(mode == PluginMode.Client || (Settings.ContainsKey("Enabled")) && 
-				Settings["Enabled"][0].ToLower() == "true") {
+
+			if (mode == PluginMode.Client || Environment.OSVersion.Platform != PlatformID.Unix ||
+				!Settings.ContainsKey("Enabled")) {
 				if (Settings.ContainsKey("Enabled"))
 					Settings["Enabled"][0] = "False";
 				else

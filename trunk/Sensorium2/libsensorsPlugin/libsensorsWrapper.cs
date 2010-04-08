@@ -383,7 +383,7 @@ namespace libSensorsPlugin {
 		internal readonly TreeNode<IntPtr> Chips = new TreeNode<IntPtr>();
 
 		public LibSensorsWrapper() {
-			if(Environment.OSVersion.Platform != PlatformID.Unix)
+			if (Environment.OSVersion.Platform != PlatformID.Unix)
 				return;
 
 			if(NativeMethods.sensors_init(NativeMethods.fopen(libsensors_conf, "r")) != 0)

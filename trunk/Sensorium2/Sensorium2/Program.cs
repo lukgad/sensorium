@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 
 using log4net;
@@ -53,9 +54,22 @@ namespace Sensorium2
 
         static void Main(string[] args)
 		{
-        	Me.Version = "0.0.1 Trunk";
+			Me.Version = "0.0.1 Trunk";
 
-			_memLog = new MemoryAppender();
+        	object[] copyrightAttributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute),
+				false);
+			object[] descriptionAttributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute),
+				false);
+        	
+
+			if(copyrightAttributes.Length != 0) {
+				Me.Copyright = ((AssemblyCopyrightAttribute)copyrightAttributes[0]).Copyright;
+				Me.Description = ((AssemblyDescriptionAttribute) descriptionAttributes[0]).Description;
+			} else {
+				Me.Description = Me.Copyright = "";
+			}
+
+        	_memLog = new MemoryAppender();
 
         	Me.Log = _memLog;
 			
