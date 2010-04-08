@@ -28,6 +28,11 @@ namespace libSensorsPlugin {
 			get { return 1; }
 		}
 
+		public override string Description
+		{
+			get { return "Provides libsensors support on Linux hosts"; }
+		}
+
 		private LibSensorsWrapper _wrapper;
 
 		public override void Init(PluginMode mode) {

@@ -27,6 +27,11 @@ namespace WinFormsControlPlugin {
 			get { return 1; }
 		}
 
+		public override string Description
+		{
+			get { return "Provides a WinForms-based GUI. Has more functionality than the basic console control plugin."; }
+		}
+
 		private static MainWindow _mainWindow;
 		private bool _closing;
 

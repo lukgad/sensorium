@@ -95,6 +95,11 @@ namespace SpeedFanPlugin
 			get { return 1; }
 		}
 
+		public override string Description
+		{
+			get { return "Provides SpeedFan support for Windows hosts"; }
+		}
+
 		public override string SensorToString(Sensor sensor) {
 			if (!sensor.SourcePlugin.Equals(Name))
 				throw new ArgumentException("Invalid Sensor");
