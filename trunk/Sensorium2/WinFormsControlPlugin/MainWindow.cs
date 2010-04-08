@@ -41,11 +41,6 @@ namespace WinFormsControlPlugin {
 																		ToString()));
 				listViewPlugins.Items.Add(listItem);
 			}
-
-			Timer timerViewRefresh = new Timer {Interval = 1000};
-			timerViewRefresh.Tick += timerViewRefresh_Tick;
-			timerViewRefresh.Enabled = true;
-			timerViewRefresh.Start();
 		}
 
 		public new void Close() {
@@ -58,10 +53,13 @@ namespace WinFormsControlPlugin {
 		}
 
 		private void tabsMain_SelectedIndexChanged(object sender, EventArgs e) {
-			buttonRefresh.Visible = tabLog.Visible;
+			buttonRefresh.Visible = tabLog.Visible || tabPlugins.Visible;
 		}
 
 		private void buttonRefresh_Click(object sender, EventArgs e) {
+			if(tabPlugins.Visible)
+				ListViewPluginRefresh(sender, e);
+
 			if (!tabLog.Visible) return;
 
 			listBoxLog.BeginUpdate();
@@ -91,6 +89,8 @@ namespace WinFormsControlPlugin {
 				if(SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled)
 					continue;
 			}
+
+			ListViewPluginRefresh(sender, e);
 		}
 
 		private void buttonDisable_Click(object sender, EventArgs e) {
@@ -101,18 +101,22 @@ namespace WinFormsControlPlugin {
 				SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled = false;
 				SensoriumFactory.GetAppInterface().Plugins[i.Text].Stop();
 			}
+
+			ListViewPluginRefresh(sender, e);
 		}
 
 		private void buttonAbout_Click(object sender, EventArgs e) {
 			_aboutBox.ShowDialog();
 		}
 
-		private void timerViewRefresh_Tick(object sender, EventArgs e) {
+		private void ListViewPluginRefresh(object sender, EventArgs e) {
 			foreach (ListViewItem i in listViewPlugins.Items) {
 				i.ImageKey = SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled
 				             	? "plugin"
 				             	: "plugin_disabled";
 			}
+
+			listViewPlugins_SelectedIndexChanged(sender, e);
 		}
 	}
 }
