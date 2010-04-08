@@ -12,6 +12,7 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System;
 using System.Collections.Generic;
 
 namespace Sensorium.Common.Plugins
@@ -47,6 +48,11 @@ namespace Sensorium.Common.Plugins
 		//public abstract void Init(Dictionary<string, string> settings);
 
 		public virtual void Stop() {}
+		public virtual PluginType Type
+		{
+			get { return PluginType.Comm; }
+		}
+
 		public virtual void ReInit() {
 			Init(Mode);
 		}

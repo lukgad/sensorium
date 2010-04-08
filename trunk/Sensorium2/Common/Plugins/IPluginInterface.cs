@@ -16,6 +16,8 @@ namespace Sensorium.Common.Plugins
 {
 	public enum PluginMode { Default, Server, Client }
 
+	public enum PluginType { Data, Settings, Control, Comm }
+
 	public interface IPluginInterface
 	{
 		string Name { get; }
@@ -26,6 +28,8 @@ namespace Sensorium.Common.Plugins
 
 		void Start();
 		void Stop();
+
+		PluginType Type { get; }
 
 		void ReInit();
 	}
