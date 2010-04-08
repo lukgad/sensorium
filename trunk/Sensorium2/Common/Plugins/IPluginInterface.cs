@@ -24,6 +24,8 @@ namespace Sensorium.Common.Plugins
 		
 		int Version { get; }
 
+		string Description { get; }
+
 		bool Enabled { get; set; }
 
 		void Start();

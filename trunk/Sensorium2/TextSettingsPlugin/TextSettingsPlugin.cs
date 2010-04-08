@@ -12,6 +12,7 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using log4net;
@@ -36,6 +37,11 @@ namespace TextSettingsPlugin
 
 		public override int Version {
 			get { return 1; }
+		}
+
+		public override string Description
+		{
+			get { return "Basic settings plugin using a user-editable text file"; }
 		}
 
 		public override bool Enabled {

@@ -26,5 +26,10 @@ namespace gtkSharpPlugin {
 		{
 			get { return 1; }
 		}
+
+		public override string Description
+		{
+			get { return ""; }
+		}
 	}
 }

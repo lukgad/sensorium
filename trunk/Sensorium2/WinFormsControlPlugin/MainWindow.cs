@@ -103,6 +103,8 @@ namespace WinFormsControlPlugin {
 					SensoriumFactory.GetAppInterface().Plugins[listViewPlugins.SelectedItems[0].Text].Name);
 				labelPluginVersion.Text = String.Format("Version: {0}",
 					(double) SensoriumFactory.GetAppInterface().Plugins[listViewPlugins.SelectedItems[0].Text].Version / 10);
+				textBoxPluginDescription.Text = String.Format("Description: {0}{1}", Environment.NewLine,
+					SensoriumFactory.GetAppInterface().Plugins[listViewPlugins.SelectedItems[0].Text].Description);
 			} else {
 				if (listViewPlugins.SelectedItems.Count == 0)
 					buttonEnable.Enabled = buttonDisable.Enabled = false;
@@ -110,6 +112,7 @@ namespace WinFormsControlPlugin {
 
 				labelPluginName.Text = "Name:";
 				labelPluginVersion.Text = "Version:";
+				textBoxPluginDescription.Text = "Description:";
 			}
 		}
 
@@ -162,12 +165,15 @@ namespace WinFormsControlPlugin {
 			_aboutBox.ShowDialog();
 		}
 
-		private void ListViewPluginRefresh(object sender, EventArgs e) {
+		private void ListViewPluginRefresh(object sender, EventArgs e)
+		{
 			//Update the status' in the plugin list
-			foreach (ListViewItem i in listViewPlugins.Items) {
+			foreach (ListViewItem i in listViewPlugins.Items)
+			{
 				i.SubItems[1].Text = SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled.ToString();
 
-				if (SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled != SensoriumFactory.GetAppInterface().Plugins[i.Text].Running)
+				if (SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled !=
+				    SensoriumFactory.GetAppInterface().Plugins[i.Text].Running)
 					continue;
 
 				i.ImageKey = SensoriumFactory.GetAppInterface().Plugins[i.Text].Enabled

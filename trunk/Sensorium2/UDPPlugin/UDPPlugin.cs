@@ -36,6 +36,11 @@ namespace UDPPlugin{
 			get { return 1; }
 		}
 
+		public override string Description
+		{
+			get { return "Provides a UDP-based server/client"; }
+		}
+
 		public override void Stop() {
 			foreach(UDPPluginServer s in _servers)
 				s.Stop();

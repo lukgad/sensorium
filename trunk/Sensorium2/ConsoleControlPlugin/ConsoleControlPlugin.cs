@@ -35,6 +35,11 @@ namespace ConsoleControlPlugin {
 			get { return 1; }
 		}
 
+		public override string Description
+		{
+			get { return "A very basic console UI"; }
+		}
+
 		public override void Start() {
 			_running = true;
 			_paused = false;
