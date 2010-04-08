@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WinFormsControlPlugin")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Uses silks icons by famfamfam: www.famfamfam.com")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WinFormsControlPlugin")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
+[assembly: AssemblyCopyright("Copyright © 2010 Aaron Maslen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

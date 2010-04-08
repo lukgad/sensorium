@@ -33,6 +33,8 @@ namespace Sensorium.Common {
 		public SettingsPlugin EnabledSettingsPlugin { get; set; }
 
 		public string Version { get; set; }
+		public string Copyright { get; set; }
+		public string Description { get; set; }
 
 		private readonly string _hostId = Guid.NewGuid().ToString();
         public string HostId {
