@@ -41,6 +41,8 @@ namespace WinFormsControlPlugin {
 																		ToString()));
 				listViewPlugins.Items.Add(listItem);
 			}
+
+			RefreshListBoxLog(sender, e);
 		}
 
 		public new void Close() {
@@ -62,13 +64,18 @@ namespace WinFormsControlPlugin {
 
 			if (!tabLog.Visible) return;
 
+			RefreshListBoxLog(sender, e);
+		}
+
+		private void RefreshListBoxLog(object sender, EventArgs e) {
 			listBoxLog.BeginUpdate();
 			listBoxLog.Items.Clear();
 
-			foreach (LoggingEvent le in SensoriumFactory.GetAppInterface().Log.GetEvents()) {
+			foreach (LoggingEvent le in SensoriumFactory.GetAppInterface().Log.GetEvents())
+			{
 				listBoxLog.Items.Add(String.Format("[{0}] {1} {2} - {3}", le.GetLoggingEventData().TimeStamp,
-				                                   le.GetLoggingEventData().Level, le.GetLoggingEventData().LoggerName,
-				                                   le.GetLoggingEventData().Message));
+												   le.GetLoggingEventData().Level, le.GetLoggingEventData().LoggerName,
+												   le.GetLoggingEventData().Message));
 			}
 
 			listBoxLog.EndUpdate();
