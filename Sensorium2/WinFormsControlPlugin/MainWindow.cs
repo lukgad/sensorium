@@ -13,6 +13,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using log4net;
 using log4net.Core;
@@ -50,6 +51,12 @@ namespace WinFormsControlPlugin {
 
 			//Output the log so far to ListBox.
 			RefreshListBoxLog(sender, e);
+
+			RefreshListViewSensors(sender, e);
+
+			Timer refreshTimer = new Timer {Interval = 1000};
+			refreshTimer.Tick += RefreshListViewSensors;
+			refreshTimer.Start();
 		}
 
 		public new void Close() {
@@ -73,9 +80,8 @@ namespace WinFormsControlPlugin {
 			if(tabPlugins.Visible)
 				ListViewPluginRefresh(sender, e);
 
-			if (!tabLog.Visible) return;
-
-			RefreshListBoxLog(sender, e);
+			if (tabLog.Visible)
+				RefreshListBoxLog(sender, e);
 		}
 
 		private void RefreshListBoxLog(object sender, EventArgs e) {
@@ -182,6 +188,58 @@ namespace WinFormsControlPlugin {
 			}
 
 			listViewPlugins_SelectedIndexChanged(sender, e);
+		}
+
+		private void RefreshListViewSensors(object sender, EventArgs e) {
+			Dictionary<String, List<Sensor>> sortedSensors = new Dictionary<string, List<Sensor>>();
+
+			//Special case where sortedList will have 0 keys (and the foreach blocks won't be executed)
+			if (SensoriumFactory.GetAppInterface().Sensors.Count == 0){
+				listViewSensors.Items.Clear();
+				return;
+			}
+
+			//Split the sensors up by hostID
+			foreach(Sensor s in SensoriumFactory.GetAppInterface().Sensors) {
+				if(!sortedSensors.ContainsKey(s.HostId))
+					sortedSensors.Add(s.HostId, new List<Sensor>());
+				
+				sortedSensors[s.HostId].Add(s);
+			}
+
+			foreach (string k in sortedSensors.Keys) {
+				//Make sure the Group exists before adding items to it :P
+				bool containsGroup = false;
+				foreach (ListViewGroup g in listViewSensors.Groups) {
+					if (g.Name != k) continue;
+					containsGroup = true;
+					break;
+				}
+
+				if (!containsGroup)
+					listViewSensors.Groups.Add(k, k);
+
+				//Speed up the refresh (and reduce flickering) when the number of items is the same as last time
+				if (listViewSensors.Groups[k].Items.Count == sortedSensors[k].Count) {
+					foreach (ListViewItem i in listViewSensors.Groups[k].Items) {
+						i.SubItems[0].Text = sortedSensors[k][i.Index].Name;
+						i.SubItems[1].Text = sortedSensors[k][i.Index].Type;
+						i.SubItems[2].Text =
+							((DataPlugin) SensoriumFactory.GetAppInterface().Plugins[sortedSensors[k][i.Index].SourcePlugin]).SensorToString(
+								sortedSensors[k][i.Index]);
+					}
+				} else {
+					listViewSensors.Groups[k].Items.Clear();
+					foreach (Sensor s in sortedSensors[k]) {
+						ListViewItem listItem = new ListViewItem(new string[] {
+						s.Name, s.Type, 
+						((DataPlugin) SensoriumFactory.GetAppInterface().Plugins[s.SourcePlugin]).SensorToString(s)}, 0,
+							 listViewSensors.Groups[k]);
+
+						listViewSensors.Items.Add(listItem);
+					}
+				}
+			}
 		}
 	}
 }
