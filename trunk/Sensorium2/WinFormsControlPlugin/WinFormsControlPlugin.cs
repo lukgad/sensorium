@@ -61,7 +61,7 @@ namespace WinFormsControlPlugin {
 		public override void Start() {
 			_closing = false;
 			(new Thread(ShowWindow)).Start();
-
+			
 			base.Start();
 		}
 

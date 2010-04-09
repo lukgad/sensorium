@@ -52,6 +52,7 @@ namespace Sensorium.Common.Plugins
 
 		public virtual void Stop() {
 			Running = false;
+			_Sensors = new List<Sensor>();
 		}
 
 		public bool Running { get; private set; }
