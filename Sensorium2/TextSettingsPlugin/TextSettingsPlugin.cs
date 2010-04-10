@@ -63,7 +63,6 @@ namespace TextSettingsPlugin
 				throw new DirectoryNotFoundException("Invalid settings directory"); //TODO: May no longer be needed
 
 			string pluginSettingsDir = Path.Combine(settingsDir, Name);
-			//_settingsFile = pluginSettingsDir + @"\config.ini";
 			_settingsFile = Path.Combine(pluginSettingsDir, "config.ini");
 
 			if (!Directory.Exists(pluginSettingsDir)) //Create settings directory if it does not exist
