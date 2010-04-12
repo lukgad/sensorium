@@ -12,6 +12,7 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+using System;
 using Sensorium.Common.Plugins;
 
 namespace Sensorium.Common
@@ -53,6 +54,15 @@ namespace Sensorium.Common
 			_data = data;
 		}
         
+		public string HostGuid {
+			get { return HostId.Split(new char[] {'{', '}'}, StringSplitOptions.RemoveEmptyEntries)[0]; }
+		}
+
+		public string HostFriendlyName
+		{
+			get { return HostId.Split(new char[] { '{', '}' }, StringSplitOptions.RemoveEmptyEntries)[1]; }
+		}
+
 		public override string ToString() {
 			return string.Format("{0} - {1}", Name, 
 				((DataPlugin)SensoriumFactory.GetAppInterface().Plugins[SourcePlugin]).SensorToString(this));

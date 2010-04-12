@@ -69,7 +69,7 @@ namespace Sensorium.Common {
 					break;
 
 				case RequestType.HostId:
-					data.AddRange(Encoding.UTF8.GetBytes(SensoriumFactory.GetAppInterface().HostId));
+					data.AddRange(Encoding.UTF8.GetBytes(SensoriumFactory.GetAppInterface().HostGuid));
 					break;
 
 				case RequestType.SourcePlugin:

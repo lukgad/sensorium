@@ -82,7 +82,7 @@ namespace Sensorium2
 			
 			SetUpLog();
 			
-        	Log.Debug("Host ID: " + Me.HostId);
+        	Log.Debug("Host ID: " + Me.HostGuid);
         	Log.Debug("OS: " + Environment.OSVersion + "(" + Environment.OSVersion.Platform + ")");
 			
 			ArgHandler(args);
@@ -228,6 +228,11 @@ namespace Sensorium2
 				Me.EnabledSettingsPlugin = _settingsPlugins[0];
 			}
 
+			if (!Me.EnabledSettingsPlugin.GetSettings("Sensorium2").ContainsKey("FriendlyName"))
+				Me.EnabledSettingsPlugin.GetSettings("Sensorium2").Add("FriendlyName",
+					new List<string> {"Sensorium2"});
+            Me.FriendlyName = Me.EnabledSettingsPlugin.GetSettings("Sensorium2")["FriendlyName"][0];
+
 			//Init plugins (in correct order)
 			foreach (DataPlugin p in _dataPlugins) {
 				Log.Info(p.Name + ", Ver. " + p.Version + " initializing...");
@@ -276,7 +281,7 @@ namespace Sensorium2
 					//continue;
 
 					foreach (Sensor cs in c.Sensors) {
-						if (cs.HostId == Me.HostId)
+						if (cs.HostId == Me.HostGuid)
 							continue;
 
 						s.Add(cs);

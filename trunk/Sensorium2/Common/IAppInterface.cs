@@ -38,7 +38,7 @@ namespace Sensorium.Common {
 		/// <summary>
 		/// This app instance's unique ID
 		/// </summary>
-		string HostId { get; }
+		string HostGuid { get; }
 
 		/// <summary>
 		/// Current app version
@@ -46,6 +46,10 @@ namespace Sensorium.Common {
 		string Version { get; }
 
 		string FileVersion { get; }
+
+		string FriendlyName { get; }
+
+		string HostId { get; }
 
 		string Copyright { get; }
 		string Description { get; }
