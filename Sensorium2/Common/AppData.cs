@@ -34,13 +34,18 @@ namespace Sensorium.Common {
 
 		public string Version { get; set; }
 		public string FileVersion { get; set; }
+		public string FriendlyName { get; set; }
+		public string HostId
+		{
+			get { return '{' + HostGuid + '}' + FriendlyName; }
+		}
 
 		public string Copyright { get; set; }
 		public string Description { get; set; }
 
-		private readonly string _hostId = Guid.NewGuid().ToString();
-        public string HostId {
-			get { return _hostId; }
+		private readonly string _hostGuid = Guid.NewGuid().ToString();
+        public string HostGuid {
+			get { return _hostGuid; }
 		}
 
 		public MemoryAppender Log { get; set; }
@@ -58,7 +63,7 @@ namespace Sensorium.Common {
 			if(e.Cancel)
 				return;
 
-			Console.Title = _hostId;
+			Console.Title = _hostGuid;
 			Thread.Sleep(200);
 			IntPtr hWnd = FindWindow(null, Console.Title);
 

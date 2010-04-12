@@ -201,11 +201,13 @@ namespace WinFormsControlPlugin {
 
 			//Split the sensors up by hostID
 			foreach(Sensor s in SensoriumFactory.GetAppInterface().Sensors) {
-				if(!sortedSensors.ContainsKey(s.HostId))
-					sortedSensors.Add(s.HostId, new List<Sensor>());
+				if(!sortedSensors.ContainsKey(s.HostGuid))
+					sortedSensors.Add(s.HostGuid, new List<Sensor>());
 				
-				sortedSensors[s.HostId].Add(s);
+				sortedSensors[s.HostGuid].Add(s);
 			}
+
+			listViewSensors.BeginUpdate();
 
 			foreach (string k in sortedSensors.Keys) {
 				//Make sure the Group exists before adding items to it :P
@@ -217,13 +219,14 @@ namespace WinFormsControlPlugin {
 				}
 
 				if (!containsGroup)
-					listViewSensors.Groups.Add(k, k);
+					listViewSensors.Groups.Add(k, sortedSensors[k][0].HostFriendlyName);
 
 				//Speed up the refresh (and reduce flickering) when the number of items is the same as last time
 				if (listViewSensors.Groups[k].Items.Count == sortedSensors[k].Count) {
 					foreach (ListViewItem i in listViewSensors.Groups[k].Items) {
 						i.SubItems[0].Text = sortedSensors[k][i.Index].Name;
 						i.SubItems[1].Text = sortedSensors[k][i.Index].Type;
+
 						i.SubItems[2].Text =
 							((DataPlugin) SensoriumFactory.GetAppInterface().Plugins[sortedSensors[k][i.Index].SourcePlugin]).SensorToString(
 								sortedSensors[k][i.Index]);
@@ -240,6 +243,8 @@ namespace WinFormsControlPlugin {
 					}
 				}
 			}
+
+			listViewSensors.EndUpdate();
 		}
 	}
 }

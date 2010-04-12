@@ -40,22 +40,22 @@ namespace Sensorium.Common.Plugins
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 
 			if (!Settings.ContainsKey("Enabled"))
-				Settings.Add("Enabled", new List<string> {_enabled.ToString()});
+				Settings.Add("Enabled", new List<string> {_Enabled.ToString()});
 		}
 
 		public abstract string Name { get; }
 		public abstract int Version { get; }
 		public abstract string Description { get; }
 
-		protected bool _enabled = true;
+		protected bool _Enabled = true;
 		public virtual bool Enabled
 		{
 			get {
-				return _enabled;
+				return _Enabled;
 			}
 			set {
 				Settings["Enabled"][0] = value.ToString();
-				_enabled = value;
+				_Enabled = value;
 			}
 		}
 
