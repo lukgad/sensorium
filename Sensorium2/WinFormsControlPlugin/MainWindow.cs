@@ -59,10 +59,12 @@ namespace WinFormsControlPlugin {
 			refreshTimer.Start();
 		}
 
+		private delegate void CloseAction();
+
 		public new void Close() {
 			//Silly hack so I can close the form from another thread <_<
 			if (InvokeRequired) {
-				Invoke(new Action(Close));
+				Invoke(new CloseAction(Close));
 				return;
 			}
 
