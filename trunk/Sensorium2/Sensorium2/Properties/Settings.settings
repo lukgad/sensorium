@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Sensorium2.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FriendlyName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sensorium2</Value>
+    </Setting>
+    <Setting Name="PluginDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">./</Value>
+    </Setting>
+    <Setting Name="SettingsDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">./settings</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
