@@ -75,6 +75,9 @@ namespace WinFormsControlPlugin {
 			//Show the appropriate toolstrip buttons for the current tab
 			buttonRefresh.Visible = tabLog.Visible || tabPlugins.Visible;
 			buttonEnable.Visible = buttonDisable.Visible = tabPlugins.Visible;
+
+			if (tabPlugins.Visible)
+				listViewPlugins_SelectedIndexChanged(sender, e);
 		}
 
 		private void buttonRefresh_Click(object sender, EventArgs e) {
