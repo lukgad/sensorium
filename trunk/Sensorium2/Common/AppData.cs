@@ -64,6 +64,7 @@ namespace Sensorium.Common {
 				return;
 
 			Console.Title = _hostGuid;
+			//Wait for the new title to be applied to the window
 			Thread.Sleep(200);
 			IntPtr hWnd = FindWindow(null, Console.Title);
 
