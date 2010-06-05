@@ -12,23 +12,23 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using log4net;
+using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
 namespace TextSettingsPlugin
 {
 	public class TextSettingsPlugin : SettingsPlugin {
-		private Dictionary<string, Dictionary<string, List<string>>> _settings;
+		private Dictionary<string, PluginSettings> _settings;
 
 		private string _settingsFile;
 
 		private readonly ILog _log = LogManager.GetLogger(typeof (SettingsPlugin));
 
 		public TextSettingsPlugin(){
-			_settings = new Dictionary<string, Dictionary<string, List<string>>>();
+			_settings = new Dictionary<string, PluginSettings>();
 		}
 
 		public override string Name {
@@ -93,7 +93,7 @@ namespace TextSettingsPlugin
 							currentPlugin = splitLine[1].Trim();
 
 							if (!_settings.ContainsKey(currentPlugin))
-								_settings.Add(currentPlugin, new Dictionary<string, List<string>>());
+								_settings.Add(currentPlugin, new PluginSettings());
 
 							_log.Debug("Loaded settings for " + currentPlugin);
 
@@ -119,9 +119,9 @@ namespace TextSettingsPlugin
 				Enabled = true;
 		}
 
-		public override Dictionary<string, List<string>> GetSettings(string pluginName) {
+		public override PluginSettings GetSettings(string pluginName) {
 			if (!_settings.ContainsKey(pluginName))
-				_settings.Add(pluginName, new Dictionary<string, List<string>>());
+				_settings.Add(pluginName, new PluginSettings());
 			
 			return _settings[pluginName];
 		}

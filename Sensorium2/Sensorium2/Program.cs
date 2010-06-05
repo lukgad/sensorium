@@ -36,7 +36,7 @@ namespace Sensorium2
 		private static MemoryAppender _memLog;
 		private static IAppenderAttachable _forwardingApp;
 
-		private static string _pluginDir = Environment.CurrentDirectory;
+		private static string _pluginDir;
 		private static string _settingsDir;
 
 		private static bool _client;
@@ -59,33 +59,35 @@ namespace Sensorium2
         	Me.Copyright = copyrightAttributes.Length != 0
 				? ((AssemblyCopyrightAttribute) copyrightAttributes[0]).Copyright
 				: "";
-
         	object[] descriptionAttributes = 
 				Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
 			Me.Description = descriptionAttributes.Length != 0 
 				? ((AssemblyDescriptionAttribute) descriptionAttributes[0]).Description 
 				: "";
-
 			Me.Version = String.Format("{0} Trunk", Assembly.GetExecutingAssembly().GetName().Version);
-
         	object[] fileVersionAttributes =
         		Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyFileVersionAttribute), false);
         	string fileVersionNo = fileVersionAttributes.Length != 0 
 				? ((AssemblyFileVersionAttribute) fileVersionAttributes[0]).Version 
 				: "";
-
         	Me.FileVersion = fileVersionNo;
 
         	_memLog = new MemoryAppender();
-
         	Me.Log = _memLog;
 			
 			SetUpLog();
-			
-        	Log.Debug("Host ID: " + Me.HostGuid);
-        	Log.Debug("OS: " + Environment.OSVersion + "(" + Environment.OSVersion.Platform + ")");
+
+        	_pluginDir = Settings.Default.PluginDirectory;
+        	_settingsDir = Settings.Default.SettingsDirectory;
+        	Me.FriendlyName = Settings.Default.FriendlyName;
+
+        	Me.GetSetting = GetSetting;
+        	Me.SetSetting = SetSetting;
 			
 			ArgHandler(args);
+
+        	Log.Debug("Host ID: " + Me.HostGuid);
+        	Log.Debug("OS: " + Environment.OSVersion + "(" + Environment.OSVersion.Platform + ")");
 			
 			InitPlugins();
 			
@@ -106,6 +108,32 @@ namespace Sensorium2
 
 			//Workaround for log4net on mono
 			sensorUpdater.Join();
+		}
+
+		private static void SetSetting(string key, string value) {
+			switch (key) {
+				case "PluginDirectory":
+					Settings.Default.PluginDirectory = value;
+					break;
+				case "SettingsDirectory":
+					Settings.Default.SettingsDirectory = value;
+					break;
+				case "FriendlyName":
+					Settings.Default.FriendlyName = value;
+					break;
+			}
+		}
+
+		private static string GetSetting(string key) {
+			switch(key) {
+				case "PluginDirectory":
+					return Settings.Default.PluginDirectory;
+				case "SettingsDirectory":
+					return Settings.Default.SettingsDirectory;
+				case "FriendlyName":
+					return Settings.Default.FriendlyName;
+			}
+			return null;
 		}
 
 		private static void HandleExit(object sender, EventArgs e) {
@@ -152,8 +180,6 @@ namespace Sensorium2
 					Environment.Exit(0);
 				}
 			}
-			if (_settingsPlugins == null || _settingsPlugins.Equals(""))
-				_settingsDir = Path.Combine(_pluginDir, "settings");
 		}
 
 		/// <summary>
@@ -227,11 +253,6 @@ namespace Sensorium2
 				_settingsPlugins[0].Enabled = true;
 				Me.EnabledSettingsPlugin = _settingsPlugins[0];
 			}
-
-			if (!Me.EnabledSettingsPlugin.GetSettings("Sensorium2").ContainsKey("FriendlyName"))
-				Me.EnabledSettingsPlugin.GetSettings("Sensorium2").Add("FriendlyName",
-					new List<string> {"Sensorium2"});
-            Me.FriendlyName = Me.EnabledSettingsPlugin.GetSettings("Sensorium2")["FriendlyName"][0];
 
 			//Init plugins (in correct order)
 			foreach (DataPlugin p in _dataPlugins) {
@@ -314,68 +335,75 @@ namespace Sensorium2
 			
 			//Find the appender we need
 			foreach (IAppender app in appenders)
-				if (app.Name == "ForwardingAppender")
-					_forwardingApp = (IAppenderAttachable)app;
-
-			if (_forwardingApp != null) {
-		        
-				//PatternLayout layout = new PatternLayout("%date [%thread] %-5level %logger [%property{NDC}] - %message%newline");
-				PatternLayout layout = new PatternLayout("%message%newline");
-				layout.ActivateOptions();
-
-				//Add a memory appender to the forwarder
-				_forwardingApp.AddAppender(_memLog);
-
-				//Workaround for mono (no colored console support)
-				if (Environment.OSVersion.Platform != PlatformID.Win32NT) {
-					ConsoleAppender consoleAppender = new ConsoleAppender {Layout = layout};
-					consoleAppender.ActivateOptions();
-
-					_forwardingApp.AddAppender(consoleAppender);
-					return;
+				if (app.Name == "ForwardingAppender") {
+					_forwardingApp = (IAppenderAttachable) app;
+					break;
 				}
 
-				//Set up level colors
-				List<ColoredConsoleAppender.LevelColors> consoleColors =
-					new List<ColoredConsoleAppender.LevelColors> {
-						new ColoredConsoleAppender.LevelColors {
-							Level = Level.Info,
-							ForeColor = ColoredConsoleAppender.Colors.White
-						},
-						new ColoredConsoleAppender.LevelColors {
-							Level = Level.Debug,
-							ForeColor = ColoredConsoleAppender.Colors.Green
-						},
-						new ColoredConsoleAppender.LevelColors {
-							Level = Level.Warn,
-							ForeColor = ColoredConsoleAppender.Colors.Yellow | ColoredConsoleAppender.Colors.HighIntensity
-						},
-						new ColoredConsoleAppender.LevelColors {
-							Level = Level.Error,
-							ForeColor = ColoredConsoleAppender.Colors.Red | ColoredConsoleAppender.Colors.HighIntensity
-						},
-						new ColoredConsoleAppender.LevelColors {
-							Level = Level.Fatal,
-							ForeColor = ColoredConsoleAppender.Colors.White | ColoredConsoleAppender.Colors.HighIntensity,
-							BackColor = ColoredConsoleAppender.Colors.Red,
-						}
-					};
+			if (_forwardingApp == null) return;
 
-				ColoredConsoleAppender colorConsoleAppender = new ColoredConsoleAppender();
+			PatternLayout layout = new PatternLayout("%message%newline");
+			layout.ActivateOptions();
 
-				//Add the color mappings to the console appender
-				foreach (ColoredConsoleAppender.LevelColors lc in consoleColors) {
-					lc.ActivateOptions();
-					colorConsoleAppender.AddMapping(lc);
-				}
+			//Add a memory appender to the forwarder
+			_forwardingApp.AddAppender(_memLog);
 
-				colorConsoleAppender.Layout = layout;
-		        
-				colorConsoleAppender.ActivateOptions();
+				
 
-				//Add the appender to the forwarder
-				_forwardingApp.AddAppender(colorConsoleAppender);
+			//Console Appenders
+
+			//Workaround for mono (no colored console support)
+			if (Environment.OSVersion.Platform != PlatformID.Win32NT) {
+				ConsoleAppender consoleAppender = new ConsoleAppender {Layout = layout};
+				consoleAppender.ActivateOptions();
+
+				_forwardingApp.AddAppender(consoleAppender);
+				return;
 			}
+
+			//Set up level colors
+			List<ColoredConsoleAppender.LevelColors> consoleColors =
+				new List<ColoredConsoleAppender.LevelColors> {
+				                                             	new ColoredConsoleAppender.LevelColors {
+				                                             	                                       	Level = Level.Info,
+				                                             	                                       	ForeColor = ColoredConsoleAppender.Colors.White
+				                                             	                                       },
+				                                             	new ColoredConsoleAppender.LevelColors {
+				                                             	                                       	Level = Level.Debug,
+				                                             	                                       	ForeColor = ColoredConsoleAppender.Colors.Green
+				                                             	                                       },
+				                                             	new ColoredConsoleAppender.LevelColors {
+				                                             	                                       	Level = Level.Warn,
+				                                             	                                       	ForeColor = ColoredConsoleAppender.Colors.Yellow |
+																										ColoredConsoleAppender.Colors.HighIntensity
+				                                             	                                       },
+				                                             	new ColoredConsoleAppender.LevelColors {
+				                                             	                                       	Level = Level.Error,
+				                                             	                                       	ForeColor = ColoredConsoleAppender.Colors.Red |
+																										ColoredConsoleAppender.Colors.HighIntensity
+				                                             	                                       },
+				                                             	new ColoredConsoleAppender.LevelColors {
+				                                             	                                       	Level = Level.Fatal,
+				                                             	                                       	ForeColor = ColoredConsoleAppender.Colors.White |
+																										ColoredConsoleAppender.Colors.HighIntensity,
+				                                             	                                       	BackColor = ColoredConsoleAppender.Colors.Red,
+				                                             	                                       }
+				                                             };
+
+			ColoredConsoleAppender colorConsoleAppender = new ColoredConsoleAppender();
+
+			//Add the color mappings to the console appender
+			foreach (ColoredConsoleAppender.LevelColors lc in consoleColors) {
+				lc.ActivateOptions();
+				colorConsoleAppender.AddMapping(lc);
+			}
+
+			colorConsoleAppender.Layout = layout;
+		        
+			colorConsoleAppender.ActivateOptions();
+
+			//Add the appender to the forwarder
+			_forwardingApp.AddAppender(colorConsoleAppender);
 		}
 	}
 }

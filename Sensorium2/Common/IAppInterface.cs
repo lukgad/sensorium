@@ -45,13 +45,29 @@ namespace Sensorium.Common {
 		/// </summary>
 		string Version { get; }
 
+		/// <summary>
+		/// Current app file version
+		/// </summary>
 		string FileVersion { get; }
 
+		/// <summary>
+		/// App friendly name
+		/// </summary>
 		string FriendlyName { get; }
 
+		/// <summary>
+		/// App host ID
+		/// </summary>
 		string HostId { get; }
 
+		/// <summary>
+		/// App copyright
+		/// </summary>
 		string Copyright { get; }
+
+		/// <summary>
+		/// App description
+		/// </summary>
 		string Description { get; }
 
 		/// <summary>
@@ -59,11 +75,13 @@ namespace Sensorium.Common {
 		/// </summary>
 		MemoryAppender Log { get; }
 
-
 		/// <summary>
 		/// Event is triggered after all plugins are loaded. 
 		/// If no plugin cancels it, the Console window will be hidden
 		/// </summary>
 		event EventHandler<CancelEventArgs> HideConsoleEventHandler;
+
+		AppData.GetSettingDelegate GetSetting { get; }
+		AppData.SetSettingDelegate SetSetting { get; }
 	}
 }

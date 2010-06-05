@@ -59,7 +59,7 @@ namespace Sensorium.Common.Plugins
 		/// </summary>
 		/// <param name="pluginName">Name of plugin</param>
 		/// <returns>Specified plugin's settings</returns>
-		public abstract Dictionary<string,List<string>> GetSettings(string pluginName);
+		public abstract PluginSettings GetSettings(string pluginName);
 
 		/// <summary>
 		/// Save all settings

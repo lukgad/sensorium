@@ -212,8 +212,6 @@ namespace WinFormsControlPlugin {
 				sortedSensors[s.HostGuid].Add(s);
 			}
 
-			listViewSensors.BeginUpdate();
-
 			foreach (string k in sortedSensors.Keys) {
 				//Make sure the Group exists before adding items to it :P
 				bool containsGroup = false;
@@ -229,12 +227,19 @@ namespace WinFormsControlPlugin {
 				//Speed up the refresh (and reduce flickering) when the number of items is the same as last time
 				if (listViewSensors.Groups[k].Items.Count == sortedSensors[k].Count) {
 					foreach (ListViewItem i in listViewSensors.Groups[k].Items) {
+						if (i.SubItems[0].Text == sortedSensors[k][i.Index].Name && i.SubItems[1].Text == sortedSensors[k][i.Index].Type &&
+						    i.SubItems[2].Text ==
+						    ((DataPlugin) SensoriumFactory.GetAppInterface().Plugins[sortedSensors[k][i.Index].SourcePlugin]).
+						    	SensorToString(
+						    		sortedSensors[k][i.Index])) continue;
+
 						i.SubItems[0].Text = sortedSensors[k][i.Index].Name;
 						i.SubItems[1].Text = sortedSensors[k][i.Index].Type;
 
 						i.SubItems[2].Text =
-							((DataPlugin) SensoriumFactory.GetAppInterface().Plugins[sortedSensors[k][i.Index].SourcePlugin]).SensorToString(
-								sortedSensors[k][i.Index]);
+							((DataPlugin) SensoriumFactory.GetAppInterface().Plugins[sortedSensors[k][i.Index].SourcePlugin]).SensorToString
+								(
+									sortedSensors[k][i.Index]);
 					}
 				} else {
 					listViewSensors.Groups[k].Items.Clear();
@@ -248,8 +253,6 @@ namespace WinFormsControlPlugin {
 					}
 				}
 			}
-
-			listViewSensors.EndUpdate();
 		}
 	}
 }
