@@ -18,7 +18,7 @@ using System.Windows.Forms;
 using Sensorium.Common.Plugins;
 
 namespace WinFormsControlPlugin {
-	public class WinFormsControlPlugin : ControlPlugin {
+	public class WinFormsControl : ControlPlugin {
 		public override string Name {
 			get { return "WinForms Control"; }
 		}

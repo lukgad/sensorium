@@ -51,7 +51,7 @@ namespace WinFormsControlPlugin {
 			this.TabLog = new System.Windows.Forms.TabPage();
 			this.ListBoxLog = new System.Windows.Forms.ListBox();
 			this.TabSensors = new System.Windows.Forms.TabPage();
-			this.ListViewSensors = new DoubleBufferedListView();
+			this.ListViewSensors = new WinFormsControlPlugin.DoubleBufferedListView();
 			this.columnHeaderSensorName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderSensorType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderSensorValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
