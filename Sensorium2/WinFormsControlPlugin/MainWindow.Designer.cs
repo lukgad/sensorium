@@ -13,7 +13,7 @@
  */
 
 namespace WinFormsControlPlugin {
-	internal class DoubleBufferedListView : System.Windows.Forms.ListView
+	internal sealed class DoubleBufferedListView : System.Windows.Forms.ListView
 	{
 		public DoubleBufferedListView()
 		{
