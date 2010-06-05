@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppData.cs" />
+    <Compile Include="PluginSettings.cs" />
     <Compile Include="IAppInterface.cs" />
     <Compile Include="Plugins\ControlPlugin.cs" />
     <Compile Include="RequestType.cs" />

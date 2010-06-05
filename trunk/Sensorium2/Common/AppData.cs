@@ -50,7 +50,13 @@ namespace Sensorium.Common {
 
 		public MemoryAppender Log { get; set; }
 
+		public delegate string GetSettingDelegate(string key);
+		public delegate void SetSettingDelegate(string key, string value);
+
 		public event EventHandler<CancelEventArgs> HideConsoleEventHandler;
+
+		public GetSettingDelegate GetSetting { get; set; }
+		public SetSettingDelegate SetSetting { get; set; }
 
 		public void OnHideConsole() {
 			EventHandler<CancelEventArgs> handler = HideConsoleEventHandler;

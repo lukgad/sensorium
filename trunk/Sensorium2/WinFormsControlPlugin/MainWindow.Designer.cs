@@ -44,16 +44,17 @@ namespace WinFormsControlPlugin {
 			this.listBoxLog = new System.Windows.Forms.ListBox();
 			this.tabSensors = new System.Windows.Forms.TabPage();
 			this.listViewSensors = new System.Windows.Forms.ListView();
-			this.columnHeaderSensorName = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderSensorType = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderSensorValue = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderSensorName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeaderSensorType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeaderSensorValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.imageListSensorsView = new System.Windows.Forms.ImageList(this.components);
 			this.imageListPluginView = new System.Windows.Forms.ImageList(this.components);
 			this.tabsMain = new System.Windows.Forms.TabControl();
 			this.tabPlugins = new System.Windows.Forms.TabPage();
 			this.splitContainerPluginsTab = new System.Windows.Forms.SplitContainer();
 			this.listViewPlugins = new System.Windows.Forms.ListView();
-			this.columnHeaderName = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderType = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeaderType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tableLayoutPanelPluginsTab = new System.Windows.Forms.TableLayoutPanel();
 			this.labelPluginName = new System.Windows.Forms.Label();
 			this.labelPluginVersion = new System.Windows.Forms.Label();
@@ -70,8 +71,7 @@ namespace WinFormsControlPlugin {
 			this.buttonRefresh = new System.Windows.Forms.ToolStripButton();
 			this.buttonEnable = new System.Windows.Forms.ToolStripButton();
 			this.buttonDisable = new System.Windows.Forms.ToolStripButton();
-			this.imageListSensorsView = new System.Windows.Forms.ImageList(this.components);
-			columnHeaderEnabled = new System.Windows.Forms.ColumnHeader();
+			columnHeaderEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tabLog.SuspendLayout();
 			this.tabSensors.SuspendLayout();
 			this.tabsMain.SuspendLayout();
@@ -111,7 +111,7 @@ namespace WinFormsControlPlugin {
 			this.listBoxLog.Location = new System.Drawing.Point(3, 3);
 			this.listBoxLog.Name = "listBoxLog";
 			this.listBoxLog.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.listBoxLog.Size = new System.Drawing.Size(503, 351);
+			this.listBoxLog.Size = new System.Drawing.Size(503, 357);
 			this.listBoxLog.TabIndex = 0;
 			// 
 			// tabSensors
@@ -157,6 +157,12 @@ namespace WinFormsControlPlugin {
 			// 
 			this.columnHeaderSensorValue.Text = "Value";
 			this.columnHeaderSensorValue.Width = 100;
+			// 
+			// imageListSensorsView
+			// 
+			this.imageListSensorsView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSensorsView.ImageStream")));
+			this.imageListSensorsView.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageListSensorsView.Images.SetKeyName(0, "server.png");
 			// 
 			// imageListPluginView
 			// 
@@ -437,12 +443,6 @@ namespace WinFormsControlPlugin {
 			this.buttonDisable.Text = "Disable";
 			this.buttonDisable.Visible = false;
 			this.buttonDisable.Click += new System.EventHandler(this.buttonDisable_Click);
-			// 
-			// imageListSensorsView
-			// 
-			this.imageListSensorsView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSensorsView.ImageStream")));
-			this.imageListSensorsView.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListSensorsView.Images.SetKeyName(0, "server.png");
 			// 
 			// MainWindow
 			// 
