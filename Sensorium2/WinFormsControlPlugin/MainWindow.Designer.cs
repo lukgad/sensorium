@@ -13,6 +13,14 @@
  */
 
 namespace WinFormsControlPlugin {
+	internal class DoubleBufferedListView : System.Windows.Forms.ListView
+	{
+		public DoubleBufferedListView()
+		{
+			this.DoubleBuffered = true;
+		}
+	}
+
 	partial class MainWindow {
 		/// <summary>
 		/// Required designer variable.
@@ -40,108 +48,108 @@ namespace WinFormsControlPlugin {
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.ColumnHeader columnHeaderEnabled;
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-			this.tabLog = new System.Windows.Forms.TabPage();
-			this.listBoxLog = new System.Windows.Forms.ListBox();
-			this.tabSensors = new System.Windows.Forms.TabPage();
-			this.listViewSensors = new System.Windows.Forms.ListView();
+			this.TabLog = new System.Windows.Forms.TabPage();
+			this.ListBoxLog = new System.Windows.Forms.ListBox();
+			this.TabSensors = new System.Windows.Forms.TabPage();
+			this.ListViewSensors = new DoubleBufferedListView();
 			this.columnHeaderSensorName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderSensorType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderSensorValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.imageListSensorsView = new System.Windows.Forms.ImageList(this.components);
-			this.imageListPluginView = new System.Windows.Forms.ImageList(this.components);
-			this.tabsMain = new System.Windows.Forms.TabControl();
-			this.tabPlugins = new System.Windows.Forms.TabPage();
-			this.splitContainerPluginsTab = new System.Windows.Forms.SplitContainer();
-			this.listViewPlugins = new System.Windows.Forms.ListView();
+			this.ImageListSensorsView = new System.Windows.Forms.ImageList(this.components);
+			this.ImageListPluginView = new System.Windows.Forms.ImageList(this.components);
+			this.TabsMain = new System.Windows.Forms.TabControl();
+			this.TabPlugins = new System.Windows.Forms.TabPage();
+			this.SplitContainerPluginsTab = new System.Windows.Forms.SplitContainer();
+			this.ListViewPlugins = new System.Windows.Forms.ListView();
 			this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.tableLayoutPanelPluginsTab = new System.Windows.Forms.TableLayoutPanel();
-			this.labelPluginName = new System.Windows.Forms.Label();
-			this.labelPluginVersion = new System.Windows.Forms.Label();
-			this.tableLayoutLegend = new System.Windows.Forms.TableLayoutPanel();
-			this.labelRestart = new System.Windows.Forms.Label();
-			this.labelDisabled = new System.Windows.Forms.Label();
-			this.pictureBoxEnabled = new System.Windows.Forms.PictureBox();
-			this.pictureBoxDisabled = new System.Windows.Forms.PictureBox();
-			this.labelEnabled = new System.Windows.Forms.Label();
-			this.pictureBoxRestart = new System.Windows.Forms.PictureBox();
-			this.textBoxPluginDescription = new System.Windows.Forms.TextBox();
-			this.toolStripMainWindow = new System.Windows.Forms.ToolStrip();
-			this.buttonAbout = new System.Windows.Forms.ToolStripButton();
-			this.buttonRefresh = new System.Windows.Forms.ToolStripButton();
-			this.buttonEnable = new System.Windows.Forms.ToolStripButton();
-			this.buttonDisable = new System.Windows.Forms.ToolStripButton();
+			this.TableLayoutPanelPluginsTab = new System.Windows.Forms.TableLayoutPanel();
+			this.LabelPluginName = new System.Windows.Forms.Label();
+			this.LabelPluginVersion = new System.Windows.Forms.Label();
+			this.TableLayoutLegend = new System.Windows.Forms.TableLayoutPanel();
+			this.LabelRestart = new System.Windows.Forms.Label();
+			this.LabelDisabled = new System.Windows.Forms.Label();
+			this.PictureBoxEnabled = new System.Windows.Forms.PictureBox();
+			this.PictureBoxDisabled = new System.Windows.Forms.PictureBox();
+			this.LabelEnabled = new System.Windows.Forms.Label();
+			this.PictureBoxRestart = new System.Windows.Forms.PictureBox();
+			this.TextBoxPluginDescription = new System.Windows.Forms.TextBox();
+			this.ToolStripMainWindow = new System.Windows.Forms.ToolStrip();
+			this.ButtonAbout = new System.Windows.Forms.ToolStripButton();
+			this.ButtonRefresh = new System.Windows.Forms.ToolStripButton();
+			this.ButtonEnable = new System.Windows.Forms.ToolStripButton();
+			this.ButtonDisable = new System.Windows.Forms.ToolStripButton();
 			columnHeaderEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.tabLog.SuspendLayout();
-			this.tabSensors.SuspendLayout();
-			this.tabsMain.SuspendLayout();
-			this.tabPlugins.SuspendLayout();
-			this.splitContainerPluginsTab.Panel1.SuspendLayout();
-			this.splitContainerPluginsTab.Panel2.SuspendLayout();
-			this.splitContainerPluginsTab.SuspendLayout();
-			this.tableLayoutPanelPluginsTab.SuspendLayout();
-			this.tableLayoutLegend.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxEnabled)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDisabled)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxRestart)).BeginInit();
-			this.toolStripMainWindow.SuspendLayout();
+			this.TabLog.SuspendLayout();
+			this.TabSensors.SuspendLayout();
+			this.TabsMain.SuspendLayout();
+			this.TabPlugins.SuspendLayout();
+			this.SplitContainerPluginsTab.Panel1.SuspendLayout();
+			this.SplitContainerPluginsTab.Panel2.SuspendLayout();
+			this.SplitContainerPluginsTab.SuspendLayout();
+			this.TableLayoutPanelPluginsTab.SuspendLayout();
+			this.TableLayoutLegend.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxEnabled)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxDisabled)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxRestart)).BeginInit();
+			this.ToolStripMainWindow.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// columnHeaderEnabled
 			// 
 			columnHeaderEnabled.Text = "Enabled";
 			// 
-			// tabLog
+			// TabLog
 			// 
-			this.tabLog.Controls.Add(this.listBoxLog);
-			this.tabLog.Location = new System.Drawing.Point(4, 22);
-			this.tabLog.Name = "tabLog";
-			this.tabLog.Padding = new System.Windows.Forms.Padding(3);
-			this.tabLog.Size = new System.Drawing.Size(509, 363);
-			this.tabLog.TabIndex = 1;
-			this.tabLog.Text = "Application Log";
-			this.tabLog.UseVisualStyleBackColor = true;
+			this.TabLog.Controls.Add(this.ListBoxLog);
+			this.TabLog.Location = new System.Drawing.Point(4, 22);
+			this.TabLog.Name = "TabLog";
+			this.TabLog.Padding = new System.Windows.Forms.Padding(3);
+			this.TabLog.Size = new System.Drawing.Size(509, 363);
+			this.TabLog.TabIndex = 1;
+			this.TabLog.Text = "Application Log";
+			this.TabLog.UseVisualStyleBackColor = true;
 			// 
-			// listBoxLog
+			// ListBoxLog
 			// 
-			this.listBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.listBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listBoxLog.FormattingEnabled = true;
-			this.listBoxLog.HorizontalScrollbar = true;
-			this.listBoxLog.Location = new System.Drawing.Point(3, 3);
-			this.listBoxLog.Name = "listBoxLog";
-			this.listBoxLog.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.listBoxLog.Size = new System.Drawing.Size(503, 357);
-			this.listBoxLog.TabIndex = 0;
+			this.ListBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.ListBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ListBoxLog.FormattingEnabled = true;
+			this.ListBoxLog.HorizontalScrollbar = true;
+			this.ListBoxLog.Location = new System.Drawing.Point(3, 3);
+			this.ListBoxLog.Name = "ListBoxLog";
+			this.ListBoxLog.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.ListBoxLog.Size = new System.Drawing.Size(503, 357);
+			this.ListBoxLog.TabIndex = 0;
 			// 
-			// tabSensors
+			// TabSensors
 			// 
-			this.tabSensors.Controls.Add(this.listViewSensors);
-			this.tabSensors.Location = new System.Drawing.Point(4, 22);
-			this.tabSensors.Name = "tabSensors";
-			this.tabSensors.Padding = new System.Windows.Forms.Padding(3);
-			this.tabSensors.Size = new System.Drawing.Size(509, 363);
-			this.tabSensors.TabIndex = 0;
-			this.tabSensors.Text = "Sensors";
-			this.tabSensors.UseVisualStyleBackColor = true;
+			this.TabSensors.Controls.Add(this.ListViewSensors);
+			this.TabSensors.Location = new System.Drawing.Point(4, 22);
+			this.TabSensors.Name = "TabSensors";
+			this.TabSensors.Padding = new System.Windows.Forms.Padding(3);
+			this.TabSensors.Size = new System.Drawing.Size(509, 363);
+			this.TabSensors.TabIndex = 0;
+			this.TabSensors.Text = "Sensors";
+			this.TabSensors.UseVisualStyleBackColor = true;
 			// 
-			// listViewSensors
+			// ListViewSensors
 			// 
-			this.listViewSensors.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.listViewSensors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.ListViewSensors.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.ListViewSensors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderSensorName,
             this.columnHeaderSensorType,
             this.columnHeaderSensorValue});
-			this.listViewSensors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listViewSensors.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.listViewSensors.Location = new System.Drawing.Point(3, 3);
-			this.listViewSensors.MultiSelect = false;
-			this.listViewSensors.Name = "listViewSensors";
-			this.listViewSensors.Size = new System.Drawing.Size(503, 357);
-			this.listViewSensors.SmallImageList = this.imageListSensorsView;
-			this.listViewSensors.TabIndex = 0;
-			this.listViewSensors.UseCompatibleStateImageBehavior = false;
-			this.listViewSensors.View = System.Windows.Forms.View.Details;
+			this.ListViewSensors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ListViewSensors.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.ListViewSensors.Location = new System.Drawing.Point(3, 3);
+			this.ListViewSensors.MultiSelect = false;
+			this.ListViewSensors.Name = "ListViewSensors";
+			this.ListViewSensors.Size = new System.Drawing.Size(503, 357);
+			this.ListViewSensors.SmallImageList = this.ImageListSensorsView;
+			this.ListViewSensors.TabIndex = 0;
+			this.ListViewSensors.UseCompatibleStateImageBehavior = false;
+			this.ListViewSensors.View = System.Windows.Forms.View.Details;
 			// 
 			// columnHeaderSensorName
 			// 
@@ -158,82 +166,82 @@ namespace WinFormsControlPlugin {
 			this.columnHeaderSensorValue.Text = "Value";
 			this.columnHeaderSensorValue.Width = 100;
 			// 
-			// imageListSensorsView
+			// ImageListSensorsView
 			// 
-			this.imageListSensorsView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSensorsView.ImageStream")));
-			this.imageListSensorsView.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListSensorsView.Images.SetKeyName(0, "server.png");
+			this.ImageListSensorsView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageListSensorsView.ImageStream")));
+			this.ImageListSensorsView.TransparentColor = System.Drawing.Color.Transparent;
+			this.ImageListSensorsView.Images.SetKeyName(0, "server.png");
 			// 
-			// imageListPluginView
+			// ImageListPluginView
 			// 
-			this.imageListPluginView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListPluginView.ImageStream")));
-			this.imageListPluginView.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListPluginView.Images.SetKeyName(0, "plugin");
-			this.imageListPluginView.Images.SetKeyName(1, "plugin_disabled");
-			this.imageListPluginView.Images.SetKeyName(2, "arrow_refresh_small");
+			this.ImageListPluginView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageListPluginView.ImageStream")));
+			this.ImageListPluginView.TransparentColor = System.Drawing.Color.Transparent;
+			this.ImageListPluginView.Images.SetKeyName(0, "plugin");
+			this.ImageListPluginView.Images.SetKeyName(1, "plugin_disabled");
+			this.ImageListPluginView.Images.SetKeyName(2, "arrow_refresh_small");
 			// 
-			// tabsMain
+			// TabsMain
 			// 
-			this.tabsMain.Controls.Add(this.tabSensors);
-			this.tabsMain.Controls.Add(this.tabLog);
-			this.tabsMain.Controls.Add(this.tabPlugins);
-			this.tabsMain.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabsMain.Location = new System.Drawing.Point(0, 25);
-			this.tabsMain.Multiline = true;
-			this.tabsMain.Name = "tabsMain";
-			this.tabsMain.SelectedIndex = 0;
-			this.tabsMain.Size = new System.Drawing.Size(517, 389);
-			this.tabsMain.TabIndex = 1;
-			this.tabsMain.SelectedIndexChanged += new System.EventHandler(this.tabsMain_SelectedIndexChanged);
+			this.TabsMain.Controls.Add(this.TabSensors);
+			this.TabsMain.Controls.Add(this.TabLog);
+			this.TabsMain.Controls.Add(this.TabPlugins);
+			this.TabsMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TabsMain.Location = new System.Drawing.Point(0, 25);
+			this.TabsMain.Multiline = true;
+			this.TabsMain.Name = "TabsMain";
+			this.TabsMain.SelectedIndex = 0;
+			this.TabsMain.Size = new System.Drawing.Size(517, 389);
+			this.TabsMain.TabIndex = 1;
+			this.TabsMain.SelectedIndexChanged += new System.EventHandler(this.TabsMainSelectedIndexChanged);
 			// 
-			// tabPlugins
+			// TabPlugins
 			// 
-			this.tabPlugins.Controls.Add(this.splitContainerPluginsTab);
-			this.tabPlugins.Location = new System.Drawing.Point(4, 22);
-			this.tabPlugins.Name = "tabPlugins";
-			this.tabPlugins.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPlugins.Size = new System.Drawing.Size(509, 363);
-			this.tabPlugins.TabIndex = 2;
-			this.tabPlugins.Text = "Plugins";
-			this.tabPlugins.UseVisualStyleBackColor = true;
+			this.TabPlugins.Controls.Add(this.SplitContainerPluginsTab);
+			this.TabPlugins.Location = new System.Drawing.Point(4, 22);
+			this.TabPlugins.Name = "TabPlugins";
+			this.TabPlugins.Padding = new System.Windows.Forms.Padding(3);
+			this.TabPlugins.Size = new System.Drawing.Size(509, 363);
+			this.TabPlugins.TabIndex = 2;
+			this.TabPlugins.Text = "Plugins";
+			this.TabPlugins.UseVisualStyleBackColor = true;
 			// 
-			// splitContainerPluginsTab
+			// SplitContainerPluginsTab
 			// 
-			this.splitContainerPluginsTab.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerPluginsTab.IsSplitterFixed = true;
-			this.splitContainerPluginsTab.Location = new System.Drawing.Point(3, 3);
-			this.splitContainerPluginsTab.Name = "splitContainerPluginsTab";
+			this.SplitContainerPluginsTab.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.SplitContainerPluginsTab.IsSplitterFixed = true;
+			this.SplitContainerPluginsTab.Location = new System.Drawing.Point(3, 3);
+			this.SplitContainerPluginsTab.Name = "SplitContainerPluginsTab";
 			// 
-			// splitContainerPluginsTab.Panel1
+			// SplitContainerPluginsTab.Panel1
 			// 
-			this.splitContainerPluginsTab.Panel1.Controls.Add(this.listViewPlugins);
+			this.SplitContainerPluginsTab.Panel1.Controls.Add(this.ListViewPlugins);
 			// 
-			// splitContainerPluginsTab.Panel2
+			// SplitContainerPluginsTab.Panel2
 			// 
-			this.splitContainerPluginsTab.Panel2.Controls.Add(this.tableLayoutPanelPluginsTab);
-			this.splitContainerPluginsTab.Size = new System.Drawing.Size(503, 357);
-			this.splitContainerPluginsTab.SplitterDistance = 290;
-			this.splitContainerPluginsTab.TabIndex = 2;
+			this.SplitContainerPluginsTab.Panel2.Controls.Add(this.TableLayoutPanelPluginsTab);
+			this.SplitContainerPluginsTab.Size = new System.Drawing.Size(503, 357);
+			this.SplitContainerPluginsTab.SplitterDistance = 290;
+			this.SplitContainerPluginsTab.TabIndex = 2;
 			// 
-			// listViewPlugins
+			// ListViewPlugins
 			// 
-			this.listViewPlugins.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.ListViewPlugins.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderName,
             columnHeaderEnabled,
             this.columnHeaderType});
-			this.listViewPlugins.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listViewPlugins.FullRowSelect = true;
-			this.listViewPlugins.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.listViewPlugins.HideSelection = false;
-			this.listViewPlugins.Location = new System.Drawing.Point(0, 0);
-			this.listViewPlugins.Name = "listViewPlugins";
-			this.listViewPlugins.ShowGroups = false;
-			this.listViewPlugins.Size = new System.Drawing.Size(290, 357);
-			this.listViewPlugins.SmallImageList = this.imageListPluginView;
-			this.listViewPlugins.TabIndex = 0;
-			this.listViewPlugins.UseCompatibleStateImageBehavior = false;
-			this.listViewPlugins.View = System.Windows.Forms.View.Details;
-			this.listViewPlugins.SelectedIndexChanged += new System.EventHandler(this.listViewPlugins_SelectedIndexChanged);
+			this.ListViewPlugins.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ListViewPlugins.FullRowSelect = true;
+			this.ListViewPlugins.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.ListViewPlugins.HideSelection = false;
+			this.ListViewPlugins.Location = new System.Drawing.Point(0, 0);
+			this.ListViewPlugins.Name = "ListViewPlugins";
+			this.ListViewPlugins.ShowGroups = false;
+			this.ListViewPlugins.Size = new System.Drawing.Size(290, 357);
+			this.ListViewPlugins.SmallImageList = this.ImageListPluginView;
+			this.ListViewPlugins.TabIndex = 0;
+			this.ListViewPlugins.UseCompatibleStateImageBehavior = false;
+			this.ListViewPlugins.View = System.Windows.Forms.View.Details;
+			this.ListViewPlugins.SelectedIndexChanged += new System.EventHandler(this.ListViewPluginsSelectedIndexChanged);
 			// 
 			// columnHeaderName
 			// 
@@ -244,232 +252,231 @@ namespace WinFormsControlPlugin {
 			// 
 			this.columnHeaderType.Text = "Type";
 			// 
-			// tableLayoutPanelPluginsTab
+			// TableLayoutPanelPluginsTab
 			// 
-			this.tableLayoutPanelPluginsTab.ColumnCount = 1;
-			this.tableLayoutPanelPluginsTab.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelPluginsTab.Controls.Add(this.labelPluginName, 0, 0);
-			this.tableLayoutPanelPluginsTab.Controls.Add(this.labelPluginVersion, 0, 1);
-			this.tableLayoutPanelPluginsTab.Controls.Add(this.tableLayoutLegend, 0, 3);
-			this.tableLayoutPanelPluginsTab.Controls.Add(this.textBoxPluginDescription, 0, 2);
-			this.tableLayoutPanelPluginsTab.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanelPluginsTab.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanelPluginsTab.Name = "tableLayoutPanelPluginsTab";
-			this.tableLayoutPanelPluginsTab.RowCount = 4;
-			this.tableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-			this.tableLayoutPanelPluginsTab.Size = new System.Drawing.Size(209, 357);
-			this.tableLayoutPanelPluginsTab.TabIndex = 1;
+			this.TableLayoutPanelPluginsTab.ColumnCount = 1;
+			this.TableLayoutPanelPluginsTab.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.TableLayoutPanelPluginsTab.Controls.Add(this.LabelPluginName, 0, 0);
+			this.TableLayoutPanelPluginsTab.Controls.Add(this.LabelPluginVersion, 0, 1);
+			this.TableLayoutPanelPluginsTab.Controls.Add(this.TableLayoutLegend, 0, 3);
+			this.TableLayoutPanelPluginsTab.Controls.Add(this.TextBoxPluginDescription, 0, 2);
+			this.TableLayoutPanelPluginsTab.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TableLayoutPanelPluginsTab.Location = new System.Drawing.Point(0, 0);
+			this.TableLayoutPanelPluginsTab.Name = "TableLayoutPanelPluginsTab";
+			this.TableLayoutPanelPluginsTab.RowCount = 4;
+			this.TableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.TableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.TableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.TableLayoutPanelPluginsTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
+			this.TableLayoutPanelPluginsTab.Size = new System.Drawing.Size(209, 357);
+			this.TableLayoutPanelPluginsTab.TabIndex = 1;
 			// 
-			// labelPluginName
+			// LabelPluginName
 			// 
-			this.labelPluginName.AutoSize = true;
-			this.labelPluginName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelPluginName.Location = new System.Drawing.Point(3, 0);
-			this.labelPluginName.Name = "labelPluginName";
-			this.labelPluginName.Size = new System.Drawing.Size(203, 20);
-			this.labelPluginName.TabIndex = 1;
-			this.labelPluginName.Text = "Name:";
+			this.LabelPluginName.AutoSize = true;
+			this.LabelPluginName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.LabelPluginName.Location = new System.Drawing.Point(3, 0);
+			this.LabelPluginName.Name = "LabelPluginName";
+			this.LabelPluginName.Size = new System.Drawing.Size(203, 20);
+			this.LabelPluginName.TabIndex = 1;
+			this.LabelPluginName.Text = "Name:";
 			// 
-			// labelPluginVersion
+			// LabelPluginVersion
 			// 
-			this.labelPluginVersion.AutoSize = true;
-			this.labelPluginVersion.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelPluginVersion.Location = new System.Drawing.Point(3, 20);
-			this.labelPluginVersion.Name = "labelPluginVersion";
-			this.labelPluginVersion.Size = new System.Drawing.Size(203, 20);
-			this.labelPluginVersion.TabIndex = 2;
-			this.labelPluginVersion.Text = "Version:";
+			this.LabelPluginVersion.AutoSize = true;
+			this.LabelPluginVersion.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.LabelPluginVersion.Location = new System.Drawing.Point(3, 20);
+			this.LabelPluginVersion.Name = "LabelPluginVersion";
+			this.LabelPluginVersion.Size = new System.Drawing.Size(203, 20);
+			this.LabelPluginVersion.TabIndex = 2;
+			this.LabelPluginVersion.Text = "Version:";
 			// 
-			// tableLayoutLegend
+			// TableLayoutLegend
 			// 
-			this.tableLayoutLegend.ColumnCount = 2;
-			this.tableLayoutLegend.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutLegend.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutLegend.Controls.Add(this.labelRestart, 1, 2);
-			this.tableLayoutLegend.Controls.Add(this.labelDisabled, 1, 1);
-			this.tableLayoutLegend.Controls.Add(this.pictureBoxEnabled, 0, 0);
-			this.tableLayoutLegend.Controls.Add(this.pictureBoxDisabled, 0, 1);
-			this.tableLayoutLegend.Controls.Add(this.labelEnabled, 1, 0);
-			this.tableLayoutLegend.Controls.Add(this.pictureBoxRestart, 0, 2);
-			this.tableLayoutLegend.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutLegend.Location = new System.Drawing.Point(3, 294);
-			this.tableLayoutLegend.Name = "tableLayoutLegend";
-			this.tableLayoutLegend.RowCount = 3;
-			this.tableLayoutLegend.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutLegend.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutLegend.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutLegend.Size = new System.Drawing.Size(203, 60);
-			this.tableLayoutLegend.TabIndex = 4;
+			this.TableLayoutLegend.ColumnCount = 2;
+			this.TableLayoutLegend.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.TableLayoutLegend.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.TableLayoutLegend.Controls.Add(this.LabelRestart, 1, 2);
+			this.TableLayoutLegend.Controls.Add(this.LabelDisabled, 1, 1);
+			this.TableLayoutLegend.Controls.Add(this.PictureBoxEnabled, 0, 0);
+			this.TableLayoutLegend.Controls.Add(this.PictureBoxDisabled, 0, 1);
+			this.TableLayoutLegend.Controls.Add(this.LabelEnabled, 1, 0);
+			this.TableLayoutLegend.Controls.Add(this.PictureBoxRestart, 0, 2);
+			this.TableLayoutLegend.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TableLayoutLegend.Location = new System.Drawing.Point(3, 294);
+			this.TableLayoutLegend.Name = "TableLayoutLegend";
+			this.TableLayoutLegend.RowCount = 3;
+			this.TableLayoutLegend.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.TableLayoutLegend.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.TableLayoutLegend.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.TableLayoutLegend.Size = new System.Drawing.Size(203, 60);
+			this.TableLayoutLegend.TabIndex = 4;
 			// 
-			// labelRestart
+			// LabelRestart
 			// 
-			this.labelRestart.AutoSize = true;
-			this.labelRestart.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelRestart.Location = new System.Drawing.Point(23, 43);
-			this.labelRestart.Margin = new System.Windows.Forms.Padding(3);
-			this.labelRestart.Name = "labelRestart";
-			this.labelRestart.Size = new System.Drawing.Size(177, 14);
-			this.labelRestart.TabIndex = 5;
-			this.labelRestart.Text = "Restart for changes to take effect";
+			this.LabelRestart.AutoSize = true;
+			this.LabelRestart.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.LabelRestart.Location = new System.Drawing.Point(23, 43);
+			this.LabelRestart.Margin = new System.Windows.Forms.Padding(3);
+			this.LabelRestart.Name = "LabelRestart";
+			this.LabelRestart.Size = new System.Drawing.Size(177, 14);
+			this.LabelRestart.TabIndex = 5;
+			this.LabelRestart.Text = "Restart for changes to take effect";
 			// 
-			// labelDisabled
+			// LabelDisabled
 			// 
-			this.labelDisabled.AutoSize = true;
-			this.labelDisabled.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelDisabled.Location = new System.Drawing.Point(23, 23);
-			this.labelDisabled.Margin = new System.Windows.Forms.Padding(3);
-			this.labelDisabled.Name = "labelDisabled";
-			this.labelDisabled.Size = new System.Drawing.Size(177, 14);
-			this.labelDisabled.TabIndex = 3;
-			this.labelDisabled.Text = "Disabled";
+			this.LabelDisabled.AutoSize = true;
+			this.LabelDisabled.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.LabelDisabled.Location = new System.Drawing.Point(23, 23);
+			this.LabelDisabled.Margin = new System.Windows.Forms.Padding(3);
+			this.LabelDisabled.Name = "LabelDisabled";
+			this.LabelDisabled.Size = new System.Drawing.Size(177, 14);
+			this.LabelDisabled.TabIndex = 3;
+			this.LabelDisabled.Text = "Disabled";
 			// 
-			// pictureBoxEnabled
+			// PictureBoxEnabled
 			// 
-			this.pictureBoxEnabled.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pictureBoxEnabled.ErrorImage = null;
-			this.pictureBoxEnabled.Image = global::WinFormsControlPlugin.Properties.Resources.plugin;
-			this.pictureBoxEnabled.InitialImage = null;
-			this.pictureBoxEnabled.Location = new System.Drawing.Point(2, 2);
-			this.pictureBoxEnabled.Margin = new System.Windows.Forms.Padding(2);
-			this.pictureBoxEnabled.Name = "pictureBoxEnabled";
-			this.pictureBoxEnabled.Size = new System.Drawing.Size(16, 16);
-			this.pictureBoxEnabled.TabIndex = 0;
-			this.pictureBoxEnabled.TabStop = false;
+			this.PictureBoxEnabled.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.PictureBoxEnabled.ErrorImage = null;
+			this.PictureBoxEnabled.Image = global::WinFormsControlPlugin.Properties.Resources.plugin;
+			this.PictureBoxEnabled.InitialImage = null;
+			this.PictureBoxEnabled.Location = new System.Drawing.Point(2, 2);
+			this.PictureBoxEnabled.Margin = new System.Windows.Forms.Padding(2);
+			this.PictureBoxEnabled.Name = "PictureBoxEnabled";
+			this.PictureBoxEnabled.Size = new System.Drawing.Size(16, 16);
+			this.PictureBoxEnabled.TabIndex = 0;
+			this.PictureBoxEnabled.TabStop = false;
 			// 
-			// pictureBoxDisabled
+			// PictureBoxDisabled
 			// 
-			this.pictureBoxDisabled.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pictureBoxDisabled.ErrorImage = null;
-			this.pictureBoxDisabled.Image = global::WinFormsControlPlugin.Properties.Resources.plugin_disabled;
-			this.pictureBoxDisabled.InitialImage = null;
-			this.pictureBoxDisabled.Location = new System.Drawing.Point(2, 22);
-			this.pictureBoxDisabled.Margin = new System.Windows.Forms.Padding(2);
-			this.pictureBoxDisabled.Name = "pictureBoxDisabled";
-			this.pictureBoxDisabled.Size = new System.Drawing.Size(16, 16);
-			this.pictureBoxDisabled.TabIndex = 1;
-			this.pictureBoxDisabled.TabStop = false;
+			this.PictureBoxDisabled.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.PictureBoxDisabled.ErrorImage = null;
+			this.PictureBoxDisabled.Image = global::WinFormsControlPlugin.Properties.Resources.plugin_disabled;
+			this.PictureBoxDisabled.InitialImage = null;
+			this.PictureBoxDisabled.Location = new System.Drawing.Point(2, 22);
+			this.PictureBoxDisabled.Margin = new System.Windows.Forms.Padding(2);
+			this.PictureBoxDisabled.Name = "PictureBoxDisabled";
+			this.PictureBoxDisabled.Size = new System.Drawing.Size(16, 16);
+			this.PictureBoxDisabled.TabIndex = 1;
+			this.PictureBoxDisabled.TabStop = false;
 			// 
-			// labelEnabled
+			// LabelEnabled
 			// 
-			this.labelEnabled.AutoSize = true;
-			this.labelEnabled.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelEnabled.Location = new System.Drawing.Point(23, 3);
-			this.labelEnabled.Margin = new System.Windows.Forms.Padding(3);
-			this.labelEnabled.Name = "labelEnabled";
-			this.labelEnabled.Size = new System.Drawing.Size(177, 14);
-			this.labelEnabled.TabIndex = 2;
-			this.labelEnabled.Text = "Enabled";
+			this.LabelEnabled.AutoSize = true;
+			this.LabelEnabled.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.LabelEnabled.Location = new System.Drawing.Point(23, 3);
+			this.LabelEnabled.Margin = new System.Windows.Forms.Padding(3);
+			this.LabelEnabled.Name = "LabelEnabled";
+			this.LabelEnabled.Size = new System.Drawing.Size(177, 14);
+			this.LabelEnabled.TabIndex = 2;
+			this.LabelEnabled.Text = "Enabled";
 			// 
-			// pictureBoxRestart
+			// PictureBoxRestart
 			// 
-			this.pictureBoxRestart.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pictureBoxRestart.ErrorImage = null;
-			this.pictureBoxRestart.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh_small;
-			this.pictureBoxRestart.InitialImage = null;
-			this.pictureBoxRestart.Location = new System.Drawing.Point(2, 42);
-			this.pictureBoxRestart.Margin = new System.Windows.Forms.Padding(2);
-			this.pictureBoxRestart.Name = "pictureBoxRestart";
-			this.pictureBoxRestart.Size = new System.Drawing.Size(16, 16);
-			this.pictureBoxRestart.TabIndex = 4;
-			this.pictureBoxRestart.TabStop = false;
+			this.PictureBoxRestart.Dock = System.Windows.Forms.DockStyle.Top;
+			this.PictureBoxRestart.ErrorImage = null;
+			this.PictureBoxRestart.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh_small;
+			this.PictureBoxRestart.InitialImage = null;
+			this.PictureBoxRestart.Location = new System.Drawing.Point(2, 42);
+			this.PictureBoxRestart.Margin = new System.Windows.Forms.Padding(2);
+			this.PictureBoxRestart.Name = "PictureBoxRestart";
+			this.PictureBoxRestart.Size = new System.Drawing.Size(16, 16);
+			this.PictureBoxRestart.TabIndex = 4;
+			this.PictureBoxRestart.TabStop = false;
 			// 
-			// textBoxPluginDescription
+			// TextBoxPluginDescription
 			// 
-			this.textBoxPluginDescription.BackColor = System.Drawing.SystemColors.Window;
-			this.textBoxPluginDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBoxPluginDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxPluginDescription.Location = new System.Drawing.Point(3, 43);
-			this.textBoxPluginDescription.Multiline = true;
-			this.textBoxPluginDescription.Name = "textBoxPluginDescription";
-			this.textBoxPluginDescription.ReadOnly = true;
-			this.textBoxPluginDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBoxPluginDescription.Size = new System.Drawing.Size(203, 245);
-			this.textBoxPluginDescription.TabIndex = 5;
-			this.textBoxPluginDescription.Text = "Description:";
+			this.TextBoxPluginDescription.BackColor = System.Drawing.SystemColors.Window;
+			this.TextBoxPluginDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.TextBoxPluginDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TextBoxPluginDescription.Location = new System.Drawing.Point(3, 43);
+			this.TextBoxPluginDescription.Multiline = true;
+			this.TextBoxPluginDescription.Name = "TextBoxPluginDescription";
+			this.TextBoxPluginDescription.ReadOnly = true;
+			this.TextBoxPluginDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.TextBoxPluginDescription.Size = new System.Drawing.Size(203, 245);
+			this.TextBoxPluginDescription.TabIndex = 5;
+			this.TextBoxPluginDescription.Text = "Description:";
 			// 
-			// toolStripMainWindow
+			// ToolStripMainWindow
 			// 
-			this.toolStripMainWindow.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.toolStripMainWindow.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonAbout,
-            this.buttonRefresh,
-            this.buttonEnable,
-            this.buttonDisable});
-			this.toolStripMainWindow.Location = new System.Drawing.Point(0, 0);
-			this.toolStripMainWindow.Name = "toolStripMainWindow";
-			this.toolStripMainWindow.Size = new System.Drawing.Size(517, 25);
-			this.toolStripMainWindow.TabIndex = 0;
+			this.ToolStripMainWindow.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.ToolStripMainWindow.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ButtonAbout,
+            this.ButtonRefresh,
+            this.ButtonEnable,
+            this.ButtonDisable});
+			this.ToolStripMainWindow.Location = new System.Drawing.Point(0, 0);
+			this.ToolStripMainWindow.Name = "ToolStripMainWindow";
+			this.ToolStripMainWindow.Size = new System.Drawing.Size(517, 25);
+			this.ToolStripMainWindow.TabIndex = 0;
 			// 
-			// buttonAbout
+			// ButtonAbout
 			// 
-			this.buttonAbout.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.buttonAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.buttonAbout.Image = ((System.Drawing.Image)(resources.GetObject("buttonAbout.Image")));
-			this.buttonAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.buttonAbout.Name = "buttonAbout";
-			this.buttonAbout.Size = new System.Drawing.Size(53, 22);
-			this.buttonAbout.Text = "About...";
-			this.buttonAbout.Click += new System.EventHandler(this.buttonAbout_Click);
+			this.ButtonAbout.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.ButtonAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.ButtonAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.ButtonAbout.Name = "ButtonAbout";
+			this.ButtonAbout.Size = new System.Drawing.Size(53, 22);
+			this.ButtonAbout.Text = "About...";
+			this.ButtonAbout.Click += new System.EventHandler(this.ButtonAboutClick);
 			// 
-			// buttonRefresh
+			// ButtonRefresh
 			// 
-			this.buttonRefresh.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh;
-			this.buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.buttonRefresh.Name = "buttonRefresh";
-			this.buttonRefresh.Size = new System.Drawing.Size(66, 22);
-			this.buttonRefresh.Text = "Refresh";
-			this.buttonRefresh.Visible = false;
-			this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+			this.ButtonRefresh.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh;
+			this.ButtonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.ButtonRefresh.Name = "ButtonRefresh";
+			this.ButtonRefresh.Size = new System.Drawing.Size(66, 22);
+			this.ButtonRefresh.Text = "Refresh";
+			this.ButtonRefresh.Visible = false;
+			this.ButtonRefresh.Click += new System.EventHandler(this.ButtonRefreshClick);
 			// 
-			// buttonEnable
+			// ButtonEnable
 			// 
-			this.buttonEnable.Image = ((System.Drawing.Image)(resources.GetObject("buttonEnable.Image")));
-			this.buttonEnable.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.buttonEnable.Name = "buttonEnable";
-			this.buttonEnable.Size = new System.Drawing.Size(62, 22);
-			this.buttonEnable.Text = "Enable";
-			this.buttonEnable.Visible = false;
-			this.buttonEnable.Click += new System.EventHandler(this.buttonEnable_Click);
+			this.ButtonEnable.Image = ((System.Drawing.Image)(resources.GetObject("ButtonEnable.Image")));
+			this.ButtonEnable.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.ButtonEnable.Name = "ButtonEnable";
+			this.ButtonEnable.Size = new System.Drawing.Size(62, 22);
+			this.ButtonEnable.Text = "Enable";
+			this.ButtonEnable.Visible = false;
+			this.ButtonEnable.Click += new System.EventHandler(this.ButtonEnableClick);
 			// 
-			// buttonDisable
+			// ButtonDisable
 			// 
-			this.buttonDisable.Image = global::WinFormsControlPlugin.Properties.Resources.plugin_disabled;
-			this.buttonDisable.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.buttonDisable.Name = "buttonDisable";
-			this.buttonDisable.Size = new System.Drawing.Size(65, 22);
-			this.buttonDisable.Text = "Disable";
-			this.buttonDisable.Visible = false;
-			this.buttonDisable.Click += new System.EventHandler(this.buttonDisable_Click);
+			this.ButtonDisable.Image = global::WinFormsControlPlugin.Properties.Resources.plugin_disabled;
+			this.ButtonDisable.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.ButtonDisable.Name = "ButtonDisable";
+			this.ButtonDisable.Size = new System.Drawing.Size(65, 22);
+			this.ButtonDisable.Text = "Disable";
+			this.ButtonDisable.Visible = false;
+			this.ButtonDisable.Click += new System.EventHandler(this.ButtonDisableClick);
 			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(517, 414);
-			this.Controls.Add(this.tabsMain);
-			this.Controls.Add(this.toolStripMainWindow);
+			this.Controls.Add(this.TabsMain);
+			this.Controls.Add(this.ToolStripMainWindow);
 			this.Name = "MainWindow";
 			this.Text = "Sensorium2";
 			this.Load += new System.EventHandler(this.MainWindow_Load);
-			this.tabLog.ResumeLayout(false);
-			this.tabSensors.ResumeLayout(false);
-			this.tabsMain.ResumeLayout(false);
-			this.tabPlugins.ResumeLayout(false);
-			this.splitContainerPluginsTab.Panel1.ResumeLayout(false);
-			this.splitContainerPluginsTab.Panel2.ResumeLayout(false);
-			this.splitContainerPluginsTab.ResumeLayout(false);
-			this.tableLayoutPanelPluginsTab.ResumeLayout(false);
-			this.tableLayoutPanelPluginsTab.PerformLayout();
-			this.tableLayoutLegend.ResumeLayout(false);
-			this.tableLayoutLegend.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxEnabled)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDisabled)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxRestart)).EndInit();
-			this.toolStripMainWindow.ResumeLayout(false);
-			this.toolStripMainWindow.PerformLayout();
+			this.TabLog.ResumeLayout(false);
+			this.TabSensors.ResumeLayout(false);
+			this.TabsMain.ResumeLayout(false);
+			this.TabPlugins.ResumeLayout(false);
+			this.SplitContainerPluginsTab.Panel1.ResumeLayout(false);
+			this.SplitContainerPluginsTab.Panel2.ResumeLayout(false);
+			this.SplitContainerPluginsTab.ResumeLayout(false);
+			this.TableLayoutPanelPluginsTab.ResumeLayout(false);
+			this.TableLayoutPanelPluginsTab.PerformLayout();
+			this.TableLayoutLegend.ResumeLayout(false);
+			this.TableLayoutLegend.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxEnabled)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxDisabled)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxRestart)).EndInit();
+			this.ToolStripMainWindow.ResumeLayout(false);
+			this.ToolStripMainWindow.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -477,38 +484,38 @@ namespace WinFormsControlPlugin {
 
 		#endregion
 
-		private System.Windows.Forms.TabPage tabLog;
-		private System.Windows.Forms.ListBox listBoxLog;
-		private System.Windows.Forms.TabPage tabSensors;
-		private System.Windows.Forms.TabControl tabsMain;
+		private System.Windows.Forms.TabPage TabLog;
+		private System.Windows.Forms.ListBox ListBoxLog;
+		private System.Windows.Forms.TabPage TabSensors;
+		private System.Windows.Forms.TabControl TabsMain;
 		//private System.Windows.Forms.ToolStripButton refreshButton;
-		private System.Windows.Forms.TabPage tabPlugins;
-		private System.Windows.Forms.ListView listViewPlugins;
+		private System.Windows.Forms.TabPage TabPlugins;
+		private System.Windows.Forms.ListView ListViewPlugins;
 		private System.Windows.Forms.ColumnHeader columnHeaderName;
-		private System.Windows.Forms.ImageList imageListPluginView;
-		private System.Windows.Forms.ToolStrip toolStripMainWindow;
-		private System.Windows.Forms.ToolStripButton buttonRefresh;
-		private System.Windows.Forms.ToolStripButton buttonAbout;
-		private System.Windows.Forms.ToolStripButton buttonEnable;
-		private System.Windows.Forms.ToolStripButton buttonDisable;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelPluginsTab;
-		private System.Windows.Forms.Label labelPluginName;
-		private System.Windows.Forms.Label labelPluginVersion;
+		private System.Windows.Forms.ImageList ImageListPluginView;
+		private System.Windows.Forms.ToolStrip ToolStripMainWindow;
+		private System.Windows.Forms.ToolStripButton ButtonRefresh;
+		private System.Windows.Forms.ToolStripButton ButtonAbout;
+		private System.Windows.Forms.ToolStripButton ButtonEnable;
+		private System.Windows.Forms.ToolStripButton ButtonDisable;
+		private System.Windows.Forms.TableLayoutPanel TableLayoutPanelPluginsTab;
+		private System.Windows.Forms.Label LabelPluginName;
+		private System.Windows.Forms.Label LabelPluginVersion;
 		private System.Windows.Forms.ColumnHeader columnHeaderType;
-		private System.Windows.Forms.SplitContainer splitContainerPluginsTab;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutLegend;
-		private System.Windows.Forms.PictureBox pictureBoxEnabled;
-		private System.Windows.Forms.PictureBox pictureBoxDisabled;
-		private System.Windows.Forms.Label labelDisabled;
-		private System.Windows.Forms.Label labelEnabled;
-		private System.Windows.Forms.PictureBox pictureBoxRestart;
-		private System.Windows.Forms.Label labelRestart;
-		private System.Windows.Forms.TextBox textBoxPluginDescription;
-		private System.Windows.Forms.ListView listViewSensors;
+		private System.Windows.Forms.SplitContainer SplitContainerPluginsTab;
+		private System.Windows.Forms.TableLayoutPanel TableLayoutLegend;
+		private System.Windows.Forms.PictureBox PictureBoxEnabled;
+		private System.Windows.Forms.PictureBox PictureBoxDisabled;
+		private System.Windows.Forms.Label LabelDisabled;
+		private System.Windows.Forms.Label LabelEnabled;
+		private System.Windows.Forms.PictureBox PictureBoxRestart;
+		private System.Windows.Forms.Label LabelRestart;
+		private System.Windows.Forms.TextBox TextBoxPluginDescription;
+		private System.Windows.Forms.ListView ListViewSensors;
 		private System.Windows.Forms.ColumnHeader columnHeaderSensorName;
 		private System.Windows.Forms.ColumnHeader columnHeaderSensorType;
 		private System.Windows.Forms.ColumnHeader columnHeaderSensorValue;
-		private System.Windows.Forms.ImageList imageListSensorsView;
+		private System.Windows.Forms.ImageList ImageListSensorsView;
 
 
 
