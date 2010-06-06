@@ -23,7 +23,7 @@ namespace Sensorium.Common.Plugins {
 		protected List<DataPlugin> DataPlugins;
 		protected List<SettingsPlugin> SettingsPlugins;
 		
-		protected Dictionary<string, List<string>> Settings;
+		protected PluginSettings Settings;
 
 		protected Type[] PluginTypes { get {
 			return new Type[] {
@@ -97,7 +97,7 @@ namespace Sensorium.Common.Plugins {
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 
 			if (!Settings.ContainsKey("Enabled"))
-				Settings.Add("Enabled", new List<string> { true.ToString() });
+				Settings.Add("Enabled", new Setting { true.ToString() });
 
 			if (!(Enabled = Boolean.Parse(Settings["Enabled"][0])))
 				return;

@@ -43,7 +43,7 @@ namespace libSensorsPlugin {
 				if (Settings.ContainsKey("Enabled"))
 					Settings["Enabled"][0] = "False";
 				else
-					Settings.Add("Enabled",new List<string> {"False"});
+					Settings.Add("Enabled",new Setting {"False"});
 
 				Enabled = false;
 

@@ -26,7 +26,7 @@ namespace Sensorium.Common.Plugins
 			protected set { _Sensors = value; }
 		}
 
-		protected Dictionary<string, List<string>> Settings;
+		protected PluginSettings Settings;
 
 		public abstract string Name { get; }
 		public abstract int Version { get; }
@@ -82,7 +82,7 @@ namespace Sensorium.Common.Plugins
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 
 			if (!Settings.ContainsKey("Enabled"))
-				Settings.Add("Enabled", new List<string> { _enabled.ToString() });
+				Settings.Add("Enabled", new Setting { _enabled.ToString() });
 		}
 	}
 }
