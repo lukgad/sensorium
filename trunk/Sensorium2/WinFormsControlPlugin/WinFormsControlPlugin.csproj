@@ -110,7 +110,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\DataSources\Sensorium.Common.PluginSettings.datasource" />
     <None Include="Resources\arrow_refresh_small.png" />
   </ItemGroup>
   <ItemGroup>
