@@ -76,13 +76,13 @@ namespace WinFormsControlPlugin {
 		private void TabsMainSelectedIndexChanged(object sender, EventArgs e) {
 			//Show the appropriate toolstrip buttons for the current tab
 			ButtonRefresh.Visible = TabLog.Visible || TabPlugins.Visible;
-			ButtonEnable.Visible = ButtonDisable.Visible = TabPlugins.Visible;
+			ButtonSettings.Visible = ButtonEnable.Visible = ButtonDisable.Visible = TabPlugins.Visible;
 
 			if (TabPlugins.Visible)
 				ListViewPluginsSelectedIndexChanged(sender, e);
 
 			if (ButtonRefresh.Visible)
-				ButtonRefresh.PerformClick();
+				ButtonRefreshClick(sender, e);
 		}
 
 		private void ButtonRefreshClick(object sender, EventArgs e) {
@@ -112,6 +112,8 @@ namespace WinFormsControlPlugin {
 		private void ListViewPluginsSelectedIndexChanged(object sender, EventArgs e) {
 			//Enabled the appropriate buttons for the currently selected plugin/s
 			if (ListViewPlugins.SelectedItems.Count == 1) {
+				ButtonSettings.Enabled = true;
+
 				ButtonEnable.Enabled = !SensoriumFactory.GetAppInterface().Plugins[ListViewPlugins.SelectedItems[0].Text].Enabled;
 				ButtonDisable.Enabled = SensoriumFactory.GetAppInterface().Plugins[ListViewPlugins.SelectedItems[0].Text].Enabled;
 
@@ -122,6 +124,8 @@ namespace WinFormsControlPlugin {
 				TextBoxPluginDescription.Text = String.Format("Description: {0}{1}", Environment.NewLine,
 					SensoriumFactory.GetAppInterface().Plugins[ListViewPlugins.SelectedItems[0].Text].Description);
 			} else {
+				ButtonSettings.Enabled = false;
+
 				if (ListViewPlugins.SelectedItems.Count == 0)
 					ButtonEnable.Enabled = ButtonDisable.Enabled = false;
 				else ButtonEnable.Enabled = ButtonDisable.Enabled = true;

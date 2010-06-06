@@ -72,6 +72,7 @@ namespace WinFormsControlPlugin {
 			this.ButtonRefresh = new System.Windows.Forms.ToolStripButton();
 			this.ButtonEnable = new System.Windows.Forms.ToolStripButton();
 			this.ButtonDisable = new System.Windows.Forms.ToolStripButton();
+			this.ButtonSettings = new System.Windows.Forms.ToolStripButton();
 			columnHeaderEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.TabLog.SuspendLayout();
 			this.TabSensors.SuspendLayout();
@@ -398,7 +399,8 @@ namespace WinFormsControlPlugin {
             this.ButtonAbout,
             this.ButtonRefresh,
             this.ButtonEnable,
-            this.ButtonDisable});
+            this.ButtonDisable,
+            this.ButtonSettings});
 			this.ToolStripMainWindow.Location = new System.Drawing.Point(0, 0);
 			this.ToolStripMainWindow.Name = "ToolStripMainWindow";
 			this.ToolStripMainWindow.Size = new System.Drawing.Size(517, 25);
@@ -426,7 +428,7 @@ namespace WinFormsControlPlugin {
 			// 
 			// ButtonEnable
 			// 
-			this.ButtonEnable.Image = ((System.Drawing.Image)(resources.GetObject("ButtonEnable.Image")));
+			this.ButtonEnable.Image = global::WinFormsControlPlugin.Properties.Resources.plugin;
 			this.ButtonEnable.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ButtonEnable.Name = "ButtonEnable";
 			this.ButtonEnable.Size = new System.Drawing.Size(62, 22);
@@ -443,6 +445,15 @@ namespace WinFormsControlPlugin {
 			this.ButtonDisable.Text = "Disable";
 			this.ButtonDisable.Visible = false;
 			this.ButtonDisable.Click += new System.EventHandler(this.ButtonDisableClick);
+			// 
+			// ButtonSettings
+			// 
+			this.ButtonSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.ButtonSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.ButtonSettings.Name = "ButtonSettings";
+			this.ButtonSettings.Size = new System.Drawing.Size(62, 22);
+			this.ButtonSettings.Text = "Settings...";
+			this.ButtonSettings.Visible = false;
 			// 
 			// MainWindow
 			// 
@@ -509,6 +520,7 @@ namespace WinFormsControlPlugin {
 		private System.Windows.Forms.ColumnHeader columnHeaderSensorType;
 		private System.Windows.Forms.ColumnHeader columnHeaderSensorValue;
 		private System.Windows.Forms.ImageList ImageListSensorsView;
+		private System.Windows.Forms.ToolStripButton ButtonSettings;
 
 
 
