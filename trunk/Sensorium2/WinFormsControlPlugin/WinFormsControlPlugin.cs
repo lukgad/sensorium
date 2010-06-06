@@ -13,6 +13,7 @@
  */
 
 using System;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Sensorium.Common.Plugins;
@@ -71,6 +72,18 @@ namespace WinFormsControlPlugin {
 			_mainWindow.Close();
 
 			base.Stop();
+		}
+	}
+
+	public static class ControlExtensions
+	{
+		public static void SetDoubleBuffered(this Control c, bool doubleBuffered)
+		{
+			Type controlType = c.GetType();
+			PropertyInfo pi = controlType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+
+			pi.SetValue(c, doubleBuffered, null);
+
 		}
 	}
 }

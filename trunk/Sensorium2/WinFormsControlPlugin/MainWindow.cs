@@ -50,13 +50,15 @@ namespace WinFormsControlPlugin {
 			}
 
 			//Output the log so far to ListBox.
-			RefreshListBoxLog(sender, e);
+			RefreshListBoxLog();
 
 			RefreshListViewSensors(sender, e);
 
 			Timer refreshTimer = new Timer {Interval = 1000};
 			refreshTimer.Tick += RefreshListViewSensors;
 			refreshTimer.Start();
+
+			ListViewSensors.SetDoubleBuffered(true);
 		}
 
 		private delegate void CloseAction();
@@ -78,6 +80,9 @@ namespace WinFormsControlPlugin {
 
 			if (TabPlugins.Visible)
 				ListViewPluginsSelectedIndexChanged(sender, e);
+
+			if (ButtonRefresh.Visible)
+				ButtonRefresh.PerformClick();
 		}
 
 		private void ButtonRefreshClick(object sender, EventArgs e) {
@@ -86,10 +91,10 @@ namespace WinFormsControlPlugin {
 				ListViewPluginRefresh(sender, e);
 
 			if (TabLog.Visible)
-				RefreshListBoxLog(sender, e);
+				RefreshListBoxLog();
 		}
 
-		private void RefreshListBoxLog(object sender, EventArgs e) {
+		private void RefreshListBoxLog() {
 			ListBoxLog.BeginUpdate();
 			ListBoxLog.Items.Clear();
 
