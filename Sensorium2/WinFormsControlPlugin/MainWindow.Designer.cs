@@ -13,13 +13,6 @@
  */
 
 namespace WinFormsControlPlugin {
-	internal sealed class DoubleBufferedListView : System.Windows.Forms.ListView
-	{
-		public DoubleBufferedListView()
-		{
-			this.DoubleBuffered = true;
-		}
-	}
 
 	partial class MainWindow {
 		/// <summary>
@@ -51,7 +44,7 @@ namespace WinFormsControlPlugin {
 			this.TabLog = new System.Windows.Forms.TabPage();
 			this.ListBoxLog = new System.Windows.Forms.ListBox();
 			this.TabSensors = new System.Windows.Forms.TabPage();
-			this.ListViewSensors = new WinFormsControlPlugin.DoubleBufferedListView();
+			this.ListViewSensors = new System.Windows.Forms.ListView();
 			this.columnHeaderSensorName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderSensorType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderSensorValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
