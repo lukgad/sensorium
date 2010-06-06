@@ -49,10 +49,10 @@ namespace TextSettingsPlugin
 			set {
 				base.Enabled = value;
 
-				Dictionary<string, List<string>> mySettings = GetSettings(Name);
+				Dictionary<string, Setting> mySettings = GetSettings(Name);
 
 				if (!mySettings.ContainsKey("Enabled"))
-					mySettings.Add("Enabled", new List<string> { value.ToString() });
+					mySettings.Add("Enabled", new Setting { value.ToString() });
 				else
 					mySettings["Enabled"][0] = value.ToString();
 			}
@@ -110,7 +110,7 @@ namespace TextSettingsPlugin
 					if(_settings[currentPlugin].ContainsKey(splitLine[0]))
 						_settings[currentPlugin][splitLine[0]].Add(splitLine[1]);
 					else
-						_settings[currentPlugin].Add(splitLine[0].Trim(), new List<string> { splitLine[1].Trim() });
+						_settings[currentPlugin].Add(splitLine[0].Trim(), new Setting { splitLine[1].Trim() });
 				}
 			}
 

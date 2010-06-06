@@ -15,6 +15,9 @@
 using System.Collections.Generic;
 
 namespace Sensorium.Common {
-	public class PluginSettings : Dictionary<string, List<string>> {
+	public class PluginSettings : Dictionary<string, Setting> {
+	}
+
+	public class Setting : List<string> {
 	}
 }
