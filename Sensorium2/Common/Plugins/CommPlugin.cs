@@ -92,9 +92,6 @@ namespace Sensorium.Common.Plugins
 		public virtual void Init(PluginMode mode) {
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 
-			if (!Settings.ContainsKey("Enabled"))
-				Settings.Add("Enabled", new Setting { "True" });
-
 			Mode = mode;
 
 			//If in "default" mode, load default mode from config

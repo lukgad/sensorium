@@ -119,18 +119,20 @@ namespace TextSettingsPlugin
 				&& _settings[Name]["Enabled"][0].ToLower().Equals("true"))
 				Enabled = true;
 
-			foreach(string pluginName in _settings.Keys) {
-				foreach(string key in SensoriumFactory.GetAppInterface().Plugins[pluginName].DefaultSettings.Keys) {
+			foreach(string pluginName in _settings.Keys)
+				foreach(string key in SensoriumFactory.GetAppInterface().Plugins[pluginName].DefaultSettings.Keys)
 					if (!_settings[pluginName].Keys.Contains(key))
 						_settings[pluginName].Add(key, SensoriumFactory.GetAppInterface().Plugins[pluginName].DefaultSettings[key]);
-				}
-			}
 		}
 
 		public override PluginSettings GetSettings(string pluginName) {
-			if (!_settings.ContainsKey(pluginName))
+			if (!_settings.ContainsKey(pluginName)) {
 				_settings.Add(pluginName, new PluginSettings());
-			
+
+				foreach(string key in SensoriumFactory.GetAppInterface().Plugins[pluginName].DefaultSettings.Keys)
+					_settings[pluginName].Add(key, SensoriumFactory.GetAppInterface().Plugins[pluginName].DefaultSettings[key]);
+			}
+
 			return _settings[pluginName];
 		}
 
