@@ -27,6 +27,10 @@ namespace ConsoleControlPlugin {
 		private bool _running;
 		private bool _paused;
 
+		public ConsoleControlPlugin() {
+			DefaultSettings.Add("Delay", new Setting());
+		}
+
 		public override string Name {
 			get { return "Console Control"; }
 		}
@@ -79,10 +83,9 @@ namespace ConsoleControlPlugin {
 				UpdateConsole(new ConsoleKeyInfo());
 
 				int delay;
-				if(Settings.ContainsKey("Delay") && (delay = Int32.Parse(Settings["Delay"][0])) >= 200)
-					Thread.Sleep(delay);
-				else 
-					Thread.Sleep(1000);
+
+
+				Thread.Sleep((Settings["Delay"].Count != 0 && (delay = Int32.Parse(Settings["Delay"][0])) >= 200) ? delay : 1000);
 			}
 			Console.CursorVisible = true;
 		}

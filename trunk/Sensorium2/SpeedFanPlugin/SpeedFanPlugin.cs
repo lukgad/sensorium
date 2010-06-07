@@ -30,9 +30,6 @@ namespace SpeedFanPlugin
 		public override void Init(PluginMode mode) {
 			base.Init(mode);
 
-			if (Settings.ContainsKey("Enabled"))
-				Enabled = Settings["Enabled"][0].ToLower().Equals("true");
-
 			if (mode == PluginMode.Client || Environment.OSVersion.Platform != PlatformID.Win32NT) {
 				Enabled = false;
 			}

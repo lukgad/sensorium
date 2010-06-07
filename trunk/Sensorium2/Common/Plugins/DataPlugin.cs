@@ -38,24 +38,19 @@ namespace Sensorium.Common.Plugins
 		/// <param name="mode"></param>
 		public virtual void Init(PluginMode mode) {
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
-
-			if (!Settings.ContainsKey("Enabled"))
-				Settings.Add("Enabled", new Setting {_Enabled.ToString()});
 		}
 
 		public abstract string Name { get; }
 		public abstract int Version { get; }
 		public abstract string Description { get; }
 
-		protected bool _Enabled = true;
 		public virtual bool Enabled
 		{
 			get {
-				return _Enabled;
+				return bool.Parse(Settings["Enabled"][0]);
 			}
 			set {
 				Settings["Enabled"][0] = value.ToString();
-				_Enabled = value;
 			}
 		}
 

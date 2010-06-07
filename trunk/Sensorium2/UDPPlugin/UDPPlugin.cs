@@ -31,6 +31,7 @@ namespace UDPPlugin{
 		public UDPPlugin() {
 			DefaultSettings.Add("Server", new Setting());
 			DefaultSettings.Add("Client", new Setting());
+			DefaultSettings.Add("UpdateDelay", new Setting());
 		}
 
 		public override string Name {
@@ -93,18 +94,18 @@ namespace UDPPlugin{
 
 			Mode = mode;
 
-			if (Settings.ContainsKey("Enabled") && Settings["Enabled"][0].ToLower().Equals("false")) {
+			if (Settings["Enabled"][0].ToLower().Equals("false")) {
 				Enabled = false;
 				return;
 			}
 
-			if (Settings.ContainsKey("UpdateDelay") && Int32.Parse(Settings["UpdateDelay"][0]) > 300)
+			if (Settings["UpdateDelay"].Count != 0 && Int32.Parse(Settings["UpdateDelay"][0]) > 300)
 				_delay = Int32.Parse(Settings["UpdateDelay"][0]);
 			else
 				_delay = 1000;
 
 			//If in server mode, start the server
-			if (Mode == PluginMode.Server && Settings.ContainsKey("Server") && Settings["Server"].Count != 0)
+			if (Mode == PluginMode.Server && Settings["Server"].Count != 0)
 			{
 				foreach (string s in Settings["Server"]) {
 					string[] servers = s.Trim().Split(new char[] { ' ', '	', ':' });
@@ -116,7 +117,7 @@ namespace UDPPlugin{
 				Mode = PluginMode.Client;
 			}
 
-			if (Settings.ContainsKey("Client") && Settings["Client"].Count != 0) {
+			if (Settings["Client"].Count != 0) {
                 string[] clients = Settings["Client"][0].Trim().Split(new char[] { ' ', '	', ':' });
 
 				if ((clients.Length % 2) != 0)

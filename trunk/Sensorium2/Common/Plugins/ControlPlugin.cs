@@ -37,14 +37,12 @@ namespace Sensorium.Common.Plugins {
 		public abstract int Version { get; }
 		public abstract string Description { get; }
 
-		private bool _enabled = true;
 		public virtual bool Enabled {
 			get {
-				return _enabled;
+				return bool.Parse(Settings["Enabled"][0]);
 			}
 			set {
 				Settings["Enabled"][0] = value.ToString();
-				_enabled = value;
 			}
 		}
 
@@ -101,9 +99,6 @@ namespace Sensorium.Common.Plugins {
 			SettingsPlugins = new List<SettingsPlugin>();
 
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
-
-			if (!Settings.ContainsKey("Enabled"))
-				Settings.Add("Enabled", new Setting { true.ToString() });
 
 			if (!(Enabled = Boolean.Parse(Settings["Enabled"][0])))
 				return;
