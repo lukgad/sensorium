@@ -75,10 +75,8 @@ namespace WinFormsControlPlugin {
 		}
 	}
 
-	public static class ControlExtensions
-	{
-		public static void SetDoubleBuffered(this Control c, bool doubleBuffered)
-		{
+	public static class ControlExtensions {
+		public static void SetDoubleBuffered(this Control c, bool doubleBuffered) {
 			Type controlType = c.GetType();
 			PropertyInfo pi = controlType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
 
