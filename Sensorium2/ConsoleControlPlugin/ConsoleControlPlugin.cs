@@ -83,8 +83,6 @@ namespace ConsoleControlPlugin {
 				UpdateConsole(new ConsoleKeyInfo());
 
 				int delay;
-
-
 				Thread.Sleep((Settings["Delay"].Count != 0 && (delay = Int32.Parse(Settings["Delay"][0])) >= 200) ? delay : 1000);
 			}
 			Console.CursorVisible = true;
