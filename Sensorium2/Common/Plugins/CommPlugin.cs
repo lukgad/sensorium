@@ -12,7 +12,6 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-using System;
 using System.Collections.Generic;
 
 namespace Sensorium.Common.Plugins
@@ -32,19 +31,25 @@ namespace Sensorium.Common.Plugins
 		public abstract int Version { get; }
 		public abstract string Description { get; }
 
-		private bool _enabled = true;
-
 		public virtual bool Enabled {
+
 			get {
-				return _enabled;
+				return bool.Parse(Settings["Enabled"][0]);
 			}
 			set {
 				Settings["Enabled"][0] = value.ToString();
-				_enabled = value;
 			}
 		}
 
-		public PluginMode Mode { get; protected set; }
+
+		private PluginMode _mode;
+		public virtual PluginMode Mode
+		{
+			get { return _mode; }
+			protected set {
+				_mode = value;
+			}
+		}
 
 		public virtual void Start() {
 			Running = true;
@@ -66,7 +71,15 @@ namespace Sensorium.Common.Plugins
 			Init(Mode);
 		}
 
-		
+		private readonly PluginSettings _defaultSettings = new PluginSettings	{
+		                                                                     		{ "Enabled", new Setting { "True" } },
+																					{ "Mode", new Setting { "Client" } }
+																				};
+		public PluginSettings DefaultSettings { 
+			get {
+				return _defaultSettings;
+			}
+		}
 
 		protected CommPlugin() {
 			_Sensors = new List<Sensor>();
@@ -77,12 +90,19 @@ namespace Sensorium.Common.Plugins
 		/// </summary>
 		/// <param name="mode"></param>
 		public virtual void Init(PluginMode mode) {
-			Mode = mode;
-
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 
 			if (!Settings.ContainsKey("Enabled"))
-				Settings.Add("Enabled", new Setting { _enabled.ToString() });
+				Settings.Add("Enabled", new Setting { "True" });
+
+			Mode = mode;
+
+			//If in "default" mode, load default mode from config
+			if (Mode != PluginMode.Default) return;
+			if (Settings["Mode"][0].ToLower().Equals("client"))
+				Mode = PluginMode.Client;
+			else if (Settings["Mode"][0].ToLower().Equals("server"))
+				Mode = PluginMode.Server;
 		}
 	}
 }

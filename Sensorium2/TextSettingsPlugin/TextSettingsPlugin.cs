@@ -14,6 +14,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using log4net;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
@@ -117,6 +118,13 @@ namespace TextSettingsPlugin
 			if(_settings.ContainsKey(Name) &&_settings[Name].ContainsKey("Enabled") 
 				&& _settings[Name]["Enabled"][0].ToLower().Equals("true"))
 				Enabled = true;
+
+			foreach(string pluginName in _settings.Keys) {
+				foreach(string key in SensoriumFactory.GetAppInterface().Plugins[pluginName].DefaultSettings.Keys) {
+					if (!_settings[pluginName].Keys.Contains(key))
+						_settings[pluginName].Add(key, SensoriumFactory.GetAppInterface().Plugins[pluginName].DefaultSettings[key]);
+				}
+			}
 		}
 
 		public override PluginSettings GetSettings(string pluginName) {

@@ -80,6 +80,13 @@ namespace Sensorium.Common.Plugins
 			Init(Enabled ? PluginMode.Server : PluginMode.Client);
 		}
 
+		private readonly PluginSettings _defaultSettings = new PluginSettings { { "Enabled", new Setting { "True" } } };
+
+		public PluginSettings DefaultSettings
+		{
+			get { return _defaultSettings; }
+		}
+
 		public abstract string SensorToString(Sensor sensor);
 	}
 }
