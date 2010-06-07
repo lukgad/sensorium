@@ -13,23 +13,27 @@
  */
 
 using System.Windows.Forms;
+using Sensorium.Common;
 
 namespace WinFormsControlPlugin
 {
     public sealed partial class SettingsDialog : Form
     {
+    	private PluginSettings pluginSettings;
+
         public SettingsDialog(string pluginName) : this() {
-            Text = string.Format("{0} Settings", pluginName);
+            Text = string.Format("{0} - Settings", pluginName);
+
+        	pluginSettings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(pluginName);
         }
 
-        private SettingsDialog()
-        {
+        private SettingsDialog() {
             InitializeComponent();
         }
 
-        private void SettingsDialog_Load(object sender, System.EventArgs e)
-        {
-
+        private void SettingsDialog_Load(object sender, System.EventArgs e) {
+			foreach(string key in pluginSettings.Keys)
+				SettingsTree.Nodes.Add(key, key);
         }
     }
 }

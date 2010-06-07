@@ -36,5 +36,7 @@ namespace Sensorium.Common.Plugins
 		PluginType Type { get; }
 
 		void ReInit();
+
+		PluginSettings DefaultSettings { get; }
 	}
 }

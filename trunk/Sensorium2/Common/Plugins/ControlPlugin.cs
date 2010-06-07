@@ -69,6 +69,12 @@ namespace Sensorium.Common.Plugins {
 			Init();
 		}
 
+		private readonly PluginSettings _defaultSettings = new PluginSettings { { "Enabled", new Setting { "True" } } };
+		public PluginSettings DefaultSettings
+		{
+			get { return _defaultSettings; }
+		}
+
 		protected virtual void HandleHideConsole(object sender, CancelEventArgs e) {
 			
 		}

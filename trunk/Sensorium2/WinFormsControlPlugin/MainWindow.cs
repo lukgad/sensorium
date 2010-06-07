@@ -265,7 +265,7 @@ namespace WinFormsControlPlugin {
 		}
 
         private void ButtonSettings_Click(object sender, EventArgs e) {
-            (new SettingsDialog(ListViewPlugins.SelectedItems[0].Name)).ShowDialog();
+            (new SettingsDialog(ListViewPlugins.SelectedItems[0].Text)).ShowDialog();
         }
 	}
 }

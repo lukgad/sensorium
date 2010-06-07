@@ -28,6 +28,11 @@ namespace UDPPlugin{
 
 		private readonly ILog _log = LogManager.GetLogger(typeof(CommPlugin));
 
+		public UDPPlugin() {
+			DefaultSettings.Add("Server", new Setting());
+			DefaultSettings.Add("Client", new Setting());
+		}
+
 		public override string Name {
 			get { return "UDP Communications"; }
 		}
@@ -98,16 +103,8 @@ namespace UDPPlugin{
 			else
 				_delay = 1000;
 
-			//If in "default" mode, load default mode from config
-			if(Mode == PluginMode.Default && Settings.ContainsKey("Mode")) {
-				if (Settings["Mode"][0].ToLower().Equals("client"))
-                    Mode = PluginMode.Client;
-				else if (Settings["Mode"][0].ToLower().Equals("server"))
-					Mode = PluginMode.Server;
-			}
-
 			//If in server mode, start the server
-			if (Mode == PluginMode.Server && Settings.ContainsKey("Server"))
+			if (Mode == PluginMode.Server && Settings.ContainsKey("Server") && Settings["Server"].Count != 0)
 			{
 				foreach (string s in Settings["Server"]) {
 					string[] servers = s.Trim().Split(new char[] { ' ', '	', ':' });
@@ -119,7 +116,7 @@ namespace UDPPlugin{
 				Mode = PluginMode.Client;
 			}
 
-			if (Settings.ContainsKey("Client")) {
+			if (Settings.ContainsKey("Client") && Settings["Client"].Count != 0) {
                 string[] clients = Settings["Client"][0].Trim().Split(new char[] { ' ', '	', ':' });
 
 				if ((clients.Length % 2) != 0)
