@@ -22,7 +22,7 @@ using Sensorium.Common.Plugins;
 namespace TextSettingsPlugin
 {
 	public class TextSettingsPlugin : SettingsPlugin {
-		private Dictionary<string, PluginSettings> _settings;
+		private readonly Dictionary<string, PluginSettings> _settings;
 
 		private string _settingsFile;
 

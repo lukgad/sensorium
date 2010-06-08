@@ -83,6 +83,7 @@ namespace WinFormsControlPlugin
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Settings";
 			this.Load += new System.EventHandler(this.SettingsDialog_Load);
+			this.Shown += new System.EventHandler(this.SettingsDialog_Shown);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

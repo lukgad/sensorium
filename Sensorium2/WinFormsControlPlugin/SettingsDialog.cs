@@ -12,6 +12,7 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
+using System;
 using System.Windows.Forms;
 using Sensorium.Common;
 
@@ -19,21 +20,31 @@ namespace WinFormsControlPlugin
 {
     public sealed partial class SettingsDialog : Form
     {
-    	private PluginSettings pluginSettings;
+    	private readonly PluginSettings _pluginSettings;
 
         public SettingsDialog(string pluginName) : this() {
             Text = string.Format("{0} - Settings", pluginName);
 
-        	pluginSettings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(pluginName);
+        	_pluginSettings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(pluginName);
         }
 
         private SettingsDialog() {
             InitializeComponent();
         }
 
-        private void SettingsDialog_Load(object sender, System.EventArgs e) {
-			foreach(string key in pluginSettings.Keys)
-				SettingsTree.Nodes.Add(key, key);
+        private void SettingsDialog_Load(object sender, EventArgs e) {
+			foreach(string key in _pluginSettings.Keys)
+				if(key != "Enabled") //There is already a way to Enable/Disable plugins
+					SettingsTree.Nodes.Add(key, key);
         }
+
+		private void SettingsDialog_Shown(object sender, EventArgs e) {
+			if (SettingsTree.Nodes.Count != 0) return;
+
+			MessageBox.Show(Parent, "This plugin has no known configurable settings.", "No Settings", MessageBoxButtons.OK,
+							MessageBoxIcon.Information);
+
+			Close();
+		}
     }
 }
