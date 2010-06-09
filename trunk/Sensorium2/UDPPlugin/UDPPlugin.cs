@@ -29,9 +29,9 @@ namespace UDPPlugin{
 		private readonly ILog _log = LogManager.GetLogger(typeof(CommPlugin));
 
 		public UDPPlugin() {
-			DefaultSettings.Add("Server", new Setting());
-			DefaultSettings.Add("Client", new Setting());
-			DefaultSettings.Add("UpdateDelay", new Setting());
+			DefaultSettings.Add("Server", new List<string>());
+			DefaultSettings.Add("Client", new List<string>());
+			DefaultSettings.Add("UpdateDelay", new List<string>());
 		}
 
 		public override string Name {

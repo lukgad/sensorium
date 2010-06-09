@@ -13,6 +13,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using log4net;
@@ -28,7 +29,7 @@ namespace ConsoleControlPlugin {
 		private bool _paused;
 
 		public ConsoleControlPlugin() {
-			DefaultSettings.Add("Delay", new Setting());
+			DefaultSettings.Add("Delay", new List<string>());
 		}
 
 		public override string Name {
