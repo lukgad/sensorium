@@ -26,7 +26,7 @@ namespace WinFormsControlPlugin {
 
 		private readonly ILog _log = LogManager.GetLogger(typeof (WinFormsControlPlugin));
 
-		private Level _logLevel = Level.All;
+		private Level _logLevel = Level.Info;
 		
 		public MainWindow() {
 			InitializeComponent();
@@ -80,7 +80,7 @@ namespace WinFormsControlPlugin {
 			ButtonRefresh.Visible = TabLog.Visible || TabPlugins.Visible;
 			ButtonSettings.Visible = ButtonEnable.Visible = ButtonDisable.Visible = TabPlugins.Visible;
 
-			LogLevelDropDownButton.Visible = TabLog.Visible;
+			toolStripSeparator1.Visible = LogLevelLabel.Visible = LogLevelDropDownButton.Visible = TabLog.Visible;
 
 			if (TabPlugins.Visible)
 				ListViewPluginsSelectedIndexChanged(sender, e);
