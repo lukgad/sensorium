@@ -6,7 +6,7 @@
 
 You will need:
  * Windows XP or later.
- * .NET framework 2.0
+ * .NET framework 3.5
 
 If you want to access local sensors, you will also need [http://www.almico.com/sfdownload.php SpeedFan], which must be running whenever you run Sensorium2. If you forget, the plugin will disable itself and you'll have to enable it in the [TextConfigFile config file].
 
