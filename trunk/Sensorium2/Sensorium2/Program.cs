@@ -91,6 +91,8 @@ namespace Sensorium2
 
 				Log.Debug("Host ID: " + Me.HostGuid);
 				Log.Debug("OS: " + Environment.OSVersion + "(" + Environment.OSVersion.Platform + ")");
+                if (_logFile != "")
+                    Log.Debug("Log file: " + _logFile);
 
 				InitPlugins();
 
