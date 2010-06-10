@@ -21,6 +21,7 @@ using System.Threading;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
+using log4net.Filter;
 using log4net.Layout;
 
 using Sensorium.Common;
@@ -35,6 +36,8 @@ namespace Sensorium2
 		private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 		private static MemoryAppender _memLog;
 		private static IAppenderAttachable _forwardingApp;
+		private static Level _logLevel;
+		private static string _logFile = "";
 
 		private static string _pluginDir;
 		private static string _settingsDir;
@@ -52,63 +55,72 @@ namespace Sensorium2
         
 		static readonly AppData Me = (AppData) SensoriumFactory.GetAppInterface(); //TODO: Better variable name
 
-        static void Main(string[] args)
-		{
-			object[] copyrightAttributes = 
-				Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
-        	Me.Copyright = copyrightAttributes.Length != 0
-				? ((AssemblyCopyrightAttribute) copyrightAttributes[0]).Copyright
-				: "";
-        	object[] descriptionAttributes = 
-				Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
-			Me.Description = descriptionAttributes.Length != 0 
-				? ((AssemblyDescriptionAttribute) descriptionAttributes[0]).Description 
-				: "";
-			Me.Version = String.Format("{0} Trunk", Assembly.GetExecutingAssembly().GetName().Version);
-        	object[] fileVersionAttributes =
-        		Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyFileVersionAttribute), false);
-        	string fileVersionNo = fileVersionAttributes.Length != 0 
-				? ((AssemblyFileVersionAttribute) fileVersionAttributes[0]).Version 
-				: "";
-        	Me.FileVersion = fileVersionNo;
+        static void Main(string[] args) {
+			try {
+				object[] copyrightAttributes =
+					Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
+				Me.Copyright = copyrightAttributes.Length != 0
+				               	? ((AssemblyCopyrightAttribute) copyrightAttributes[0]).Copyright
+				               	: "";
+				object[] descriptionAttributes =
+					Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
+				Me.Description = descriptionAttributes.Length != 0
+				                 	? ((AssemblyDescriptionAttribute) descriptionAttributes[0]).Description
+				                 	: "";
+				Me.Version = String.Format("{0} Trunk", Assembly.GetExecutingAssembly().GetName().Version);
+				object[] fileVersionAttributes =
+					Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyFileVersionAttribute), false);
+				string fileVersionNo = fileVersionAttributes.Length != 0
+				                       	? ((AssemblyFileVersionAttribute) fileVersionAttributes[0]).Version
+				                       	: "";
+				Me.FileVersion = fileVersionNo;
 
-        	_memLog = new MemoryAppender();
-        	Me.Log = _memLog;
-			
-			SetUpLog();
+				_memLog = new MemoryAppender();
+				Me.Log = _memLog;
 
-        	_pluginDir = Settings.Default.PluginDirectory;
-        	_settingsDir = Settings.Default.SettingsDirectory;
-        	Me.FriendlyName = Settings.Default.FriendlyName;
+				_pluginDir = Settings.Default.PluginDirectory;
+				_settingsDir = Settings.Default.SettingsDirectory;
+				Me.FriendlyName = Settings.Default.FriendlyName;
 
-        	Me.GetSetting = GetSetting;
-        	Me.SetSetting = SetSetting;
-			
-			ArgHandler(args);
+				ArgHandler(args);
 
-        	Log.Debug("Host ID: " + Me.HostGuid);
-        	Log.Debug("OS: " + Environment.OSVersion + "(" + Environment.OSVersion.Platform + ")");
-			
-			InitPlugins();
-			
-			//Start enabled plugins
-			Log.Info("Starting enabled plugins...");
-			foreach(string p in Me.Plugins.Keys)
-				if (Me.Plugins[p].Enabled) {
-					Me.Plugins[p].Start();
-				}
-			
-        	_running = true;
+				SetUpLog();
 
-			Thread sensorUpdater = new Thread(UpdateSensors);
-			sensorUpdater.Start();
-        	
-			if(Environment.OSVersion.Platform == PlatformID.Win32NT)
-				Me.OnHideConsole();
+				Me.GetSetting = GetSetting;
+				Me.SetSetting = SetSetting;
 
-			//Workaround for log4net on mono
-			sensorUpdater.Join();
-		}
+				Log.Debug("Host ID: " + Me.HostGuid);
+				Log.Debug("OS: " + Environment.OSVersion + "(" + Environment.OSVersion.Platform + ")");
+
+				InitPlugins();
+
+				//Start enabled plugins
+				Log.Info("Starting enabled plugins...");
+				foreach (string p in Me.Plugins.Keys)
+					if (Me.Plugins[p].Enabled)
+					{
+						Me.Plugins[p].Start();
+					}
+
+				_running = true;
+
+				Thread sensorUpdater = new Thread(UpdateSensors);
+				sensorUpdater.Start();
+
+				if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+					Me.OnHideConsole();
+
+				//Workaround for log4net on mono
+				sensorUpdater.Join();
+
+			} catch (Exception e) {
+				Log.Fatal("Unhandled Exception: " + e.Message + Environment.NewLine + e.StackTrace);
+
+				HandleExit(e, new EventArgs());
+
+				Environment.Exit(-1);
+			}
+        }
 
 		private static void SetSetting(string key, string value) {
 			switch (key) {
@@ -150,35 +162,70 @@ namespace Sensorium2
 		/// </summary>
 		/// <param name="args">Command-line arguments</param>
 		private static void ArgHandler(string[] args) { //Processes command-line arguments
-			for (int i = 0; i < args.Length; i++) {
-				if (args[i].Equals("-p")) {
-					i++;
-					if (i < args.Length || args[i][0].Equals('-'))
-						_pluginDir = args[i];
-					else {
+			try {
+				for (int i = 0; i < args.Length; i++) {
+					if (args[i].Equals("-p")) {
+						i++;
+						if (i < args.Length || args[i][0].Equals('-'))
+							_pluginDir = args[i];
+						else {
+							HelpMessage();
+							Environment.Exit(1);
+						}
+					}
+					else if (args[i].Equals("-c"))
+						_client = true;
+
+					else if (args[i].Equals("-R"))
+						_recursive = true;
+
+					else if (args[i].Equals("-s")) {
+						i++;
+						if (i < args.Length || args[i][0].Equals('-'))
+							_settingsDir = args[i];
+						else {
+							HelpMessage();
+							Environment.Exit(1);
+						}
+					}
+					else if (args[i].Equals("-h")) {
 						HelpMessage();
-						Environment.Exit(1);
+						Environment.Exit(0);
+					}
+					else if (args[i].Equals("-l")) {
+						i++;
+						switch (args[i].ToLower()) {
+							case "info":
+								_logLevel = Level.Info;
+								break;
+							case "debug":
+								_logLevel = Level.Debug;
+								break;
+							case "warn":
+								_logLevel = Level.Warn;
+								break;
+							case "error":
+								_logLevel = Level.Error;
+								break;
+							case "fatal":
+								_logLevel = Level.Fatal;
+								break;
+							case "all":
+								_logLevel = Level.All;
+								break;
+							case "off":
+								_logLevel = Level.Off;
+								break;
+						}
+
+						i++;
+						_logFile = args[i];
 					}
 				}
-				else if (args[i].Equals("-c"))
-					_client = true;
-
-				else if (args[i].Equals("-R"))
-					_recursive = true;
-
-				else if (args[i].Equals("-s")) {
-					i++;
-					if (i < args.Length || args[i][0].Equals('-'))
-						_settingsDir = args[i];
-					else {
-						HelpMessage();
-						Environment.Exit(1);
-					}
-				}
-				else if (args[i].Equals("-h")) {
-					HelpMessage();
-					Environment.Exit(0);
-				}
+			} catch (ArgumentOutOfRangeException aoore) {
+				Console.WriteLine(aoore.Message);
+				HelpMessage();
+				Environment.Exit(1);
 			}
 		}
 
@@ -280,7 +327,6 @@ namespace Sensorium2
 
 			foreach (IPluginInterface p in _genericPlugins) {
 				Log.Info(p.Name + ", Ver. " + p.Version + " initializing...");
-				//i.Init(_EnabledSettingsPlugin.GetSettings(i.Name));
 				if (!p.Enabled)
 					Log.Info(p.Name + " Disabled");
 			}
@@ -348,9 +394,17 @@ namespace Sensorium2
 			//Add a memory appender to the forwarder
 			_forwardingApp.AddAppender(_memLog);
 
+			//Set an log file appender
+			if(_logFile != "") {
+				FileAppender fileAppender = new FileAppender {File = _logFile};
 				
+				LevelRangeFilter levelRangeFilter = new LevelRangeFilter {LevelMax = Level.Off, LevelMin = _logLevel};
+				levelRangeFilter.ActivateOptions();
 
-			//Console Appenders
+				fileAppender.AddFilter(levelRangeFilter);
+
+				_forwardingApp.AddAppender(fileAppender);
+			}
 
 			//Workaround for mono (no colored console support)
 			if (Environment.OSVersion.Platform != PlatformID.Win32NT) {

@@ -67,7 +67,7 @@ namespace Sensorium.Common.Plugins {
 			Init();
 		}
 
-		private readonly PluginSettings _defaultSettings = new PluginSettings { { "Enabled", new List<string> { "True" } } };
+		private readonly PluginSettings _defaultSettings = new PluginSettings { { "Enabled", new PluginSettings.Setting(true, new List<string> { "True", "False" }) { "True" } } };
 		public PluginSettings DefaultSettings
 		{
 			get { return _defaultSettings; }

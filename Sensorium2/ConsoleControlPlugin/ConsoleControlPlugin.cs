@@ -29,7 +29,7 @@ namespace ConsoleControlPlugin {
 		private bool _paused;
 
 		public ConsoleControlPlugin() {
-			DefaultSettings.Add("Delay", new List<string>());
+			DefaultSettings.Add("Delay", new PluginSettings.Setting(true, null));
 		}
 
 		public override string Name {

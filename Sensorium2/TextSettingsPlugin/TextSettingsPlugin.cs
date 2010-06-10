@@ -53,7 +53,7 @@ namespace TextSettingsPlugin
 				PluginSettings mySettings = GetSettings(Name);
 
 				if (!mySettings.ContainsKey("Enabled"))
-					mySettings.Add("Enabled", new List<string> { value.ToString() });
+					mySettings.Add("Enabled", new PluginSettings.Setting(true, new List<string> {"True", "False"} ) { value.ToString() });
 				else
 					mySettings["Enabled"][0] = value.ToString();
 			}
@@ -93,6 +93,9 @@ namespace TextSettingsPlugin
 						if (splitLine[0].Trim().Equals("Plugin")) {
 							currentPlugin = splitLine[1].Trim();
 
+							//Don't bother loading settings for unavailable plugins
+							if (!SensoriumFactory.GetAppInterface().Plugins.Keys.Contains(currentPlugin)) continue;
+
 							if (!_settings.ContainsKey(currentPlugin))
 								_settings.Add(currentPlugin, new PluginSettings());
 
@@ -110,8 +113,13 @@ namespace TextSettingsPlugin
 
 					if(_settings[currentPlugin].ContainsKey(splitLine[0]))
 						_settings[currentPlugin][splitLine[0]].Add(splitLine[1]);
+					else if (SensoriumFactory.GetAppInterface().Plugins[currentPlugin].DefaultSettings.ContainsKey(splitLine[0].Trim()))
+						_settings[currentPlugin].Add(splitLine[0].Trim(),
+							new PluginSettings.Setting(SensoriumFactory.GetAppInterface().Plugins[currentPlugin].DefaultSettings[splitLine[0].Trim()].SingleValue,
+								SensoriumFactory.GetAppInterface().Plugins[currentPlugin].DefaultSettings[splitLine[0].Trim()].ValidValues, 
+								SensoriumFactory.GetAppInterface().Plugins[currentPlugin].DefaultSettings[splitLine[0].Trim()].SettingsGroup) { splitLine[1].Trim() });
 					else
-						_settings[currentPlugin].Add(splitLine[0].Trim(), new List<string> { splitLine[1].Trim() });
+						_settings[currentPlugin].Add(splitLine[0].Trim(), new PluginSettings.Setting(false, null) { splitLine[1].Trim() });
 				}
 			}
 
@@ -119,6 +127,7 @@ namespace TextSettingsPlugin
 				&& _settings[Name]["Enabled"][0].ToLower().Equals("true"))
 				Enabled = true;
 
+			//Get default settings, if not already set
 			foreach(string pluginName in _settings.Keys)
 				foreach(string key in SensoriumFactory.GetAppInterface().Plugins[pluginName].DefaultSettings.Keys)
 					if (!_settings[pluginName].Keys.Contains(key))

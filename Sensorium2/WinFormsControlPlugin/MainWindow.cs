@@ -25,6 +25,8 @@ namespace WinFormsControlPlugin {
 		private readonly AboutBox _aboutBox;
 
 		private readonly ILog _log = LogManager.GetLogger(typeof (WinFormsControlPlugin));
+
+		private Level _logLevel = Level.All;
 		
 		public MainWindow() {
 			InitializeComponent();
@@ -78,6 +80,8 @@ namespace WinFormsControlPlugin {
 			ButtonRefresh.Visible = TabLog.Visible || TabPlugins.Visible;
 			ButtonSettings.Visible = ButtonEnable.Visible = ButtonDisable.Visible = TabPlugins.Visible;
 
+			LogLevelDropDownButton.Visible = TabLog.Visible;
+
 			if (TabPlugins.Visible)
 				ListViewPluginsSelectedIndexChanged(sender, e);
 
@@ -99,8 +103,9 @@ namespace WinFormsControlPlugin {
 			ListBoxLog.Items.Clear();
 
 			//Write all log events to the listbox
-			foreach (LoggingEvent le in SensoriumFactory.GetAppInterface().Log.GetEvents())
-			{
+			foreach (LoggingEvent le in SensoriumFactory.GetAppInterface().Log.GetEvents()) {
+				if (le.GetLoggingEventData().Level < _logLevel) continue;
+
 				ListBoxLog.Items.Add(String.Format("[{0}] {1} {2} - {3}", le.GetLoggingEventData().TimeStamp,
 												   le.GetLoggingEventData().Level, le.GetLoggingEventData().LoggerName,
 												   le.GetLoggingEventData().Message));
@@ -267,5 +272,26 @@ namespace WinFormsControlPlugin {
         private void ButtonSettings_Click(object sender, EventArgs e) {
             (new SettingsDialog(ListViewPlugins.SelectedItems[0].Text)).ShowDialog();
         }
+
+		private void LogLevelDropDownButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+			LogLevelDropDownButton.Text = e.ClickedItem.Text;
+
+			switch(e.ClickedItem.Text) {
+				case "All":
+					_logLevel = Level.All;
+					break;
+				case "Info":
+					_logLevel = Level.Info;
+					break;
+				case "Warning":
+					_logLevel = Level.Warn;
+					break;
+				case "Error":
+					_logLevel = Level.Error;
+					break;
+			}
+
+			RefreshListBoxLog();
+		}
 	}
 }
