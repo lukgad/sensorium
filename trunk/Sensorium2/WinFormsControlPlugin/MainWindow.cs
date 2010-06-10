@@ -78,9 +78,9 @@ namespace WinFormsControlPlugin {
 		private void TabsMainSelectedIndexChanged(object sender, EventArgs e) {
 			//Show the appropriate toolstrip buttons for the current tab
 			ButtonRefresh.Visible = TabLog.Visible || TabPlugins.Visible;
-			ButtonSettings.Visible = ButtonEnable.Visible = ButtonDisable.Visible = TabPlugins.Visible;
+			ToolStripSeparator2.Visible = ButtonSettings.Visible = ButtonEnable.Visible = ButtonDisable.Visible = TabPlugins.Visible;
 
-			toolStripSeparator1.Visible = LogLevelLabel.Visible = LogLevelDropDownButton.Visible = TabLog.Visible;
+			ToolStripSeparator1.Visible = LogLevelLabel.Visible = LogLevelDropDownButton.Visible = TabLog.Visible;
 
 			if (TabPlugins.Visible)
 				ListViewPluginsSelectedIndexChanged(sender, e);

@@ -74,13 +74,14 @@ namespace WinFormsControlPlugin {
             this.ButtonEnable = new System.Windows.Forms.ToolStripButton();
             this.ButtonDisable = new System.Windows.Forms.ToolStripButton();
             this.ButtonSettings = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.LogLevelDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.AllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.WarnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ErrorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LogLevelLabel = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             columnHeaderEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TabLog.SuspendLayout();
             this.TabSensors.SuspendLayout();
@@ -417,10 +418,11 @@ namespace WinFormsControlPlugin {
             this.ToolStripMainWindow.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ButtonAbout,
             this.ButtonRefresh,
+            this.ToolStripSeparator2,
             this.ButtonEnable,
             this.ButtonDisable,
             this.ButtonSettings,
-            this.toolStripSeparator1,
+            this.ToolStripSeparator1,
             this.LogLevelDropDownButton,
             this.LogLevelLabel});
             this.ToolStripMainWindow.Location = new System.Drawing.Point(0, 0);
@@ -478,6 +480,13 @@ namespace WinFormsControlPlugin {
             this.ButtonSettings.Visible = false;
             this.ButtonSettings.Click += new System.EventHandler(this.ButtonSettings_Click);
             // 
+            // ToolStripSeparator1
+            // 
+            this.ToolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.ToolStripSeparator1.Name = "ToolStripSeparator1";
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.ToolStripSeparator1.Visible = false;
+            // 
             // LogLevelDropDownButton
             // 
             this.LogLevelDropDownButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -499,25 +508,25 @@ namespace WinFormsControlPlugin {
             // AllToolStripMenuItem
             // 
             this.AllToolStripMenuItem.Name = "AllToolStripMenuItem";
-            this.AllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.AllToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.AllToolStripMenuItem.Text = "All";
             // 
             // InfoToolStripMenuItem
             // 
             this.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem";
-            this.InfoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.InfoToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.InfoToolStripMenuItem.Text = "Info";
             // 
             // WarnToolStripMenuItem
             // 
             this.WarnToolStripMenuItem.Name = "WarnToolStripMenuItem";
-            this.WarnToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.WarnToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.WarnToolStripMenuItem.Text = "Warning";
             // 
             // ErrorToolStripMenuItem
             // 
             this.ErrorToolStripMenuItem.Name = "ErrorToolStripMenuItem";
-            this.ErrorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ErrorToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.ErrorToolStripMenuItem.Text = "Error";
             // 
             // LogLevelLabel
@@ -528,12 +537,10 @@ namespace WinFormsControlPlugin {
             this.LogLevelLabel.Text = "Log Level:";
             this.LogLevelLabel.Visible = false;
             // 
-            // toolStripSeparator1
+            // ToolStripSeparator2
             // 
-            this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            this.toolStripSeparator1.Visible = false;
+            this.ToolStripSeparator2.Name = "ToolStripSeparator2";
+            this.ToolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // MainWindow
             // 
@@ -608,7 +615,8 @@ namespace WinFormsControlPlugin {
 		private System.Windows.Forms.ToolStripMenuItem WarnToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ErrorToolStripMenuItem;
         private System.Windows.Forms.ToolStripLabel LogLevelLabel;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator ToolStripSeparator2;
 
 
 
