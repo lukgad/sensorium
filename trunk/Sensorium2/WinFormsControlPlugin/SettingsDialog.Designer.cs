@@ -77,6 +77,8 @@ namespace WinFormsControlPlugin
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(364, 344);
 			this.Controls.Add(this.tableLayoutPanel1);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "SettingsDialog";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;

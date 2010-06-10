@@ -12,9 +12,38 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
+using System;
 using System.Collections.Generic;
 
 namespace Sensorium.Common {
-	public class PluginSettings : Dictionary<string, List<string>> {
+	public class PluginSettings : Dictionary<string, PluginSettings.Setting> {
+		public class Setting : List<string> {
+			public bool SingleValue { get; protected set; }
+			public List<string> ValidValues { get; protected set; }
+
+			public string SettingsGroup { get; protected set; }
+
+			public Setting(bool singleValue, List<string> validValues) {
+				SingleValue = singleValue;
+				ValidValues = validValues;
+				SettingsGroup = "";
+			}
+
+			public Setting(bool singleValue, List<string> validValues, string settingsGroup) {
+				SingleValue = singleValue;
+				ValidValues = validValues;
+				SettingsGroup = settingsGroup;
+			}
+
+			public new void Add(string s) {
+				if (SingleValue && Count == 1)
+					throw new ArgumentException("Only one value is allowed for this setting");
+
+				if (ValidValues != null && !ValidValues.Contains(s))
+					throw new ArgumentException(String.Format("{0} is not a valid value for this setting", s));
+
+				base.Add(s);
+			}
+		}
 	}
 }
