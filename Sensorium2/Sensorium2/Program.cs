@@ -400,10 +400,14 @@ namespace Sensorium2
 			if(_logFile != "") {
 				FileAppender fileAppender = new FileAppender {File = _logFile};
 				
+                PatternLayout logFileLayout = new PatternLayout("%-6timestamp %-5level %logger - %message%newline");
+
 				LevelRangeFilter levelRangeFilter = new LevelRangeFilter {LevelMax = Level.Off, LevelMin = _logLevel};
 				levelRangeFilter.ActivateOptions();
 
+			    fileAppender.Layout = logFileLayout;
 				fileAppender.AddFilter(levelRangeFilter);
+                fileAppender.ActivateOptions();
 
 				_forwardingApp.AddAppender(fileAppender);
 			}

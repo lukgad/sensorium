@@ -26,7 +26,7 @@ namespace UDPPlugin{
 		private List<UDPPluginClient> _clients;
 		private int _delay;
 
-		private readonly ILog _log = LogManager.GetLogger(typeof(CommPlugin));
+		private readonly ILog _log = LogManager.GetLogger(typeof(UDPPlugin));
 
 		public UDPPlugin() {
 			DefaultSettings.Add("Server", new PluginSettings.Setting(false, null));

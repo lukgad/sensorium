@@ -23,13 +23,12 @@ namespace Sensorium.Common {
 
 			public string SettingsGroup { get; protected set; }
 
-			public Setting(bool singleValue, List<string> validValues) {
-				SingleValue = singleValue;
-				ValidValues = validValues;
-				SettingsGroup = "";
+			public Setting(bool singleValue, List<string> validValues)
+				: this(singleValue, validValues, "")
+			{
 			}
 
-			public Setting(bool singleValue, List<string> validValues, string settingsGroup) {
+		    public Setting(bool singleValue, List<string> validValues, string settingsGroup) {
 				SingleValue = singleValue;
 				ValidValues = validValues;
 				SettingsGroup = settingsGroup;
@@ -41,7 +40,7 @@ namespace Sensorium.Common {
 
 				if (ValidValues != null && !ValidValues.Contains(s))
 					throw new ArgumentException(String.Format("{0} is not a valid value for this setting", s));
-
+				
 				base.Add(s);
 			}
 		}
