@@ -20,18 +20,18 @@ namespace WinFormsControlPlugin {
 	public partial class SettingsControl : UserControl {
 		private readonly PluginSettings.Setting _setting;
 
-		private TableLayoutPanel _tableLayout;
-		private Button _addButton;
+		private readonly TableLayoutPanel _tableLayout;
+		private readonly Button _addButton;
 
-		private List<Control> _controls;
-		private List<Button> _removeButtons;
+		private readonly List<Control> _valueControls;
+		private readonly List<Button> _removeButtons;
 
 		public SettingsControl(PluginSettings.Setting setting) {
 			InitializeComponent();
 
 			_setting = setting;
 
-			_controls = new List<Control>();
+			_valueControls = new List<Control>();
 			_removeButtons = new List<Button>();
 
 			_tableLayout = new TableLayoutPanel
@@ -53,6 +53,8 @@ namespace WinFormsControlPlugin {
 			}
 		}
 
-		
+		private void AddRow() {
+			
+		}
 	}
 }
