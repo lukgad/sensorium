@@ -35,25 +35,29 @@ namespace WinFormsControlPlugin {
 			_removeButtons = new List<Button>();
 
 			_tableLayout = new TableLayoutPanel
-			               	{
-			               		Dock = DockStyle.Fill,
-			               		Location = new System.Drawing.Point(0, 0),
-			               		Name = "_tableLayout",
-			               		ColumnCount = 2,
+							{
+								Dock = DockStyle.Fill,
+								Location = new System.Drawing.Point(0, 0),
+								Name = "_tableLayout",
+								ColumnCount = 2,
 								RowCount = 1
-			               	};
+							};
 
 			_tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
 			_tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 26));
 			
 			_tableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 26));
 
-			foreach(string s in _setting) {
-				
-			}
+			_addButton = new Button {Text = "+", Dock = DockStyle.Top};
+
+			_tableLayout.Controls.Add(_addButton, 1, 0);
 		}
 
 		private void AddRow() {
+			AddRow("");
+		}
+
+		private void AddRow(string value) {
 			
 		}
 	}

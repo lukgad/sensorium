@@ -24,7 +24,7 @@ namespace WinFormsControlPlugin {
 	public partial class MainWindow : Form {
 		private readonly AboutBox _aboutBox;
 
-		private readonly ILog _log = LogManager.GetLogger(typeof (WinFormsControlPlugin));
+		private readonly ILog _log = LogManager.GetLogger(typeof (MainWindow));
 
 		private Level _logLevel = Level.Info;
 		
