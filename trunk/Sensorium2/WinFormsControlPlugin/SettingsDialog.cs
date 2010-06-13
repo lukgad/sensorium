@@ -22,6 +22,8 @@ namespace WinFormsControlPlugin
     {
     	private readonly PluginSettings _pluginSettings;
 
+    	private SettingsControl _settingsControl;
+
         public SettingsDialog(string pluginName) : this() {
             Text = string.Format("{0} - Settings", pluginName);
 
@@ -45,6 +47,12 @@ namespace WinFormsControlPlugin
 							MessageBoxIcon.Information);
 
 			Close();
+		}
+
+		private void SettingsTree_AfterSelect(object sender, TreeViewEventArgs e) {
+			if (_settingsControl == null || !SettingsTableLayoutPanel.Controls.Contains(_settingsControl)) return;
+
+			SettingsTableLayoutPanel.Controls.Remove(_settingsControl);
 		}
     }
 }

@@ -70,6 +70,7 @@ namespace WinFormsControlPlugin
 			this.SettingsTableLayoutPanel.SetRowSpan(this.SettingsTree, 2);
 			this.SettingsTree.Size = new System.Drawing.Size(176, 338);
 			this.SettingsTree.TabIndex = 0;
+			this.SettingsTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.SettingsTree_AfterSelect);
 			// 
 			// SettingsDialog
 			// 
