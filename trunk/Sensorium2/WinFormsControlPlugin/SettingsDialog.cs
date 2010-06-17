@@ -50,9 +50,13 @@ namespace WinFormsControlPlugin
 		}
 
 		private void SettingsTree_AfterSelect(object sender, TreeViewEventArgs e) {
-			if (_settingsControl == null || !SettingsTableLayoutPanel.Controls.Contains(_settingsControl)) return;
+			if (_settingsControl != null && SettingsTableLayoutPanel.Controls.Contains(_settingsControl))
+				SettingsTableLayoutPanel.Controls.Remove(_settingsControl);
 
-			SettingsTableLayoutPanel.Controls.Remove(_settingsControl);
+			_settingsControl = new SettingsControl(_pluginSettings[e.Node.Name]);
+			_settingsControl.Dock = DockStyle.Fill;
+
+			SettingsTableLayoutPanel.Controls.Add(_settingsControl, 1, 0);
 		}
     }
 }
