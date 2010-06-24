@@ -92,8 +92,6 @@ namespace UDPPlugin{
 			_servers = new List<UDPPluginServer>();
 			_clients = new List<UDPPluginClient>();
 
-			Mode = mode;
-
 			if (Settings["Enabled"][0].ToLower().Equals("false")) {
 				Enabled = false;
 				return;
