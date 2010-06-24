@@ -237,11 +237,12 @@ namespace Sensorium2
 		private static void HelpMessage()
 		{
 			Console.WriteLine("Usage: Sensorium2.exe [options]");
-			Console.WriteLine("Option		Description");
-			Console.WriteLine("-p dir		Set plugin directory to dir. Default: current directory");
-			Console.WriteLine("-R			Search plugin directory recursively");
-			Console.WriteLine("-c			All plugins will operate in client mode only");
-			Console.WriteLine("-h			Display this message");
+			Console.WriteLine("Option			Description");
+			Console.WriteLine("-p dir			Set plugin directory to 'dir'. Default: current directory");
+			Console.WriteLine("-R				Search plugin directory recursively");
+			Console.WriteLine("-c				All plugins will operate in client mode only");
+			Console.WriteLine("-h				Display this message");
+			Console.WriteLine("-l level file	Log events of 'level' or higher will be written to 'file'.");
 		}
 
 		/// <summary>
