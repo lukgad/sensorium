@@ -68,7 +68,7 @@ namespace Sensorium.Common.Plugins
 		}
 
 		public virtual void ReInit() {
-			Init(Mode);
+			Init(PluginMode.Default);
 		}
 
 		private readonly PluginSettings _defaultSettings = new PluginSettings	{
@@ -94,8 +94,12 @@ namespace Sensorium.Common.Plugins
 
 			Mode = mode;
 
-			//If in "default" mode, load default mode from config
+			if (Settings["Mode"].Count == 0)
+				Settings["Mode"].Add(_defaultSettings["Mode"][0]);
+
 			if (Mode != PluginMode.Default) return;
+
+			//If in "default" mode, load default mode from config);
 			if (Settings["Mode"][0].ToLower().Equals("client"))
 				Mode = PluginMode.Client;
 			else if (Settings["Mode"][0].ToLower().Equals("server"))
