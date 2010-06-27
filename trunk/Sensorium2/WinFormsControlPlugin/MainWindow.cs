@@ -61,6 +61,11 @@ namespace WinFormsControlPlugin {
 			refreshTimer.Start();
 
 			ListViewSensors.SetDoubleBuffered(true);
+
+			//Populate app settings boxes
+			PluginDirectoryTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("PluginDirectory");
+			SettingsDirectoryTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("SettingsDirectory");
+			FriendlyNameTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("FriendlyName");
 		}
 
 		private delegate void CloseAction();
@@ -292,6 +297,18 @@ namespace WinFormsControlPlugin {
 			}
 
 			RefreshListBoxLog();
+		}
+
+		private void SaveButton_Click(object sender, EventArgs e) {
+			SensoriumFactory.GetAppInterface().SetSetting("PluginDirectory", PluginDirectoryTextbox.Text);
+			SensoriumFactory.GetAppInterface().SetSetting("SettingsDirectory", SettingsDirectoryTextbox.Text);
+			SensoriumFactory.GetAppInterface().SetSetting("FriendlyName", FriendlyNameTextbox.Text);
+		}
+
+		private void ResetButton_Click(object sender, EventArgs e) {
+			PluginDirectoryTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("PluginDirectory");
+			SettingsDirectoryTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("SettingsDirectory");
+			FriendlyNameTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("FriendlyName");
 		}
 	}
 }
