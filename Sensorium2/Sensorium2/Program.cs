@@ -78,6 +78,22 @@ namespace Sensorium2
 				_memLog = new MemoryAppender();
 				Me.Log = _memLog;
 
+				try {
+					if (!Directory.Exists(Settings.Default.PluginDirectory))
+						Directory.CreateDirectory(Settings.Default.PluginDirectory);
+				} catch (Exception e) {
+					Log.Error("Invalid or inaccessible plugin directory. Using default.");
+					Settings.Default.PluginDirectory = @"./";
+				}
+
+				try {
+					if (!Directory.Exists(Settings.Default.SettingsDirectory))
+						Directory.CreateDirectory(Settings.Default.SettingsDirectory);
+				} catch (Exception e) {
+					Log.Error("Invalid or inaccessible settings directory. Using default.");
+					Settings.Default.PluginDirectory = @"./settings";
+				}
+
 				_pluginDir = Settings.Default.PluginDirectory;
 				_settingsDir = Settings.Default.SettingsDirectory;
 				Me.FriendlyName = Settings.Default.FriendlyName;
