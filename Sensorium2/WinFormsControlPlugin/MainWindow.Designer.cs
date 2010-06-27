@@ -433,7 +433,7 @@ namespace WinFormsControlPlugin {
 			// 
 			this.FriendlyNameTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.FriendlyNameTextbox.Location = new System.Drawing.Point(8, 102);
+			this.FriendlyNameTextbox.Location = new System.Drawing.Point(8, 101);
 			this.FriendlyNameTextbox.Name = "FriendlyNameTextbox";
 			this.FriendlyNameTextbox.Size = new System.Drawing.Size(493, 20);
 			this.FriendlyNameTextbox.TabIndex = 5;
@@ -441,7 +441,7 @@ namespace WinFormsControlPlugin {
 			// FriendlyNameLabel
 			// 
 			this.FriendlyNameLabel.AutoSize = true;
-			this.FriendlyNameLabel.Location = new System.Drawing.Point(9, 86);
+			this.FriendlyNameLabel.Location = new System.Drawing.Point(9, 85);
 			this.FriendlyNameLabel.Name = "FriendlyNameLabel";
 			this.FriendlyNameLabel.Size = new System.Drawing.Size(77, 13);
 			this.FriendlyNameLabel.TabIndex = 4;
@@ -451,7 +451,7 @@ namespace WinFormsControlPlugin {
 			// 
 			this.SettingsDirectoryTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.SettingsDirectoryTextbox.Location = new System.Drawing.Point(8, 63);
+			this.SettingsDirectoryTextbox.Location = new System.Drawing.Point(8, 62);
 			this.SettingsDirectoryTextbox.Name = "SettingsDirectoryTextbox";
 			this.SettingsDirectoryTextbox.Size = new System.Drawing.Size(493, 20);
 			this.SettingsDirectoryTextbox.TabIndex = 3;
