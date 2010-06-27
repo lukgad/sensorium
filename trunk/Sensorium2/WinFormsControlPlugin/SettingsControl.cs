@@ -39,11 +39,12 @@ namespace WinFormsControlPlugin {
 			_removeButtons = new List<Button>();
 
 			_tableLayout = new TableLayoutPanel
-							{
-								Dock = DockStyle.Fill,
-								Name = "_tableLayout",
-								ColumnCount = 2,
-								RowCount = 0
+			               	{
+			               		Dock = DockStyle.Fill,
+			               		Name = "_tableLayout",
+			               		ColumnCount = 2,
+			               		RowCount = 0,
+			               		AutoScroll = true
 							};
 
 			_tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));

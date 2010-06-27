@@ -56,7 +56,7 @@ namespace WinFormsControlPlugin
 			_settingsControl = new SettingsControl(_pluginSettings[e.Node.Name]);
 			_settingsControl.Dock = DockStyle.Fill;
 
-			SettingsTableLayoutPanel.Controls.Add(_settingsControl, 1, 0);
+			SettingsTableLayoutPanel.Controls.Add(_settingsControl);
 		}
     }
 }

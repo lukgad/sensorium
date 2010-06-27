@@ -106,8 +106,13 @@ namespace UDPPlugin{
 			if (Mode == PluginMode.Server && Settings["Server"].Count != 0)
 			{
 				foreach (string s in Settings["Server"]) {
-					string[] servers = s.Trim().Split(new char[] { ' ', '	', ':' });
-					_servers.Add(new UDPPluginServer(IPAddress.Parse(servers[0]), Int32.Parse(servers[1]), _delay));
+					try {
+						string[] servers = s.Trim().Split(new char[] {' ', '	', ':'});
+						_servers.Add(new UDPPluginServer(IPAddress.Parse(servers[0]), Int32.Parse(servers[1]), _delay));
+					}
+					catch (Exception e) {
+						_log.Error(e.Message + '\n' + e.GetType() + e.StackTrace);
+					}
 				}
 
 			} else { //Otherwise, start in client mode (default)
