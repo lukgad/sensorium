@@ -60,12 +60,9 @@ namespace UDPPlugin {
 
 			while (_running) {
 				EndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-				//SocketFlags flags = new SocketFlags();
-				//IPPacketInformation packetInfo;
 
 				//Wait for a packet
 				try {
-					//listener.ReceiveMessageFrom(data, 0, data.Length, ref flags, ref sender, out packetInfo);
 					listener.ReceiveFrom(data, ref sender);
 				} catch (SocketException se) {
 					if(se.SocketErrorCode == SocketError.TimedOut) {
