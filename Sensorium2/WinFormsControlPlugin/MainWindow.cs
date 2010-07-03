@@ -69,6 +69,8 @@ namespace WinFormsControlPlugin {
 
 			TrayIcon.Visible =
 				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(WinFormsControlPlugin.PluginName)["ShowTrayIcon"][0] == "true";
+
+			SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(WinFormsControlPlugin.PluginName)["ShowTrayIcon"].ValueChanged += TrayIconVisibleChanged;
 		}
 
 		private delegate void CloseAction();
@@ -321,13 +323,19 @@ namespace WinFormsControlPlugin {
 
 		private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
 			WindowState = FormWindowState.Normal;
+			ShowInTaskbar = true;
 		}
 
 		private void MainWindow_Resize(object sender, EventArgs e) {
 			if(WindowState == FormWindowState.Minimized && 
-				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(WinFormsControlPlugin.PluginName)["MinimizeToTray"][0] == "true") {
+				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(WinFormsControlPlugin.PluginName)["MinimizeToTray"][0] == "true" &&
+				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(WinFormsControlPlugin.PluginName)["ShowTrayIcon"][0] == "true")
 					ShowInTaskbar = false;
-			}
+		}
+
+		private void TrayIconVisibleChanged(object sender, EventArgs e) {
+			TrayIcon.Visible =
+				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(WinFormsControlPlugin.PluginName)["ShowTrayIcon"][0] == "true";
 		}
 	}
 }

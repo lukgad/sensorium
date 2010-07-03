@@ -31,6 +31,11 @@ namespace WinFormsControlPlugin {
 		private void CheckBoxShowNotificationIcon_CheckedChanged(object sender, EventArgs e) {
 			SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(_pluginName)["ShowTrayIcon"][0] =
 				CheckBoxShowNotificationIcon.Checked.ToString().ToLower();
+
+			SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(_pluginName)["ShowTrayIcon"].InvokeValueChanged(
+				this, new EventArgs());
+
+			CheckBoxMinimizeToTray.Enabled = CheckBoxShowNotificationIcon.Checked;
 		}
 
 		private void CheckBoxMinimizeToTray_CheckedChanged(object sender, EventArgs e) {
@@ -43,6 +48,8 @@ namespace WinFormsControlPlugin {
 				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(_pluginName)["ShowTrayIcon"][0] == "true";
 			CheckBoxMinimizeToTray.Checked =
 				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(_pluginName)["MinimizeToTray"][0] == "true";
+
+			CheckBoxShowNotificationIcon_CheckedChanged(sender, e);
 		}
 
 

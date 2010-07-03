@@ -84,6 +84,8 @@ namespace WinFormsControlPlugin {
 			_setting[_valueControls.IndexOf((Control) sender)] = _setting.ValidValues != null && _setting.ValidValues.Count != 0
 			                                                     	? ((ComboBox) sender).SelectedItem.ToString()
 			                                                     	: ((TextBox) sender).Text;
+
+			_setting.InvokeValueChanged(this, new EventArgs());
 		}
 
 		private void AddRow() {
