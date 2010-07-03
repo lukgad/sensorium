@@ -1,8 +1,0 @@
-#summary TODO page. Including possible future developments
-
- * The speedfan plugin needs more configurable options.
-  * eg. Customisable sensor names.
- * Log4Net integrated. App is no longer dependent on presence of the console.
-  * On Windows, hide the console after startup if no plugin requires it.
- * GTK# control plugin.
- * WinForms control plugin.
