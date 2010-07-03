@@ -29,7 +29,7 @@ namespace WinFormsControlPlugin
 			InitializeComponent();
 			this.Text = "About...";
 			this.labelProductName.Text = AssemblyProduct;
-			this.labelVersion.Text = String.Format("Version {0}", "0.0.1 Trunk");
+			this.labelVersion.Text = String.Format("Version {0}", "0.1.0 Alpha");
 			this.labelCopyright.Text = AssemblyCopyright;
 			this.textBoxDescription.Text = AssemblyDescription;
 
