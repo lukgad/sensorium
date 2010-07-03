@@ -56,7 +56,7 @@ namespace WinFormsControlPlugin {
 
 			RefreshListViewSensors(sender, e);
 
-			Timer refreshTimer = new Timer {Interval = 1000};
+			Timer refreshTimer = new Timer { Interval = 1000 };
 			refreshTimer.Tick += RefreshListViewSensors;
 			refreshTimer.Start();
 
@@ -66,6 +66,9 @@ namespace WinFormsControlPlugin {
 			PluginDirectoryTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("PluginDirectory");
 			SettingsDirectoryTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("SettingsDirectory");
 			FriendlyNameTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("FriendlyName");
+
+			TrayIcon.Visible =
+				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(WinFormsControlPlugin.PluginName)["ShowTrayIcon"][0] == "true";
 		}
 
 		private delegate void CloseAction();
@@ -275,6 +278,11 @@ namespace WinFormsControlPlugin {
 		}
 
         private void ButtonSettings_Click(object sender, EventArgs e) {
+			if (ListViewPlugins.SelectedItems[0].Text == WinFormsControlPlugin.PluginName) {
+				(new WinFormsSettingsDialog(WinFormsControlPlugin.PluginName)).ShowDialog();
+				return;
+			}
+
             (new SettingsDialog(ListViewPlugins.SelectedItems[0].Text)).ShowDialog();
         }
 
@@ -309,6 +317,17 @@ namespace WinFormsControlPlugin {
 			PluginDirectoryTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("PluginDirectory");
 			SettingsDirectoryTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("SettingsDirectory");
 			FriendlyNameTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("FriendlyName");
+		}
+
+		private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
+			WindowState = FormWindowState.Normal;
+		}
+
+		private void MainWindow_Resize(object sender, EventArgs e) {
+			if(WindowState == FormWindowState.Minimized && 
+				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(WinFormsControlPlugin.PluginName)["MinimizeToTray"][0] == "true") {
+					ShowInTaskbar = false;
+			}
 		}
 	}
 }
