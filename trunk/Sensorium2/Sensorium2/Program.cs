@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -132,11 +133,14 @@ namespace Sensorium2
 				sensorUpdater.Join();
 
 			} catch (Exception e) {
+				if (Debugger.IsAttached)
+					throw;
+
 				Log.Fatal("Unhandled Exception: " + e.Message + Environment.NewLine + e.StackTrace);
 
 				HandleExit(e, new EventArgs());
 
-				Environment.Exit(-1);
+				throw;
 			}
         }
 

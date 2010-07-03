@@ -17,15 +17,19 @@ using log4net;
 using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
-namespace SpeedFanPlugin
-{
-	public class SpeedFanPlugin : DataPlugin
-	{
+namespace SpeedFanPlugin {
+	public class SpeedFanPlugin : DataPlugin {
 		private const double FanMult = 1;
 		private const double TempMult = .01;
 		private const double VoltMult = .01;
 
 		private readonly ILog _log = LogManager.GetLogger(typeof (SpeedFanPlugin));
+
+		public SpeedFanPlugin() {
+			DefaultSettings.Add("TempNames", new PluginSettings.Setting(false, null));
+			DefaultSettings.Add("FanNames", new PluginSettings.Setting(false, null));
+			DefaultSettings.Add("VoltNames", new PluginSettings.Setting(false, null));
+		}
 
 		public override void Init(PluginMode mode) {
 			base.Init(mode);
@@ -50,8 +54,7 @@ namespace SpeedFanPlugin
 				return;
 			}
 
-			if (_log.IsDebugEnabled)
-				_log.Debug("SpeedFan shared memory ver. " + SpeedFanWrapper.GetVersion());
+			_log.Debug("SpeedFan shared memory ver. " + SpeedFanWrapper.GetVersion());
 
 			if (SpeedFanWrapper.GetVersion() != 1) {
 				_log.Error("Uknown shared memory version. Is SpeedFan running?");
@@ -59,23 +62,35 @@ namespace SpeedFanPlugin
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumFans(); i++) {
-				_Sensors.Add(new SpeedFanSensor("Fan" + i, "Fan", 
-					SensoriumFactory.GetAppInterface().HostId, Name, i));
-				if (_log.IsDebugEnabled)
+				if (Settings["FanNames"].Count < i + 1)
+					Settings["FanNames"].Insert(i, "Fan" + i);
+
+				string name = Settings["FanNames"][i];
+
+				_Sensors.Add(new SpeedFanSensor(name, "Fan", SensoriumFactory.GetAppInterface().HostId, Name, i));
+
 					_log.Debug("Found Fan" + i + ": " + (SpeedFanWrapper.GetFan(i) * FanMult));
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumTemps(); i++) {
-				_Sensors.Add(new SpeedFanSensor("Temp" + i, "Temp", 
-					SensoriumFactory.GetAppInterface().HostId, Name, i));
-				if (_log.IsDebugEnabled)
+				if (Settings["TempNames"].Count < i + 1)
+					Settings["TempNames"].Insert(i, "Temp" + i);
+
+				string name = Settings["TempNames"][i];
+
+				_Sensors.Add(new SpeedFanSensor(name, "Temp", SensoriumFactory.GetAppInterface().HostId, Name, i));
+
 					_log.Debug("Found Temp" + i + ": " + (SpeedFanWrapper.GetTemp(i) * TempMult));
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumVolts(); i++) {
-				_Sensors.Add(new SpeedFanSensor("Volt" + i, "Volt", 
-					SensoriumFactory.GetAppInterface().HostId, Name, i));
-				if (_log.IsDebugEnabled)
+				if (Settings["VoltNames"].Count < i + 1)
+					Settings["VoltNames"].Insert(i, "Volt" + i);
+
+				string name = Settings["VoltNames"][i];
+
+				_Sensors.Add(new SpeedFanSensor(name, "Volt", SensoriumFactory.GetAppInterface().HostId, Name, i));
+
 					_log.Debug("Found Voltage" + i + ": " + (SpeedFanWrapper.GetVolt(i) * VoltMult));
 			}
 		}
@@ -92,8 +107,7 @@ namespace SpeedFanPlugin
 			get { return 1; }
 		}
 
-		public override string Description
-		{
+		public override string Description {
 			get { return "Provides SpeedFan support for Windows hosts"; }
 		}
 
