@@ -140,6 +140,8 @@ namespace WinFormsControlPlugin {
 			_tableLayout.RowCount++;
 			_tableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 26));
 
+			_addButton.TabIndex = _tableLayout.Controls.Count;
+
 			_tableLayout.Controls.Add(_addButton, 1, _tableLayout.RowCount - 1);
 		}
 	}

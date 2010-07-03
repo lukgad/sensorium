@@ -17,7 +17,7 @@ using System.Text;
 
 namespace SpeedFanPlugin
 {
-	static class SpeedFanWrapper
+	static internal class SpeedFanWrapper
 	{
 		//private const int PROCESS_ALL_ACCESS = 0x1F0FFF; //Not needed
 		// ReSharper disable InconsistentNaming
