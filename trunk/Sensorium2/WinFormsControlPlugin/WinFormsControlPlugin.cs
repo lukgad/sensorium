@@ -13,15 +13,19 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using Sensorium.Common;
 using Sensorium.Common.Plugins;
 
 namespace WinFormsControlPlugin {
 	public class WinFormsControlPlugin : ControlPlugin {
+		internal const string PluginName = "WinForms Control";
+
 		public override string Name {
-			get { return "WinForms Control"; }
+			get { return PluginName; }
 		}
 
 		public override int Version {
@@ -35,6 +39,11 @@ namespace WinFormsControlPlugin {
 
 		private static MainWindow _mainWindow;
 		private bool _closing;
+
+		public WinFormsControlPlugin(){
+			DefaultSettings.Add("ShowTrayIcon", new PluginSettings.Setting(true, new List<string> {"true", "false"}) { "false" });
+			DefaultSettings.Add("MinimizeToTray", new PluginSettings.Setting(true, new List<string> { "true", "false" }) { "false" });
+		}
 
 		public override void Init() {
 			base.Init();
