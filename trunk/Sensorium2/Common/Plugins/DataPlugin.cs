@@ -19,19 +19,6 @@ namespace Sensorium.Common.Plugins
 {
 	public abstract class DataPlugin : IPluginInterface
 	{
-		protected List<Sensor> _Sensors;
-		public List<Sensor> Sensors
-		{
-			get { return new List<Sensor>(_Sensors); }
-			protected set { _Sensors = value; }
-		}
-
-		protected PluginSettings Settings;
-		
-		protected DataPlugin() {
-			Sensors = new List<Sensor>();
-		}
-
 		/// <summary>
 		/// Initialize the plugin.
 		/// </summary>
@@ -43,6 +30,22 @@ namespace Sensorium.Common.Plugins
 		public abstract string Name { get; }
 		public abstract int Version { get; }
 		public abstract string Description { get; }
+
+		public abstract string SensorToString(Sensor sensor);
+
+		protected List<Sensor> _Sensors;
+		public List<Sensor> Sensors
+		{
+			get { return new List<Sensor>(_Sensors); }
+			protected set { _Sensors = value; }
+		}
+
+		protected PluginSettings Settings;
+
+		protected DataPlugin()
+		{
+			Sensors = new List<Sensor>();
+		}
 
 		public virtual bool Enabled
 		{
@@ -83,7 +86,5 @@ namespace Sensorium.Common.Plugins
 		{
 			get { return _defaultSettings; }
 		}
-
-		public abstract string SensorToString(Sensor sensor);
 	}
 }
