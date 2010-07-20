@@ -37,7 +37,7 @@ namespace WinFormsControlPlugin {
 			get { return "Provides a WinForms-based GUI. Has more functionality than the basic console control plugin."; }
 		}
 
-		private static MainWindow _mainWindow;
+		private MainWindow _mainWindow;
 		private bool _closing;
 
 		public WinFormsControlPlugin(){
@@ -63,7 +63,7 @@ namespace WinFormsControlPlugin {
 			base.OnExit();
 		}
 
-		private static void ShowWindow() {
+		private void ShowWindow() {
 			Application.EnableVisualStyles();
 			Application.Run(_mainWindow);
 		}
