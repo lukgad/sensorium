@@ -13,9 +13,9 @@
 */
 
 using System;
-using Sensorium.Common.Plugins;
+using Sensorium.Core.Plugins;
 
-namespace Sensorium.Common
+namespace Sensorium.Core
 {
 	public class Sensor
 	{

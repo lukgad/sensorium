@@ -12,7 +12,7 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-namespace Sensorium.Common {
+namespace Sensorium.Core {
 	public enum RequestType : byte {
 		NumSensors = 0,
 		HostId = 1,

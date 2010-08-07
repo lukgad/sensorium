@@ -12,7 +12,7 @@
  *	Public License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
-namespace Sensorium.Common.Plugins
+namespace Sensorium.Core.Plugins
 {
 	public enum PluginMode { Default, Server, Client }
 

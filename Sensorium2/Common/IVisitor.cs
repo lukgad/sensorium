@@ -1,4 +1,4 @@
-﻿namespace Sensorium.Common
+﻿namespace Sensorium.Core
 {
 	public interface IVisitor<T>
 	{

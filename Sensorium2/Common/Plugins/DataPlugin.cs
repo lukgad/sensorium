@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sensorium.Common.Plugins
+namespace Sensorium.Core.Plugins
 {
 	public abstract class DataPlugin : IPluginInterface
 	{

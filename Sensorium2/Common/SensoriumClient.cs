@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sensorium.Common {
+namespace Sensorium.Core {
 	public abstract class SensoriumClient {
 		/// <summary>
 		/// Generates a request for a sensor

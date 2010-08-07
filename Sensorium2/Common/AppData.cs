@@ -18,9 +18,9 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Threading;
 using log4net.Appender;
-using Sensorium.Common.Plugins;
+using Sensorium.Core.Plugins;
 
-namespace Sensorium.Common {
+namespace Sensorium.Core {
 	public class AppData : IAppInterface {
 		private List<Sensor> _sensors;
 		public List<Sensor> Sensors {
