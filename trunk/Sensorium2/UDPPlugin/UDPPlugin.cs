@@ -17,8 +17,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using log4net;
-using Sensorium.Common;
-using Sensorium.Common.Plugins;
+using Sensorium.Core;
+using Sensorium.Core.Plugins;
 
 namespace UDPPlugin{
 	public class UDPPlugin : CommPlugin {

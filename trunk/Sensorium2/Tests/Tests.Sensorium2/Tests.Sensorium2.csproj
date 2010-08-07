@@ -56,9 +56,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Sensorium.Common.csproj">
+    <ProjectReference Include="..\..\Core\Sensorium.Core.csproj">
       <Project>{408B38F0-6C6D-43DF-A549-AE0499A9021F}</Project>
-      <Name>Sensorium.Common</Name>
+      <Name>Sensorium.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sensorium2\Sensorium2.csproj">
       <Project>{4C4FFEA3-D1B3-4EC8-A0BF-59059A980315}</Project>

@@ -107,12 +107,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Sensorium.Common.csproj">
-      <Project>{408B38F0-6C6D-43DF-A549-AE0499A9021F}</Project>
-      <Name>Sensorium.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -147,6 +141,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrow_refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Sensorium.Core.csproj">
+      <Project>{408B38F0-6C6D-43DF-A549-AE0499A9021F}</Project>
+      <Name>Sensorium.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

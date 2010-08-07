@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Sensorium.Common;
+using Sensorium.Core;
 
 namespace WinFormsControlPlugin {
 	public partial class SettingsControl : UserControl {

@@ -14,8 +14,8 @@
 
 using System;
 using log4net;
-using Sensorium.Common;
-using Sensorium.Common.Plugins;
+using Sensorium.Core;
+using Sensorium.Core.Plugins;
 
 namespace SpeedFanPlugin {
 	public class SpeedFanPlugin : DataPlugin {

@@ -18,7 +18,7 @@ using System.Reflection;
 using System.IO;
 using System.Collections;
 using log4net;
-using Sensorium.Common.Plugins;
+using Sensorium.Core.Plugins;
 
 namespace Sensorium2
 {

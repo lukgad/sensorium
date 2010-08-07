@@ -25,8 +25,8 @@ using log4net.Core;
 using log4net.Filter;
 using log4net.Layout;
 
-using Sensorium.Common;
-using Sensorium.Common.Plugins;
+using Sensorium.Core;
+using Sensorium.Core.Plugins;
 
 using Sensorium2.Properties;
 

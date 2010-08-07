@@ -17,8 +17,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using Sensorium.Common;
-using Sensorium.Common.Plugins;
+using Sensorium.Core;
+using Sensorium.Core.Plugins;
 
 namespace WinFormsControlPlugin {
 	public class WinFormsControlPlugin : ControlPlugin {

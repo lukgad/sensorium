@@ -56,9 +56,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Sensorium.Common.csproj">
+    <ProjectReference Include="..\..\Core\Sensorium.Core.csproj">
       <Project>{408B38F0-6C6D-43DF-A549-AE0499A9021F}</Project>
-      <Name>Sensorium.Common</Name>
+      <Name>Sensorium.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UDPPlugin\UDPPlugin.csproj">
       <Project>{4E044E72-2745-4A45-AB0D-87F20288132A}</Project>
