@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Sensorium.Common {
+namespace Sensorium.Core {
 	public class TreeNode<T> {
 		public T Contents;
 		public TreeNode<T> Parent { get; private set; }

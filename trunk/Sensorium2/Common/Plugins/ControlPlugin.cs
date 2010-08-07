@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Sensorium.Common.Plugins {
+namespace Sensorium.Core.Plugins {
 	public abstract class ControlPlugin : IPluginInterface {
 		protected List<CommPlugin> CommPlugins;
 		protected List<ControlPlugin> ControlPlugins;

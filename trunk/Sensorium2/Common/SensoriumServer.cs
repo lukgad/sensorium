@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sensorium.Common {
+namespace Sensorium.Core {
 	/// <summary>
 	/// Methods for use by server components of comm plugins
 	/// 

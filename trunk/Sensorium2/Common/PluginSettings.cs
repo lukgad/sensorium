@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sensorium.Common {
+namespace Sensorium.Core {
 	public class PluginSettings : Dictionary<string, PluginSettings.Setting> {
 		public class Setting : List<string> {
 			public bool SingleValue { get; protected set; }

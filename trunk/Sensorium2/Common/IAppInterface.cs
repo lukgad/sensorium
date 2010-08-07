@@ -16,9 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using log4net.Appender;
-using Sensorium.Common.Plugins;
+using Sensorium.Core.Plugins;
 
-namespace Sensorium.Common {
+namespace Sensorium.Core {
 	public interface IAppInterface {
 		/// <summary>
 		/// All sensors exported by all plugins
