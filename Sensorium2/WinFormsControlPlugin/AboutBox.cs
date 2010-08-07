@@ -18,7 +18,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
-using Sensorium.Common;
+using Sensorium.Core;
 
 namespace WinFormsControlPlugin
 {

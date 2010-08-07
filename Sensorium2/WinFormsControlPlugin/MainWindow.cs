@@ -17,8 +17,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using log4net;
 using log4net.Core;
-using Sensorium.Common;
-using Sensorium.Common.Plugins;
+using Sensorium.Core;
+using Sensorium.Core.Plugins;
 
 namespace WinFormsControlPlugin {
 	public partial class MainWindow : Form {

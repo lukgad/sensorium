@@ -16,7 +16,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using log4net;
-using Sensorium.Common;
+using Sensorium.Core;
 
 namespace libSensorsPlugin {
 	internal sealed class LibSensorsWrapper {

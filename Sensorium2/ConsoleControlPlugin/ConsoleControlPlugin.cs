@@ -19,8 +19,8 @@ using System.Threading;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
-using Sensorium.Common;
-using Sensorium.Common.Plugins;
+using Sensorium.Core;
+using Sensorium.Core.Plugins;
 
 namespace ConsoleControlPlugin {
 	public class ConsoleControlPlugin : ControlPlugin {

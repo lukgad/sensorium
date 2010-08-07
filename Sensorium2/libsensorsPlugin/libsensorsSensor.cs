@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Sensorium.Common;
+using Sensorium.Core;
 
 namespace libSensorsPlugin
 {

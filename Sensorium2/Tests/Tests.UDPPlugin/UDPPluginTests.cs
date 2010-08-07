@@ -3,7 +3,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using UDPPlugin;
-using Sensorium.Common;
+using Sensorium.Core;
 
 namespace Tests.UDPPlugin {
 	using NUnit.Framework;

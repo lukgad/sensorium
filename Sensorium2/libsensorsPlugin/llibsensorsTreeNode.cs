@@ -1,5 +1,5 @@
 ﻿using System;
-using Sensorium.Common;
+using Sensorium.Core;
 
 namespace libSensorsPlugin
 {
