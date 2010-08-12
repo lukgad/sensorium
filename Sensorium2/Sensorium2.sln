@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.UDPPlugin", "Tests\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensorium.Core", "Core\Sensorium.Core.csproj", "{408B38F0-6C6D-43DF-A549-AE0499A9021F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WxWidgetsControlPlugin", "WxWidgetsControlPlugin\WxWidgetsControlPlugin.csproj", "{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -174,6 +176,18 @@ Global
 		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x64.Build.0 = Release|x64
 		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x86.ActiveCfg = Release|x86
 		{408B38F0-6C6D-43DF-A549-AE0499A9021F}.Release|x86.Build.0 = Release|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Debug|Any CPU.Build.0 = Debug|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Debug|x64.ActiveCfg = Debug|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Debug|x86.ActiveCfg = Debug|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Release|Any CPU.ActiveCfg = Release|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Release|Mixed Platforms.Build.0 = Release|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Release|x64.ActiveCfg = Release|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Release|x86.ActiveCfg = Release|x86
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +201,7 @@ Global
 		{7F844E87-CD7D-4785-AC2A-08B2D409717D} = {D03A6A9C-CA7C-4DEC-B4F3-3C22E3E27545}
 		{D00FB3E3-95A8-4ABA-8CC3-D4DC3098C2E3} = {D03A6A9C-CA7C-4DEC-B4F3-3C22E3E27545}
 		{5D201635-1488-421F-B258-680974D6720C} = {D03A6A9C-CA7C-4DEC-B4F3-3C22E3E27545}
+		{272ADFF1-A4AF-4FC1-8BBF-781189BB00A0} = {D03A6A9C-CA7C-4DEC-B4F3-3C22E3E27545}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Sensorium2\Sensorium2.csproj
