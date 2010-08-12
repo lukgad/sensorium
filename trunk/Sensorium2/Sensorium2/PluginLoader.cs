@@ -65,7 +65,6 @@ namespace Sensorium2
 							plugins.Add((IPluginInterface) Activator.CreateInstance(t));
 				} catch (BadImageFormatException e) {
 					Log.Error(e.Message);
-					Log.Error(f.FullName + " is not a valid .NET assembly");
 				}
 			}
 			
