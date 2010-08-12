@@ -68,8 +68,9 @@ namespace SpeedFanPlugin {
 				string name = Settings["FanNames"][i];
 
 				_Sensors.Add(new SpeedFanSensor(name, "Fan", SensoriumFactory.GetAppInterface().HostId, Name, i));
+				
 
-					_log.Debug("Found Fan" + i + ": " + (SpeedFanWrapper.GetFan(i) * FanMult));
+				_log.Debug("Found Fan" + i + ": " + (SpeedFanWrapper.GetFan(i) * FanMult));
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumTemps(); i++) {
@@ -80,7 +81,7 @@ namespace SpeedFanPlugin {
 
 				_Sensors.Add(new SpeedFanSensor(name, "Temp", SensoriumFactory.GetAppInterface().HostId, Name, i));
 
-					_log.Debug("Found Temp" + i + ": " + (SpeedFanWrapper.GetTemp(i) * TempMult));
+				_log.Debug("Found Temp" + i + ": " + (SpeedFanWrapper.GetTemp(i) * TempMult));
 			}
 
 			for (int i = 0; i < SpeedFanWrapper.GetNumVolts(); i++) {
@@ -91,8 +92,13 @@ namespace SpeedFanPlugin {
 
 				_Sensors.Add(new SpeedFanSensor(name, "Volt", SensoriumFactory.GetAppInterface().HostId, Name, i));
 
-					_log.Debug("Found Voltage" + i + ": " + (SpeedFanWrapper.GetVolt(i) * VoltMult));
+				_log.Debug("Found Voltage" + i + ": " + (SpeedFanWrapper.GetVolt(i) * VoltMult));
 			}
+
+			Settings["FanNames"].ValueChanged += SensorNameChanged;
+			Settings["TempNames"].ValueChanged += SensorNameChanged;
+			Settings["VoltNames"].ValueChanged += SensorNameChanged;
+
 		}
 
 		~SpeedFanPlugin() {
@@ -123,6 +129,30 @@ namespace SpeedFanPlugin {
 				return (BitConverter.ToInt32(sensor.Data, 0) * VoltMult) + "V";
 			
 			throw new Exception("Unknown Sensor Type");
+		}
+
+		private void SensorNameChanged(object sender, EventArgs e) {
+			int fanIndex = 0;
+			int tempIndex = 0;
+			int voltIndex = 0;
+			foreach(SpeedFanSensor s in _Sensors) {
+				switch(s.Type) {
+					case "Fan":
+						s.Name = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name)["FanNames"][fanIndex];
+						fanIndex++;
+						break;
+
+					case "Temp":
+						s.Name = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name)["TempNames"][tempIndex];
+						tempIndex++;
+						break;
+
+					case "Volt":
+						s.Name = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name)["VoltNames"][voltIndex];
+						voltIndex++;
+						break;
+				}
+			}
 		}
 	}
 }
