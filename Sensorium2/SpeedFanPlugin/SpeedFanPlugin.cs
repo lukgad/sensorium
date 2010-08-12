@@ -135,6 +135,7 @@ namespace SpeedFanPlugin {
 			int fanIndex = 0;
 			int tempIndex = 0;
 			int voltIndex = 0;
+
 			foreach(SpeedFanSensor s in _Sensors) {
 				switch(s.Type) {
 					case "Fan":
