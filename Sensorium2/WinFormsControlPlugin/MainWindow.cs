@@ -31,6 +31,15 @@ namespace WinFormsControlPlugin {
 		public MainWindow() {
 			InitializeComponent();
 
+			ImageList iconImageList = new ImageList();
+
+			iconImageList.Images.Add("arrow_refresh_small", Properties.Resources.arrow_refresh_small);
+			iconImageList.Images.Add("plugin", Properties.Resources.plugin);
+			iconImageList.Images.Add("plugin_disabled", Properties.Resources.plugin_disabled);
+
+			ListViewPlugins.SmallImageList = iconImageList;
+
+
 			_aboutBox = new AboutBox();
 		}
 		

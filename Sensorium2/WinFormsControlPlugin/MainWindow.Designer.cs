@@ -48,8 +48,6 @@ namespace WinFormsControlPlugin {
 			this.columnHeaderSensorName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderSensorType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderSensorValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.ImageListSensorsView = new System.Windows.Forms.ImageList(this.components);
-			this.ImageListPluginView = new System.Windows.Forms.ImageList(this.components);
 			this.TabsMain = new System.Windows.Forms.TabControl();
 			this.TabPlugins = new System.Windows.Forms.TabPage();
 			this.SplitContainerPluginsTab = new System.Windows.Forms.SplitContainer();
@@ -62,7 +60,10 @@ namespace WinFormsControlPlugin {
 			this.TableLayoutLegend = new System.Windows.Forms.TableLayoutPanel();
 			this.LabelRestart = new System.Windows.Forms.Label();
 			this.LabelDisabled = new System.Windows.Forms.Label();
+			this.PictureBoxEnabled = new System.Windows.Forms.PictureBox();
+			this.PictureBoxDisabled = new System.Windows.Forms.PictureBox();
 			this.LabelEnabled = new System.Windows.Forms.Label();
+			this.PictureBoxRestart = new System.Windows.Forms.PictureBox();
 			this.TextBoxPluginDescription = new System.Windows.Forms.TextBox();
 			this.TabSettings = new System.Windows.Forms.TabPage();
 			this.ResetButton = new System.Windows.Forms.Button();
@@ -75,7 +76,10 @@ namespace WinFormsControlPlugin {
 			this.PluginDirectoryLabel = new System.Windows.Forms.Label();
 			this.ToolStripMainWindow = new System.Windows.Forms.ToolStrip();
 			this.ButtonAbout = new System.Windows.Forms.ToolStripButton();
+			this.ButtonRefresh = new System.Windows.Forms.ToolStripButton();
 			this.ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.ButtonEnable = new System.Windows.Forms.ToolStripButton();
+			this.ButtonDisable = new System.Windows.Forms.ToolStripButton();
 			this.ButtonSettings = new System.Windows.Forms.ToolStripButton();
 			this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.LogLevelDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
@@ -85,12 +89,6 @@ namespace WinFormsControlPlugin {
 			this.ErrorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.LogLevelLabel = new System.Windows.Forms.ToolStripLabel();
 			this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.PictureBoxEnabled = new System.Windows.Forms.PictureBox();
-			this.PictureBoxDisabled = new System.Windows.Forms.PictureBox();
-			this.PictureBoxRestart = new System.Windows.Forms.PictureBox();
-			this.ButtonRefresh = new System.Windows.Forms.ToolStripButton();
-			this.ButtonEnable = new System.Windows.Forms.ToolStripButton();
-			this.ButtonDisable = new System.Windows.Forms.ToolStripButton();
 			columnHeaderEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.TabLog.SuspendLayout();
 			this.TabSensors.SuspendLayout();
@@ -101,11 +99,11 @@ namespace WinFormsControlPlugin {
 			this.SplitContainerPluginsTab.SuspendLayout();
 			this.TableLayoutPanelPluginsTab.SuspendLayout();
 			this.TableLayoutLegend.SuspendLayout();
-			this.TabSettings.SuspendLayout();
-			this.ToolStripMainWindow.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PictureBoxEnabled)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.PictureBoxDisabled)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.PictureBoxRestart)).BeginInit();
+			this.TabSettings.SuspendLayout();
+			this.ToolStripMainWindow.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// columnHeaderEnabled
@@ -159,7 +157,6 @@ namespace WinFormsControlPlugin {
 			this.ListViewSensors.MultiSelect = false;
 			this.ListViewSensors.Name = "ListViewSensors";
 			this.ListViewSensors.Size = new System.Drawing.Size(503, 357);
-			this.ListViewSensors.SmallImageList = this.ImageListSensorsView;
 			this.ListViewSensors.TabIndex = 0;
 			this.ListViewSensors.UseCompatibleStateImageBehavior = false;
 			this.ListViewSensors.View = System.Windows.Forms.View.Details;
@@ -178,20 +175,6 @@ namespace WinFormsControlPlugin {
 			// 
 			this.columnHeaderSensorValue.Text = "Value";
 			this.columnHeaderSensorValue.Width = 100;
-			// 
-			// ImageListSensorsView
-			// 
-			this.ImageListSensorsView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageListSensorsView.ImageStream")));
-			this.ImageListSensorsView.TransparentColor = System.Drawing.Color.Transparent;
-			this.ImageListSensorsView.Images.SetKeyName(0, "server.png");
-			// 
-			// ImageListPluginView
-			// 
-			this.ImageListPluginView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageListPluginView.ImageStream")));
-			this.ImageListPluginView.TransparentColor = System.Drawing.Color.Transparent;
-			this.ImageListPluginView.Images.SetKeyName(0, "plugin");
-			this.ImageListPluginView.Images.SetKeyName(1, "plugin_disabled");
-			this.ImageListPluginView.Images.SetKeyName(2, "arrow_refresh_small");
 			// 
 			// TabsMain
 			// 
@@ -251,7 +234,6 @@ namespace WinFormsControlPlugin {
 			this.ListViewPlugins.Name = "ListViewPlugins";
 			this.ListViewPlugins.ShowGroups = false;
 			this.ListViewPlugins.Size = new System.Drawing.Size(290, 357);
-			this.ListViewPlugins.SmallImageList = this.ImageListPluginView;
 			this.ListViewPlugins.TabIndex = 0;
 			this.ListViewPlugins.UseCompatibleStateImageBehavior = false;
 			this.ListViewPlugins.View = System.Windows.Forms.View.Details;
@@ -348,6 +330,32 @@ namespace WinFormsControlPlugin {
 			this.LabelDisabled.TabIndex = 3;
 			this.LabelDisabled.Text = "Disabled";
 			// 
+			// PictureBoxEnabled
+			// 
+			this.PictureBoxEnabled.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.PictureBoxEnabled.ErrorImage = null;
+			this.PictureBoxEnabled.Image = global::WinFormsControlPlugin.Properties.Resources.plugin;
+			this.PictureBoxEnabled.InitialImage = null;
+			this.PictureBoxEnabled.Location = new System.Drawing.Point(2, 2);
+			this.PictureBoxEnabled.Margin = new System.Windows.Forms.Padding(2);
+			this.PictureBoxEnabled.Name = "PictureBoxEnabled";
+			this.PictureBoxEnabled.Size = new System.Drawing.Size(16, 16);
+			this.PictureBoxEnabled.TabIndex = 0;
+			this.PictureBoxEnabled.TabStop = false;
+			// 
+			// PictureBoxDisabled
+			// 
+			this.PictureBoxDisabled.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.PictureBoxDisabled.ErrorImage = null;
+			this.PictureBoxDisabled.Image = global::WinFormsControlPlugin.Properties.Resources.plugin_disabled;
+			this.PictureBoxDisabled.InitialImage = null;
+			this.PictureBoxDisabled.Location = new System.Drawing.Point(2, 22);
+			this.PictureBoxDisabled.Margin = new System.Windows.Forms.Padding(2);
+			this.PictureBoxDisabled.Name = "PictureBoxDisabled";
+			this.PictureBoxDisabled.Size = new System.Drawing.Size(16, 16);
+			this.PictureBoxDisabled.TabIndex = 1;
+			this.PictureBoxDisabled.TabStop = false;
+			// 
 			// LabelEnabled
 			// 
 			this.LabelEnabled.AutoSize = true;
@@ -358,6 +366,19 @@ namespace WinFormsControlPlugin {
 			this.LabelEnabled.Size = new System.Drawing.Size(177, 14);
 			this.LabelEnabled.TabIndex = 2;
 			this.LabelEnabled.Text = "Enabled";
+			// 
+			// PictureBoxRestart
+			// 
+			this.PictureBoxRestart.Dock = System.Windows.Forms.DockStyle.Top;
+			this.PictureBoxRestart.ErrorImage = null;
+			this.PictureBoxRestart.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh_small;
+			this.PictureBoxRestart.InitialImage = null;
+			this.PictureBoxRestart.Location = new System.Drawing.Point(2, 42);
+			this.PictureBoxRestart.Margin = new System.Windows.Forms.Padding(2);
+			this.PictureBoxRestart.Name = "PictureBoxRestart";
+			this.PictureBoxRestart.Size = new System.Drawing.Size(16, 16);
+			this.PictureBoxRestart.TabIndex = 4;
+			this.PictureBoxRestart.TabStop = false;
 			// 
 			// TextBoxPluginDescription
 			// 
@@ -493,11 +514,41 @@ namespace WinFormsControlPlugin {
 			this.ButtonAbout.Text = "About...";
 			this.ButtonAbout.Click += new System.EventHandler(this.ButtonAboutClick);
 			// 
+			// ButtonRefresh
+			// 
+			this.ButtonRefresh.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh;
+			this.ButtonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.ButtonRefresh.Name = "ButtonRefresh";
+			this.ButtonRefresh.Size = new System.Drawing.Size(66, 22);
+			this.ButtonRefresh.Text = "Refresh";
+			this.ButtonRefresh.Visible = false;
+			this.ButtonRefresh.Click += new System.EventHandler(this.ButtonRefreshClick);
+			// 
 			// ToolStripSeparator2
 			// 
 			this.ToolStripSeparator2.Name = "ToolStripSeparator2";
 			this.ToolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			this.ToolStripSeparator2.Visible = false;
+			// 
+			// ButtonEnable
+			// 
+			this.ButtonEnable.Image = global::WinFormsControlPlugin.Properties.Resources.plugin;
+			this.ButtonEnable.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.ButtonEnable.Name = "ButtonEnable";
+			this.ButtonEnable.Size = new System.Drawing.Size(62, 22);
+			this.ButtonEnable.Text = "Enable";
+			this.ButtonEnable.Visible = false;
+			this.ButtonEnable.Click += new System.EventHandler(this.ButtonEnableClick);
+			// 
+			// ButtonDisable
+			// 
+			this.ButtonDisable.Image = global::WinFormsControlPlugin.Properties.Resources.plugin_disabled;
+			this.ButtonDisable.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.ButtonDisable.Name = "ButtonDisable";
+			this.ButtonDisable.Size = new System.Drawing.Size(65, 22);
+			this.ButtonDisable.Text = "Disable";
+			this.ButtonDisable.Visible = false;
+			this.ButtonDisable.Click += new System.EventHandler(this.ButtonDisableClick);
 			// 
 			// ButtonSettings
 			// 
@@ -571,75 +622,6 @@ namespace WinFormsControlPlugin {
 			this.TrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("TrayIcon.Icon")));
 			this.TrayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TrayIcon_MouseDoubleClick);
 			// 
-			// PictureBoxEnabled
-			// 
-			this.PictureBoxEnabled.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.PictureBoxEnabled.ErrorImage = null;
-			this.PictureBoxEnabled.Image = global::WinFormsControlPlugin.Properties.Resources.plugin;
-			this.PictureBoxEnabled.InitialImage = null;
-			this.PictureBoxEnabled.Location = new System.Drawing.Point(2, 2);
-			this.PictureBoxEnabled.Margin = new System.Windows.Forms.Padding(2);
-			this.PictureBoxEnabled.Name = "PictureBoxEnabled";
-			this.PictureBoxEnabled.Size = new System.Drawing.Size(16, 16);
-			this.PictureBoxEnabled.TabIndex = 0;
-			this.PictureBoxEnabled.TabStop = false;
-			// 
-			// PictureBoxDisabled
-			// 
-			this.PictureBoxDisabled.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.PictureBoxDisabled.ErrorImage = null;
-			this.PictureBoxDisabled.Image = global::WinFormsControlPlugin.Properties.Resources.plugin_disabled;
-			this.PictureBoxDisabled.InitialImage = null;
-			this.PictureBoxDisabled.Location = new System.Drawing.Point(2, 22);
-			this.PictureBoxDisabled.Margin = new System.Windows.Forms.Padding(2);
-			this.PictureBoxDisabled.Name = "PictureBoxDisabled";
-			this.PictureBoxDisabled.Size = new System.Drawing.Size(16, 16);
-			this.PictureBoxDisabled.TabIndex = 1;
-			this.PictureBoxDisabled.TabStop = false;
-			// 
-			// PictureBoxRestart
-			// 
-			this.PictureBoxRestart.Dock = System.Windows.Forms.DockStyle.Top;
-			this.PictureBoxRestart.ErrorImage = null;
-			this.PictureBoxRestart.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh_small;
-			this.PictureBoxRestart.InitialImage = null;
-			this.PictureBoxRestart.Location = new System.Drawing.Point(2, 42);
-			this.PictureBoxRestart.Margin = new System.Windows.Forms.Padding(2);
-			this.PictureBoxRestart.Name = "PictureBoxRestart";
-			this.PictureBoxRestart.Size = new System.Drawing.Size(16, 16);
-			this.PictureBoxRestart.TabIndex = 4;
-			this.PictureBoxRestart.TabStop = false;
-			// 
-			// ButtonRefresh
-			// 
-			this.ButtonRefresh.Image = global::WinFormsControlPlugin.Properties.Resources.arrow_refresh;
-			this.ButtonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.ButtonRefresh.Name = "ButtonRefresh";
-			this.ButtonRefresh.Size = new System.Drawing.Size(66, 22);
-			this.ButtonRefresh.Text = "Refresh";
-			this.ButtonRefresh.Visible = false;
-			this.ButtonRefresh.Click += new System.EventHandler(this.ButtonRefreshClick);
-			// 
-			// ButtonEnable
-			// 
-			this.ButtonEnable.Image = global::WinFormsControlPlugin.Properties.Resources.plugin;
-			this.ButtonEnable.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.ButtonEnable.Name = "ButtonEnable";
-			this.ButtonEnable.Size = new System.Drawing.Size(62, 22);
-			this.ButtonEnable.Text = "Enable";
-			this.ButtonEnable.Visible = false;
-			this.ButtonEnable.Click += new System.EventHandler(this.ButtonEnableClick);
-			// 
-			// ButtonDisable
-			// 
-			this.ButtonDisable.Image = global::WinFormsControlPlugin.Properties.Resources.plugin_disabled;
-			this.ButtonDisable.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.ButtonDisable.Name = "ButtonDisable";
-			this.ButtonDisable.Size = new System.Drawing.Size(65, 22);
-			this.ButtonDisable.Text = "Disable";
-			this.ButtonDisable.Visible = false;
-			this.ButtonDisable.Click += new System.EventHandler(this.ButtonDisableClick);
-			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -663,13 +645,13 @@ namespace WinFormsControlPlugin {
 			this.TableLayoutPanelPluginsTab.PerformLayout();
 			this.TableLayoutLegend.ResumeLayout(false);
 			this.TableLayoutLegend.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxEnabled)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxDisabled)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxRestart)).EndInit();
 			this.TabSettings.ResumeLayout(false);
 			this.TabSettings.PerformLayout();
 			this.ToolStripMainWindow.ResumeLayout(false);
 			this.ToolStripMainWindow.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.PictureBoxEnabled)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.PictureBoxDisabled)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.PictureBoxRestart)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -685,7 +667,6 @@ namespace WinFormsControlPlugin {
 		private System.Windows.Forms.TabPage TabPlugins;
 		private System.Windows.Forms.ListView ListViewPlugins;
 		private System.Windows.Forms.ColumnHeader columnHeaderName;
-		private System.Windows.Forms.ImageList ImageListPluginView;
 		private System.Windows.Forms.ToolStrip ToolStripMainWindow;
 		private System.Windows.Forms.ToolStripButton ButtonRefresh;
 		private System.Windows.Forms.ToolStripButton ButtonAbout;
@@ -708,7 +689,6 @@ namespace WinFormsControlPlugin {
 		private System.Windows.Forms.ColumnHeader columnHeaderSensorName;
 		private System.Windows.Forms.ColumnHeader columnHeaderSensorType;
 		private System.Windows.Forms.ColumnHeader columnHeaderSensorValue;
-		private System.Windows.Forms.ImageList ImageListSensorsView;
 		private System.Windows.Forms.ToolStripButton ButtonSettings;
 		private System.Windows.Forms.TabPage TabSettings;
 		private System.Windows.Forms.ToolStripDropDownButton LogLevelDropDownButton;
