@@ -45,7 +45,8 @@ namespace Sensorium.Core {
 			}
 
 			public void InvokeValueChanged(object sender, EventArgs e) {
-				ValueChanged(sender, e);
+				if(ValueChanged != null)
+					ValueChanged(sender, e);
 			}
 
 			public event EventHandler<EventArgs> ValueChanged;

@@ -40,6 +40,16 @@ namespace SpeedFanPlugin
 			}
 		}
 
+		public new string Name {
+			get {
+				return base.Name;
+			}
+
+			set {
+				base.Name = value;
+			}
+		}
+
 		public override void SetData(byte[] data) {
 			
 		}
