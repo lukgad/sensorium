@@ -20,23 +20,54 @@ namespace Sensorium.Core.Plugins
 
 	public interface IPluginInterface
 	{
+		/// <summary>
+		/// Gets the plugin name
+		/// </summary>
 		string Name { get; }
 		
+		/// <summary>
+		/// Gets the plugin version
+		/// </summary>
 		int Version { get; }
 
+		/// <summary>
+		/// Gets the plugin description
+		/// </summary>
 		string Description { get; }
 
+		/// <summary>
+		/// Gets or sets the enabled state of the plugin
+		/// </summary>
 		bool Enabled { get; set; }
 
+		/// <summary>
+		/// Starts the plugin
+		/// </summary>
 		void Start();
+
+		/// <summary>
+		/// Stops the plugin
+		/// </summary>
 		void Stop();
 
+		/// <summary>
+		/// Gets the running state of the plugin
+		/// </summary>
 		bool Running { get; }
 
+		/// <summary>
+		/// Gets the plugin type
+		/// </summary>
 		PluginType Type { get; }
 
+		/// <summary>
+		/// (Re)Initializes the plugin
+		/// </summary>
 		void ReInit();
 
+		/// <summary>
+		/// Gets the default settings for the plugin
+		/// </summary>
 		PluginSettings DefaultSettings { get; }
 	}
 }

@@ -33,10 +33,22 @@ namespace Sensorium.Core.Plugins {
 	       		typeof (SettingsPlugin)
 			};
 		} }
+		/// <summary>
+		/// Gets the plugin's name
+		/// </summary>
 		public abstract string Name { get; }
+		/// <summary>
+		/// Gets the plugin's version
+		/// </summary>
 		public abstract int Version { get; }
+		/// <summary>
+		/// Gets the plugin's description
+		/// </summary>
 		public abstract string Description { get; }
 
+		/// <summary>
+		/// Gets or sets the plugin's enabled state.
+		/// </summary>
 		public virtual bool Enabled {
 			get {
 				return bool.Parse(Settings["Enabled"][0]);
@@ -45,29 +57,43 @@ namespace Sensorium.Core.Plugins {
 				Settings["Enabled"][0] = value.ToString();
 			}
 		}
-
+		/// <summary>
+		/// Starts the plugin
+		/// </summary>
 		public virtual void Start() {
 			Running = true;
 			SensoriumFactory.GetAppInterface().HideConsoleEventHandler += HandleHideConsole;
 		}
-
+		/// <summary>
+		/// Stops the plugin
+		/// </summary>
 		public virtual void Stop() {
 			Running = false;
 			SensoriumFactory.GetAppInterface().HideConsoleEventHandler -= HandleHideConsole;
 		}
-
+		/// <summary>
+		/// Gets the plugin's running state
+		/// </summary>
 		public bool Running { get; private set; }
-
+		/// <summary>
+		/// Gets the plugin's type
+		/// </summary>
 		public virtual PluginType Type
 		{
 			get { return PluginType.Control; }
 		}
-
+		/// <summary>
+		/// (Re)Initializes the plugin
+		/// </summary>
 		public virtual void ReInit() {
 			Init();
 		}
 
 		private readonly PluginSettings _defaultSettings = new PluginSettings { { "Enabled", new PluginSettings.Setting(true, new List<string> { "True", "False" }) { "True" } } };
+
+		/// <summary>
+		/// Gets the plugin's default settings
+		/// </summary>
 		public PluginSettings DefaultSettings
 		{
 			get { return _defaultSettings; }

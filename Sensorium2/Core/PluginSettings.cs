@@ -18,15 +18,21 @@ using System.Collections.Generic;
 namespace Sensorium.Core {
 	public class PluginSettings : Dictionary<string, PluginSettings.Setting> {
 		public class Setting : List<string> {
+			/// <summary>
+			/// This setting has a single value
+			/// </summary>
 			public bool SingleValue { get; protected set; }
+			/// <summary>
+			/// Set of valid values for this setting
+			/// </summary>
 			public List<string> ValidValues { get; protected set; }
-
+			/// <summary>
+			/// Settings group name
+			/// </summary>
 			public string SettingsGroup { get; protected set; }
 
 			public Setting(bool singleValue, List<string> validValues)
-				: this(singleValue, validValues, "")
-			{
-			}
+				: this(singleValue, validValues, "") {}
 
 		    public Setting(bool singleValue, List<string> validValues, string settingsGroup) {
 				SingleValue = singleValue;
@@ -34,6 +40,10 @@ namespace Sensorium.Core {
 				SettingsGroup = settingsGroup;
 			}
 
+			/// <summary>
+			/// Adds an additional value to this setting
+			/// </summary>
+			/// <param name="s">The value to add</param>
 			public new void Add(string s) {
 				if (SingleValue && Count == 1)
 					throw new ArgumentException("Only one value is allowed for this setting");
@@ -44,6 +54,11 @@ namespace Sensorium.Core {
 				base.Add(s);
 			}
 
+			/// <summary>
+			/// Fires an event indicating that this setting has changed
+			/// </summary>
+			/// <param name="sender"></param>
+			/// <param name="e"></param>
 			public void InvokeValueChanged(object sender, EventArgs e) {
 				if(ValueChanged != null)
 					ValueChanged(sender, e);
