@@ -19,6 +19,10 @@ namespace Sensorium.Core.Plugins
 	public abstract class CommPlugin : IPluginInterface
 	{
 		protected List<Sensor> _Sensors;
+
+		/// <summary>
+		/// Gets the sensors provided by this plugin
+		/// </summary>
 		public List<Sensor> Sensors
 		{
 			get { return new List<Sensor>(_Sensors); }
@@ -27,10 +31,22 @@ namespace Sensorium.Core.Plugins
 
 		protected PluginSettings Settings;
 
+		/// <summary>
+		/// Gets the plugin's name
+		/// </summary>
 		public abstract string Name { get; }
+		/// <summary>
+		/// Gets the plugin's version
+		/// </summary>
 		public abstract int Version { get; }
+		/// <summary>
+		/// Gets the plugin's description
+		/// </summary>
 		public abstract string Description { get; }
 
+		/// <summary>
+		/// Gets or sets the plugin's enabled state.
+		/// </summary>
 		public virtual bool Enabled {
 
 			get {
@@ -43,6 +59,9 @@ namespace Sensorium.Core.Plugins
 
 
 		private PluginMode _mode;
+		/// <summary>
+		/// Gets the plugin's mode (Client or Server)
+		/// </summary>
 		public virtual PluginMode Mode
 		{
 			get { return _mode; }
@@ -51,22 +70,37 @@ namespace Sensorium.Core.Plugins
 			}
 		}
 
+		/// <summary>
+		/// Starts the plugin
+		/// </summary>
 		public virtual void Start() {
 			Running = true;
 		}
 
+		/// <summary>
+		/// Stops the plugin
+		/// </summary>
 		public virtual void Stop() {
 			Running = false;
 			_Sensors = new List<Sensor>();
 		}
 
+		/// <summary>
+		/// Gets the plugin's running state
+		/// </summary>
 		public bool Running { get; private set; }
 
+		/// <summary>
+		/// Gets the plugin's type
+		/// </summary>
 		public virtual PluginType Type
 		{
 			get { return PluginType.Comm; }
 		}
 
+		/// <summary>
+		/// (Re)Initializes the plugin
+		/// </summary>
 		public virtual void ReInit() {
 			Init(PluginMode.Default);
 		}
@@ -76,6 +110,10 @@ namespace Sensorium.Core.Plugins
 					{ "Enabled", new PluginSettings.Setting(true, new List<string> { "True", "False" }) { "True" } },
 					{ "Mode", new PluginSettings.Setting(true, new List<string> {"Client", "Server"}) { "Client" } }
 				};
+
+		/// <summary>
+		/// Gets the plugin's default settings
+		/// </summary>
 		public PluginSettings DefaultSettings { 
 			get {
 				return _defaultSettings;
@@ -87,9 +125,9 @@ namespace Sensorium.Core.Plugins
 		}
 
 		/// <summary>
-		/// Initialise the plugin.
+		/// Initialize the plugin.
 		/// </summary>
-		/// <param name="mode"></param>
+		/// <param name="mode">Plugin mode</param>
 		public virtual void Init(PluginMode mode) {
 			Settings = SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(Name);
 

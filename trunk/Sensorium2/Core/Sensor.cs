@@ -19,6 +19,9 @@ namespace Sensorium.Core
 {
 	public class Sensor
 	{
+		/// <summary>
+		/// Gets the sensor type
+		/// </summary>
 		public string Type { get; protected set; }
 		private byte[] _data;
 
@@ -31,6 +34,9 @@ namespace Sensorium.Core
 			protected set { _data = value; }
 		}
 
+		/// <summary>
+		/// Gets the sensor names
+		/// </summary>
 		public string Name { get; protected set; }
 		
 		/// <summary>
@@ -50,19 +56,33 @@ namespace Sensorium.Core
 			SourcePlugin = sourcePlugin;
 		}
 
+		/// <summary>
+		/// Sets the data field
+		/// </summary>
+		/// <param name="data"></param>
 		public virtual void SetData(byte[] data) {
 			_data = data;
 		}
         
+		/// <summary>
+		/// Gets the GUID of this sensor's host
+		/// </summary>
 		public string HostGuid {
 			get { return HostId.Split(new char[] {'{', '}'}, StringSplitOptions.RemoveEmptyEntries)[0]; }
 		}
 
+		/// <summary>
+		/// Gets the friendly name of this sensor's host
+		/// </summary>
 		public string HostFriendlyName
 		{
 			get { return HostId.Split(new char[] { '{', '}' }, StringSplitOptions.RemoveEmptyEntries)[1]; }
 		}
 
+		/// <summary>
+		/// Gets a textual representation of this sensor's data
+		/// </summary>
+		/// <returns>Textual representation of the sensor's data</returns>
 		public override string ToString() {
 			return string.Format("{0} - {1}", Name, 
 				((DataPlugin)SensoriumFactory.GetAppInterface().Plugins[SourcePlugin]).SensorToString(this));
