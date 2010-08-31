@@ -1,4 +1,5 @@
-﻿using Sensorium.Core.Plugins;
+﻿using System.Threading;
+using Sensorium.Core.Plugins;
 
 namespace WxWidgetsControlPlugin
 {
@@ -19,6 +20,14 @@ namespace WxWidgetsControlPlugin
 			get { return "Basic WxWidgets-based Control Plugin. Cross-platform"; }
 		}
 
+		private WxApp _wxApp;
 
+		public override void Init() {
+			base.Init();
+
+			_wxApp = new WxApp();
+
+			(new Thread(_wxApp.Start)).Start();
+		}
 	}
 }
