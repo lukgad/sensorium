@@ -54,12 +54,15 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="wx.NET">
       <HintPath>..\lib\wx.NET\wx.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WxControlFrame.cs" />
+    <Compile Include="WxApp.cs" />
     <Compile Include="WxWidgetsControlPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
