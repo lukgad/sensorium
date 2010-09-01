@@ -31,6 +31,7 @@ namespace WinFormsControlPlugin {
 		public MainWindow() {
 			InitializeComponent();
 
+			//Set up imagelist. Workaround for a bug in visual studio 2010 on 64bit hosts
 			ImageList iconImageList = new ImageList();
 
 			iconImageList.Images.Add("arrow_refresh_small", Properties.Resources.arrow_refresh_small);
@@ -76,6 +77,7 @@ namespace WinFormsControlPlugin {
 			SettingsDirectoryTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("SettingsDirectory");
 			FriendlyNameTextbox.Text = SensoriumFactory.GetAppInterface().GetSetting("FriendlyName");
 
+			//Show the tray icon (or don't) as per relevant setting.
 			TrayIcon.Visible =
 				SensoriumFactory.GetAppInterface().EnabledSettingsPlugin.GetSettings(WinFormsControlPlugin.PluginName)["ShowTrayIcon"][0] == "true";
 
@@ -257,7 +259,9 @@ namespace WinFormsControlPlugin {
 				if (!containsGroup)
 					ListViewSensors.Groups.Add(k, sortedSensors[k][0].HostFriendlyName);
 
-				//Speed up the refresh (and reduce flickering) when the number of items is the same as last time
+				//Speed up the refresh (and reduce flickering).
+				//This may not be needed aymore, as the listview is now double buffered, however, it is much faster to refresh
+				//  this way.
 				if (ListViewSensors.Groups[k].Items.Count == sortedSensors[k].Count) {
 					foreach (ListViewItem i in ListViewSensors.Groups[k].Items) {
 						if (i.SubItems[0].Text == sortedSensors[k][i.Index].Name && i.SubItems[1].Text == sortedSensors[k][i.Index].Type &&
@@ -289,6 +293,7 @@ namespace WinFormsControlPlugin {
 		}
 
         private void ButtonSettings_Click(object sender, EventArgs e) {
+			//Show the settings window for the selected plugin (the first selected one, anyway)
 			if (ListViewPlugins.SelectedItems[0].Text == WinFormsControlPlugin.PluginName) {
 				(new WinFormsSettingsDialog(WinFormsControlPlugin.PluginName)).ShowDialog();
 				return;
@@ -300,6 +305,8 @@ namespace WinFormsControlPlugin {
 		private void LogLevelDropDownButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e) {
 			LogLevelDropDownButton.Text = e.ClickedItem.Text;
 
+
+			//Change the displayed log items
 			switch(e.ClickedItem.Text) {
 				case "All":
 					_logLevel = Level.All;
