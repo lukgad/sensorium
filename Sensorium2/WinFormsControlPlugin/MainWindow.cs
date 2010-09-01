@@ -333,6 +333,8 @@ namespace WinFormsControlPlugin {
 		private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
 			WindowState = FormWindowState.Normal;
 			ShowInTaskbar = true;
+			BringToFront();
+			Focus();
 		}
 
 		private void MainWindow_Resize(object sender, EventArgs e) {
