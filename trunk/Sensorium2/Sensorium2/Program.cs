@@ -57,7 +57,9 @@ namespace Sensorium2
 		static readonly AppData Me = (AppData) SensoriumFactory.GetAppInterface(); //TODO: Better variable name
 
         static void Main(string[] args) {
+#if !DEBUG
 			try {
+#endif
 				object[] copyrightAttributes =
 					Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
 				Me.Copyright = copyrightAttributes.Length != 0
@@ -131,17 +133,15 @@ namespace Sensorium2
 
 				//Workaround for log4net on mono
 				sensorUpdater.Join();
-
+#if !DEBUG
 			} catch (Exception e) {
-				if (Debugger.IsAttached)
-					throw;
-
 				Log.Fatal("Unhandled Exception: " + e.Message + Environment.NewLine + e.StackTrace);
 
 				HandleExit(e, new EventArgs());
 
 				throw;
 			}
+#endif
         }
 
 		private static void SetSetting(string key, string value) {
