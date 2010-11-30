@@ -55,6 +55,8 @@ namespace Sensorium2
         
 		static readonly AppData Me = (AppData) SensoriumFactory.GetAppInterface(); //TODO: Better variable name
 
+		private static bool _writeSettingsAndExit = false;
+
         static void Main(string[] args) {
 #if !DEBUG
 			try {
@@ -113,6 +115,11 @@ namespace Sensorium2
                     Log.Debug("Log file: " + _logFile);
 
 				InitPlugins();
+
+				if (_writeSettingsAndExit) {
+					HandleExit(new object(), new EventArgs()); // TODO: There must be a better way to do this.
+					return;
+				}
 
 				//Start enabled plugins
 				Log.Info("Starting enabled plugins...");
@@ -242,6 +249,9 @@ namespace Sensorium2
 						i++;
 						_logFile = args[i];
 					}
+					else if (args[i].Equals("-d")) {
+						_writeSettingsAndExit = true;
+					}
 				}
 			} catch (ArgumentOutOfRangeException aoore) {
 				Console.WriteLine(aoore.Message);
@@ -262,6 +272,7 @@ namespace Sensorium2
 			Console.WriteLine("-c				All plugins will operate in client mode only");
 			Console.WriteLine("-h				Display this message");
 			Console.WriteLine("-l level file	Log events of 'level' or higher will be written to 'file'.");
+			Console.WriteLine("-d				Write default settings then exit");
 		}
 
 		/// <summary>
